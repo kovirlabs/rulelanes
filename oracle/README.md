@@ -45,6 +45,7 @@ The hashes above identify it.
 | `secrets.env` | **Git-ignored.** All generated passwords (oracle and live). Never commit, never print |
 | `live-passwords.sh` | Replaces the upstream default passwords of the live stack with those in `secrets.env` (official procedure) |
 | `live-syslog.sh` | Adds the syslog `<remote>` block to the live manager and recreates it |
+| `live-archive.sh` | Turns the live manager's full event archive (`logall`) on or off and recreates it |
 | `install-unifi.sh` | Installs the UniFi decoder and rules from the submodules in `third_party/unifi/` (oracle by default, `--live` for the live manager) |
 | `logtest.py` | Driver that runs inside a manager container and calls `PUT /logtest` and `DELETE /logtest/sessions/{token}`; needs `WAZUH_API_PASSWORD` |
 | `logtest.sh` | Host wrapper: `printf '%s\n' "<log line>" \| oracle/logtest.sh` (oracle), or `oracle/logtest.sh --live` |
