@@ -1,5 +1,5 @@
 <!--
-  rulelanes test rules. Written for rulelanes (Apache-2.0); not derived from
+  rulelanes test rules. Written for rulelanes (GPL-3.0-only); not derived from
   the Wazuh ruleset. IDs 880000-880999 (and the category roots 1-3) stay
   clear of the 100010-100399 range used by the UniFi rules.
 -->

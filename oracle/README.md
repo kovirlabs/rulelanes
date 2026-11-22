@@ -24,7 +24,8 @@ digests) is recorded below.
 | Docker | Docker Desktop, engine 29.8.2, Compose v5.5.1 |
 
 The compose file is not copied into this repo because it carries a GPLv2
-header and the repo is Apache-2.0 (TBD). The hashes above identify it.
+header (GPL-2.0-only), which is not compatible with this repo's GPL-3.0-only.
+The hashes above identify it.
 
 ## Files here
 

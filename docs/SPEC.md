@@ -1,7 +1,7 @@
 # rulelanes specification
 
-Date: 2026-11-22. Status: DRAFT. Name (`rulelanes`) and licence (Apache-2.0)
-are decided. Items marked TBD are open decisions for
+Date: 2026-11-22. Status: DRAFT. Name (`rulelanes`) and licence (GPL-3.0-only,
+changed from Apache-2.0 on 2026-11-22) are decided. Items marked TBD are open decisions for
 Evan. Items marked "verify in M0" are from memory and must be checked
 against current documentation before code depends on them.
 
