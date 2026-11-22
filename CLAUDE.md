@@ -50,7 +50,7 @@ status file and stop that task.
 - **No `#[cfg(target_os)]`** outside a module named `platform`.
 - **Look up current docs** before using any crate API, the Wazuh ruleset
   syntax, or Docker images. Do not write them from memory.
-- **Licence compatibility.** This repo is Apache-2.0 (TBD). Every new
+- **Licence compatibility.** This repo is Apache-2.0 (decided). Every new
   dependency must be MIT, Apache-2.0, BSD, ISC, Zlib or MPL-2.0. No GPL or
   LGPL dependencies.
 - Crates carry `publish = false` until Evan removes it.
@@ -96,6 +96,7 @@ latency figures from it are provisional until repeated on Linux.
 
 ## Open decisions (TBD)
 
-- Name, licence and GitHub owner
+- GitHub owner (decided 2026-11-22: the name `rulelanes` is final and the
+  licence is Apache-2.0)
 - Whether status and run files move to `paralanes` like the other repos'
 - Which Wazuh version is the oracle once 5.0 ships its new engine
