@@ -1,18 +1,34 @@
 # rulelanes override for the official wazuh-docker single-node compose file
-# (tag v4.14.10). It changes one thing: every published port is bound to
-# 127.0.0.1 instead of all interfaces, because the stack runs with the
-# documented default passwords and is a test oracle, not a service.
+# (tag v4.14.10), which is the live manager. Use it with the git-ignored
+# secrets file, from oracle/wazuh-docker/single-node:
+#
+#   docker compose -f docker-compose.yml -f ../../compose.live.yml --env-file ../../secrets.env up -d
+#
+# It changes three things:
+# - Ports: syslog UDP 514 is published on all interfaces (for the UniFi
+#   gateway on the LAN); every other port stays on 127.0.0.1.
+# - Passwords: the upstream defaults in docker-compose.yml are replaced by
+#   values from oracle/secrets.env (compose refuses to start without them).
+#   The indexer's internal_users.yml hashes and the dashboard's wazuh.yml
+#   are updated by oracle/live-passwords.sh.
 # `!override` needs Docker Compose 2.24 or later.
 services:
   wazuh.manager:
     ports: !override
       - "127.0.0.1:1514:1514"
       - "127.0.0.1:1515:1515"
-      - "127.0.0.1:514:514/udp"
+      - "514:514/udp"
       - "127.0.0.1:55000:55000"
+    environment:
+      INDEXER_PASSWORD: ${LIVE_INDEXER_ADMIN_PASSWORD:?run with --env-file oracle/secrets.env}
+      API_PASSWORD: ${LIVE_API_WUI_PASSWORD:?run with --env-file oracle/secrets.env}
   wazuh.indexer:
     ports: !override
       - "127.0.0.1:9200:9200"
   wazuh.dashboard:
     ports: !override
       - "127.0.0.1:443:5601"
+    environment:
+      INDEXER_PASSWORD: ${LIVE_INDEXER_ADMIN_PASSWORD:?run with --env-file oracle/secrets.env}
+      DASHBOARD_PASSWORD: ${LIVE_INDEXER_KIBANASERVER_PASSWORD:?run with --env-file oracle/secrets.env}
+      API_PASSWORD: ${LIVE_API_WUI_PASSWORD:?run with --env-file oracle/secrets.env}
