@@ -192,7 +192,7 @@ refused because a decoder they depend on was refused. The 1,438 rules not
 loaded are mostly the M3 stateful syntax and its descendants.
 
 Command: `rulelanes check --decoders oracle/out/stock-ruleset/decoders --rules oracle/out/stock-ruleset/rules`
-(the copy: `docker cp single-node-wazuh.manager-1:/var/ossec/ruleset oracle/out/stock-ruleset`).
+(the copy: `docker cp rulelanes-oracle-manager:/var/ossec/ruleset oracle/out/stock-ruleset`).
 Note: `ossec.conf` excludes `0215-policy_rules.xml`; `check` reads every
 file in the directory.
 

@@ -1,10 +1,18 @@
-# The oracle: Wazuh 4.x single-node in Docker
+# Wazuh in Docker: the oracle and the live manager
 
-`wazuh-logtest` on a real Wazuh manager defines correct output (SPEC §6).
-This directory records exactly which deployment is used and how to drive it.
-Nothing from Wazuh is committed here: the deployment files live in a
-git-ignored checkout, and only their identity (tag, commit, hashes, image
-digests) is recorded below.
+Two separate Wazuh 4.14.10 deployments run on this machine:
+
+- **The oracle** (`rulelanes-oracle-manager`, compose project
+  `rulelanes-oracle`): a manager-only container used only for
+  `wazuh-logtest` runs (R1). `wazuh-logtest` on it defines correct output
+  (SPEC §6). Oracle runs edit its `ossec.conf` for their duration.
+- **The live manager** (the official single-node stack: manager, indexer,
+  dashboard): Evan's real server. It receives UniFi syslog. No test touches
+  it; the tools refuse it unless told `--live` explicitly.
+
+Nothing from Wazuh is committed here: the single-node deployment files live
+in a git-ignored checkout, and only their identity (tag, commit, hashes,
+image digests) is recorded below.
 
 ## Identity (recorded 2026-11-22)
 
@@ -27,63 +35,109 @@ The compose file is not copied into this repo because it carries a GPLv2
 header (GPL-2.0-only), which is not compatible with this repo's GPL-3.0-only.
 The hashes above identify it.
 
+
 ## Files here
 
 | File | What it is |
 | --- | --- |
-| `compose.localhost.yml` | Our only change to the deployment: binds every published port to `127.0.0.1` instead of all interfaces, because the stack keeps the documented default passwords |
-| `logtest.py` | Driver that runs inside the manager container and calls the documented API endpoints `PUT /logtest` and `DELETE /logtest/sessions/{token}`; one JSON result per input line |
-| `logtest.sh` | Host wrapper: `printf '%s\n' "<log line>" \| oracle/logtest.sh` |
-| `survey_syntax.py` | Counts decoder and rule elements and attributes in the stock ruleset inside the container (output: `../docs/syntax-survey-wazuh-4.14.10.json`) |
+| `compose.oracle.yml` | The oracle: manager only, API on `127.0.0.1:55001`, no syslog or agent ports, no indexer |
+| `compose.live.yml` | Override for the live single-node stack: UDP 514 published on all interfaces, every other port on `127.0.0.1`; passwords from `secrets.env` |
+| `secrets.env` | **Git-ignored.** All generated passwords (oracle and live). Never commit, never print |
+| `live-passwords.sh` | Replaces the upstream default passwords of the live stack with those in `secrets.env` (official procedure) |
+| `live-syslog.sh` | Adds the syslog `<remote>` block to the live manager and recreates it |
+| `install-unifi.sh` | Installs the UniFi decoder and rules from the submodules in `third_party/unifi/` (oracle by default, `--live` for the live manager) |
+| `logtest.py` | Driver that runs inside a manager container and calls `PUT /logtest` and `DELETE /logtest/sessions/{token}`; needs `WAZUH_API_PASSWORD` |
+| `logtest.sh` | Host wrapper: `printf '%s\n' "<log line>" \| oracle/logtest.sh` (oracle), or `oracle/logtest.sh --live` |
+| `restore-ruleset.sh` | Puts the stock `<ruleset>` back after an interrupted oracle run (oracle by default) |
+| `survey_syntax.py` | Counts decoder and rule elements in the stock ruleset (M0) |
 
-## Setup (what was run)
+## The oracle
+
+```
+docker compose -f oracle/compose.oracle.yml --env-file oracle/secrets.env up -d
+oracle/install-unifi.sh
+printf '%s\n' "<log line>" | oracle/logtest.sh
+```
+
+Without an indexer the image's Filebeat keeps logging connection errors;
+analysisd, remoted, the API and logtest run normally (checked). The Rust
+oracle (`rulelanes-oracle`) targets this container and refuses any other
+unless `RULELANES_ALLOW_NON_ORACLE_TARGET=1`.
+
+## The live stack
+
+Setup (what was run, from `oracle/wazuh-docker/single-node`):
 
 ```
 git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.10 oracle/wazuh-docker
-cd oracle/wazuh-docker/single-node
 docker compose -f generate-indexer-certs.yml run --rm generator
-docker compose -f docker-compose.yml -f ../../compose.localhost.yml up -d
+docker compose -f docker-compose.yml -f ../../compose.live.yml --env-file ../../secrets.env up -d
+../../live-passwords.sh        # once: replaces the upstream default passwords
+../../live-syslog.sh           # syslog remote block (see below)
+../../install-unifi.sh --live  # UniFi decoder and rules
 ```
 
-`vm.max_map_count` in the Docker Desktop VM was already 262144, the value
-the documentation requires, so nothing was changed there.
-
-## Stop, start, restart
-
-Run from `oracle/wazuh-docker/single-node`:
+Stop, start, recreate (from `oracle/wazuh-docker/single-node`; always pass
+the override and the env file, compose refuses to start without them):
 
 ```
-docker compose -f docker-compose.yml -f ../../compose.localhost.yml stop      # stop, keep data
-docker compose -f docker-compose.yml -f ../../compose.localhost.yml start     # start again
-docker compose -f docker-compose.yml -f ../../compose.localhost.yml restart   # restart
-docker compose -f docker-compose.yml -f ../../compose.localhost.yml down      # remove containers, keep volumes
-docker compose -f docker-compose.yml -f ../../compose.localhost.yml down -v   # remove containers and all data volumes
+docker compose -f docker-compose.yml -f ../../compose.live.yml --env-file ../../secrets.env stop
+docker compose -f docker-compose.yml -f ../../compose.live.yml --env-file ../../secrets.env start
+docker compose -f docker-compose.yml -f ../../compose.live.yml --env-file ../../secrets.env up -d --force-recreate
 ```
 
-The containers use `restart: always`, so they come back when Docker Desktop
-restarts. Container names: `single-node-wazuh.manager-1`,
-`single-node-wazuh.indexer-1`, `single-node-wazuh.dashboard-1`. Volumes are
-named `single-node_*`.
+Use `up -d --force-recreate` rather than `docker restart` for the manager:
+on a plain restart the image's init script fails (multigroups copy) before
+it copies the mounted `ossec.conf`, so configuration changes are not
+applied (seen with 4.14.10). `vm.max_map_count` in the Docker Desktop VM
+was already 262144.
 
 ## Credentials and certificates
 
-- TLS certificates and keys were generated by the certs generator into
-  `oracle/wazuh-docker/single-node/config/wazuh_indexer_ssl_certs/`
+- Every upstream default password has been replaced (indexer `admin`,
+  `kibanaserver`, `kibanaro`, `logstash`, `readall`, `snapshotrestore`;
+  API `wazuh-wui` and `wazuh`; the dashboard logs in as indexer `admin`).
+  The passwords are in `oracle/secrets.env` only. The indexer hashes are in
+  the checkout's `config/wazuh_indexer/internal_users.yml` and the
+  dashboard's API password in `config/wazuh_dashboard/wazuh.yml`; both are
+  inside the git-ignored checkout.
+- TLS certificates and keys: `oracle/wazuh-docker/single-node/config/wazuh_indexer_ssl_certs/`
   (git-ignored, with `*.pem` and `*.key` also ignored).
-- Passwords were **not** changed from the documented defaults, which are
-  set in the upstream `docker-compose.yml`: dashboard/indexer `admin`,
-  API `wazuh-wui`, plus the `kibanaserver` user. `logtest.py` uses the API
-  defaults unless `WAZUH_API_USER` / `WAZUH_API_PASSWORD` are set. The
-  ports are bound to localhost for that reason. Change them before the stack
-  is ever reachable from another machine.
+
+## Receiving UniFi syslog
+
+Manager side: **ready.**
+
+- The manager listens on UDP 514 (`<remote>` with `<connection>syslog`,
+  `<protocol>udp`), published on all host interfaces; the UniFi decoder and
+  rules are installed; the stock ruleset is active.
+- **Source address.** With Docker Desktop on Windows the manager sees every
+  syslog packet as coming from the gateway of the compose network
+  (`single-node_default`, 172.20.0.1 when checked), not from the sender:
+  a UniFi sample sent over UDP from this PC, both to 127.0.0.1 and to the
+  PC's LAN address, arrived with `location` 172.20.0.1 and fired rule
+  100301. So `allowed-ips` is that gateway (`live-syslog.sh` reads it from
+  Docker), it cannot tell senders apart, and Wazuh records 172.20.0.1, not
+  the gateway's address, as the event source. The gateway is identified by
+  the `unifi_*` fields and the syslog hostname in the message, not by the
+  source address. A packet from a real LAN sender was not tested (no device
+  was configured); it is expected to look the same.
+- **Windows firewall.** Inbound rule "rulelanes Wazuh syslog UDP 514 (LAN)":
+  allow, UDP, local port 514, remote address LocalSubnet, Private profile.
+  Because the manager cannot filter by sender, this rule is the sender
+  filter; narrow it to the gateway if wanted:
+  `Set-NetFirewallRule -DisplayName "rulelanes Wazuh syslog UDP 514 (LAN)" -RemoteAddress <gateway-ip>`.
+- **UniFi side (Evan's action):** UniFi Network, Integration > System
+  Logging / SIEM, choose SIEM Server, server `<this-pc>`, port 514. The
+  decoder README expects syslog-framed CEF on port 514 (any port works if
+  the manager listens there); leave the controller's syslog debug option
+  off.
 
 ## Ruleset modes for R1
 
-The stock ruleset stays enabled in the manager configuration. R1 tests load
-rulelanes' own decoders and rules into `/var/ossec/etc/decoders` and
-`/var/ossec/etc/rules` for a run; see `docs/status/M1.md` for how stock
-decoders and rules are kept from interfering.
-
+R1 runs load only rulelanes' test decoders and rules into the oracle (see
+`docs/status/M1.md`); the oracle's stock configuration is restored after
+each run.
 ## Docker credential helper note (this machine)
 
 From a non-interactive agent shell, `docker pull` failed with "error getting
