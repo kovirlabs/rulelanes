@@ -1,0 +1,4 @@
+<decoder name="rlu-acc">
+  <program_name>rlu</program_name>
+  <accumulate />
+</decoder>

@@ -139,3 +139,67 @@ pcre2), `description`, `decoded_as`. M1 runs `rulelanes check` on them
   they are cheap, but they contribute almost nothing to stock coverage.
 - `action`, `status`, `url`, `category` (77, 75, 47, 35 uses) were missing
   from the spec's subset and are added.
+
+## Findings in M1 (checked against wazuh-logtest 4.14.10)
+
+- `<field name="...">` refuses static field names (`srcip`, `protocol`,
+  `action`, `user`, ...): logtest refuses the whole ruleset with "Field
+  'protocol' is static". rulelanes refuses them at load too.
+- An osregex group that starts right after another ends, e.g.
+  `(\p+)(\w+)`, does not match in Wazuh (its matcher steps over one
+  parenthesis per input character). rulelanes refuses such patterns as
+  unsupported instead of matching where Wazuh does not.
+- Escapes `\[` and others not in the osregex table are invalid (Wazuh's
+  loader fails).
+- PCRE2 escapes `\h \H \v \V \R \N \X \C` are refused: `fancy-regex` reads
+  some of them differently. Branch reset `(?|...)`, callouts and
+  backtracking verbs other than `(*FAIL)` are refused because
+  `fancy-regex` lacks them; the stock auditd decoders use `(?|...)`.
+- An alert is generated only when the rule level is at least
+  `<alerts><log_alert_level>` (3 in the oracle's `ossec.conf`, Wazuh's
+  default); below it logtest reports the rule with `alert: false`.
+- Empty dynamic fields are left out of logtest's `data`; empty static
+  fields are kept.
+- Events with a program name are tried only against decoders that declare
+  `program_name`, and events without one only against those that do not.
+- A rule with no `if_sid`/`if_group` becomes a child of the first
+  top-level rule (ID below 10) of its category; children are tried highest
+  level first, with level 0 before all others; the first rule with a result
+  ends the search.
+- For an isolated ruleset, logtest needs at least one decoder with
+  `program_name` and one without, or the session fails ("Error adding
+  decoder plugin").
+
+## `rulelanes check` on real rule sets (M1)
+
+Stock Wazuh 4.14.10 ruleset, copied from the container at run time into the
+git-ignored `oracle/out/stock-ruleset/`:
+
+| | Loaded | Total | Share |
+| --- | ---: | ---: | ---: |
+| Decoders (120 files) | 1,514 | 1,575 | 96.1% |
+| Rules (168 files) | 3,077 | 4,515 | 68.2% |
+
+Rules refused by their first unsupported element: `rule@frequency` 204,
+`<list>` 25, `<if_fts>` 8, `rule@timeframe` 6, `rule@ignore` 5,
+`<check_diff>` 3, `<compiled_rule>` 3, `<field>` (pcre2 construct) 3,
+`<options>no_log` 3, `rule@maxsize` 2, `<check_if_ignored>` 1,
+`<if_matched_sid>` 1, `<time>` 1, `<weekday>` 1. Decoders refused: `<fts>`
+22, `<accumulate>` 5, `<regex>` (pcre2 `(?|...)`) 3, other plugin
+decoders 5, `<json_null_field>` 1. A further 1,150 rules are skipped
+because a parent they name in `if_sid` was refused, and 47 items are
+refused because a decoder they depend on was refused. The 1,438 rules not
+loaded are mostly the M3 stateful syntax and its descendants.
+
+Command: `rulelanes check --decoders oracle/out/stock-ruleset/decoders --rules oracle/out/stock-ruleset/rules`
+(the copy: `docker cp single-node-wazuh.manager-1:/var/ossec/ruleset oracle/out/stock-ruleset`).
+Note: `ossec.conf` excludes `0215-policy_rules.xml`; `check` reads every
+file in the directory.
+
+Evan's UniFi decoder and rules, loaded on top of the stock ruleset (their
+rules hang off stock rules): 153 of 153 decoders and 33 of 33 rules load;
+no unsupported element. Command: `rulelanes check --decoders
+oracle/out/stock-ruleset/decoders --decoders oracle/unifi/wazuh-unifi-decoder
+--rules oracle/out/stock-ruleset/rules --rules oracle/unifi/wazuh-unifi-rules`.
+This is a load report only; their alerts were not compared with the
+oracle in M1.

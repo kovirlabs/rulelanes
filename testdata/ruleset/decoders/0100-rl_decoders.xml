@@ -1,0 +1,261 @@
+<!--
+  rulelanes test decoders. Written for rulelanes (Apache-2.0); not derived
+  from the Wazuh ruleset. The applications are fictional.
+-->
+
+<!-- Authentication daemon: parent with program_name, children by prematch. -->
+<decoder name="rl-auth">
+  <program_name>^rlauth</program_name>
+</decoder>
+
+<decoder name="rl-auth-fail">
+  <parent>rl-auth</parent>
+  <prematch>^Failed password for </prematch>
+  <regex offset="after_prematch">^(\S+) from (\S+) port (\d+)</regex>
+  <order>user, srcip, srcport</order>
+</decoder>
+
+<decoder name="rl-auth-ok">
+  <parent>rl-auth</parent>
+  <prematch>^Accepted </prematch>
+  <regex offset="after_parent">^Accepted (\w+) for (\S+) from (\S+) port (\d+)</regex>
+  <order>method, srcuser, srcip, srcport</order>
+</decoder>
+
+<decoder name="rl-auth-invalid">
+  <parent>rl-auth</parent>
+  <use_own_name>true</use_own_name>
+  <prematch>^Invalid user </prematch>
+  <regex>^Invalid user (\S*) from (\S+)</regex>
+  <order>srcuser, srcip</order>
+</decoder>
+
+<decoder name="rl-auth-session">
+  <parent>rl-auth</parent>
+  <regex>session (\w+) for user (\S+)</regex>
+  <order>status, dstuser</order>
+</decoder>
+
+<!-- Web server: a multi-regex decoder (same-named siblings). -->
+<decoder name="rl-web">
+  <program_name>rlweb</program_name>
+</decoder>
+
+<decoder name="rl-web-req">
+  <parent>rl-web</parent>
+  <prematch type="pcre2">^(?:GET|POST|PUT|DELETE) </prematch>
+  <regex type="pcre2">^(\w+) (\S+) HTTP/1\.[01]</regex>
+  <order>action, url</order>
+</decoder>
+
+<decoder name="rl-web-req">
+  <parent>rl-web</parent>
+  <regex offset="after_regex">^ (\d+) (\d+)</regex>
+  <order>status, bytes</order>
+</decoder>
+
+<decoder name="rl-web-req">
+  <parent>rl-web</parent>
+  <regex offset="after_regex"> ip=(\S+)</regex>
+  <order>srcip</order>
+</decoder>
+
+<!-- Firewall: regex on the parent itself, type firewall. -->
+<decoder name="rl-fw">
+  <program_name>rlfw</program_name>
+  <type>firewall</type>
+  <regex>^(\w+) (\w+) (\S+):(\d+) -> (\S+):(\d+)</regex>
+  <order>action, protocol, srcip, srcport, dstip, dstport</order>
+</decoder>
+
+<!-- JSON events without a syslog header. -->
+<decoder name="rl-json">
+  <prematch>^{\s*"rlapp"</prematch>
+  <plugin_decoder>JSON_Decoder</plugin_decoder>
+</decoder>
+
+<!-- Key=value events, one sibling per key, PCRE2 look-ahead. -->
+<decoder name="rl-kv">
+  <prematch>^RLKV </prematch>
+</decoder>
+
+<decoder name="rl-kv-field">
+  <parent>rl-kv</parent>
+  <regex type="pcre2">\bseverity=(\S.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|\s*$)</regex>
+  <order>severity</order>
+</decoder>
+
+<decoder name="rl-kv-field">
+  <parent>rl-kv</parent>
+  <regex type="pcre2">\bcategory=(\S.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|\s*$)</regex>
+  <order>category</order>
+</decoder>
+
+<decoder name="rl-kv-field">
+  <parent>rl-kv</parent>
+  <regex type="pcre2">\bmsg=(\S.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|\s*$)</regex>
+  <order>msg</order>
+</decoder>
+
+<!-- Database: program_name by pcre2, children with after_prematch. -->
+<decoder name="rl-db">
+  <program_name type="pcre2">^rldb-\d+$</program_name>
+</decoder>
+
+<decoder name="rl-db-query">
+  <parent>rl-db</parent>
+  <prematch>^query </prematch>
+  <regex offset="after_prematch">^(\w+) on (\w+) took (\d+)ms</regex>
+  <order>operation, table, duration</order>
+</decoder>
+
+<decoder name="rl-db-error">
+  <parent>rl-db</parent>
+  <prematch>^error </prematch>
+  <regex>code=(\d+) msg=(\.+)$</regex>
+  <order>id, extra_data</order>
+</decoder>
+
+<!-- Mail: program_name by osregex, escaped less-than. -->
+<decoder name="rl-mail">
+  <program_name type="osregex">^rlmail\w*$</program_name>
+  <regex>from=\<(\S+)> to=\<(\S+)></regex>
+  <order>srcuser, dstuser</order>
+</decoder>
+
+<!-- VPN: child prematch after the parent's prematch. -->
+<decoder name="rl-vpn">
+  <program_name>rlvpn</program_name>
+  <prematch>^vpn: </prematch>
+</decoder>
+
+<decoder name="rl-vpn-tunnel">
+  <parent>rl-vpn</parent>
+  <prematch offset="after_parent">^tunnel </prematch>
+  <regex offset="after_prematch">^(\S+) (\w+) peer (\S+)</regex>
+  <order>id, status, dstip</order>
+</decoder>
+
+<!-- Scheduler: a decoder with no regex, and a child with its own name. -->
+<decoder name="rl-cron">
+  <program_name>rlcron</program_name>
+</decoder>
+
+<decoder name="rl-cron-job">
+  <parent>rl-cron</parent>
+  <use_own_name>true</use_own_name>
+  <prematch>^CMD </prematch>
+  <regex>^CMD \((\.+)\)$</regex>
+  <order>command</order>
+</decoder>
+
+<!-- Header-less plain lines: after_prematch on a top-level decoder. -->
+<decoder name="rl-plain">
+  <prematch>^RLPLAIN:</prematch>
+  <regex offset="after_prematch">^ (\w+)=(\w+)</regex>
+  <order>key, value</order>
+</decoder>
+
+<!-- Lines with a program name but no hostname. -->
+<decoder name="rl-solo">
+  <program_name>^rlsolo$</program_name>
+  <regex>^job (\d+) (\w+)</regex>
+  <order>id, status</order>
+</decoder>
+
+<!-- DNS: pcre2 with alternation. -->
+<decoder name="rl-dns">
+  <program_name>rldns</program_name>
+  <regex type="pcre2">query: (\S+) IN (A|AAAA|MX|TXT) from (\S+)</regex>
+  <order>url, protocol, srcip</order>
+</decoder>
+
+<!-- Proxy: parent prematch with a class, children after_parent. -->
+<decoder name="rl-proxy">
+  <program_name>rlproxy</program_name>
+  <prematch>^\d+ </prematch>
+</decoder>
+
+<decoder name="rl-proxy-deny">
+  <parent>rl-proxy</parent>
+  <prematch offset="after_parent">^DENIED </prematch>
+  <regex offset="after_prematch">^(\S+) (\S+)</regex>
+  <order>srcip, url</order>
+</decoder>
+
+<decoder name="rl-proxy-allow">
+  <parent>rl-proxy</parent>
+  <prematch offset="after_parent">^ALLOWED </prematch>
+  <regex offset="after_prematch">^(\S+) (\S+)</regex>
+  <order>srcip, url</order>
+</decoder>
+
+<!-- IDS: type ids. -->
+<decoder name="rl-ids">
+  <program_name>rlids</program_name>
+  <type>ids</type>
+  <regex>[(\d+):(\d+)] (\.+) {(\w+)} (\S+) -> (\S+)</regex>
+  <order>id, rev, extra_data, protocol, srcip, dstip</order>
+</decoder>
+
+<!-- Privilege escalation tool. -->
+<decoder name="rl-sudo">
+  <program_name>rlsudo</program_name>
+  <regex>^\s*(\S+) : TTY=(\S+) ; PWD=(\S+) ; USER=(\S+) ; COMMAND=(\.+)$</regex>
+  <order>srcuser, tty, pwd, dstuser, command</order>
+</decoder>
+
+<!-- Tabs and punctuation classes. -->
+<decoder name="rl-tab">
+  <program_name>rltab</program_name>
+  <regex>^(\w+)\t(\w+)</regex>
+  <order>left, right</order>
+</decoder>
+
+<decoder name="rl-punct">
+  <program_name>rlpunct</program_name>
+  <regex>^(\p+)\w(\w*)</regex>
+  <order>punct, word</order>
+</decoder>
+
+<!-- ISO 8601 header lines. -->
+<decoder name="rl-iso">
+  <program_name>rliso</program_name>
+  <regex>level=(\w+)</regex>
+  <order>status</order>
+</decoder>
+
+<!-- Dotted dynamic field names. -->
+<decoder name="rl-dyn">
+  <program_name>rldyn</program_name>
+  <regex>^(\w+)/(\S+) start</regex>
+  <order>app.name, app.version</order>
+</decoder>
+
+<!-- program_name match is case-insensitive. -->
+<decoder name="rl-case">
+  <program_name>RLCase</program_name>
+  <regex>^x=(\d+)</regex>
+  <order>count</order>
+</decoder>
+
+<!-- "name[pid] message" form without a colon. -->
+<decoder name="rl-space">
+  <program_name>rlspace</program_name>
+  <regex>^msg (\w+)</regex>
+  <order>word</order>
+</decoder>
+
+<!-- osregex alternation in a header-less prematch. -->
+<decoder name="rl-alt">
+  <prematch>^RLALT1 |^RLALT2 </prematch>
+  <regex>(\d+)$</regex>
+  <order>count</order>
+</decoder>
+
+<!-- Star quantifier and \W. -->
+<decoder name="rl-star">
+  <program_name>rlstar</program_name>
+  <regex>^a(\d*)b(\W+)</regex>
+  <order>digits, sep</order>
+</decoder>

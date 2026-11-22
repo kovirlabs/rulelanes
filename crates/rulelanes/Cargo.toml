@@ -1,0 +1,16 @@
+[package]
+name = "rulelanes"
+description = "rulelanes command line: logtest and check."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+rulelanes-model.workspace = true
+rulelanes-syntax.workspace = true
+rulelanes-engine.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

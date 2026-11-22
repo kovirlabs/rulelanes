@@ -1,0 +1,1200 @@
+Oct 20 03:41:42 node_7 rlauth[52237]: Failed password for dave@corp from 10.0.0.32 port 8080 ssh2
+Jul 20 16:57:20 web01 rlauth[42751]: Accepted keyboard-interactive for alice from 10.0.0.22 port 53 ssh2
+Nov  1 20:18:44 node_7 rlauth: Invalid user carol_1 from 203.0.113.186
+May 10 16:16:09 edge-3.example.net rlauth[12543]: pam_unix(rlauth:session): session closed for user alice
+Sep 24 16:24:04 web01 rlauth[22350]: healthcheck gamma from monitor
+Dec 11 00:50:39 edge-3.example.net rlweb: GET /index.html HTTP/1.0 200 74071 ip=192.168.15.119
+Mar  9 21:49:56 edge-3.example.net rlfw[2047]: ACCEPT tcp 203.0.113.142:16503 -> 203.0.113.101:443
+{"rlapp": "auth", "user": {"name": "ann", "id": 670}, "srcip": "192.168.5.159", "ok": false, "amount": "151178"}
+RLKV category=System other=1
+Jul  1 06:07:42 db-02 rldb-1[24801]: error code=1045 msg=cannot connect
+Feb  5 07:00:44 edge-3.example.net rlmail2[57287]: queued from=<admin@example.com> to=<dave@corp@example.org>
+Sep  7 22:03:50 node_7 rlvpn[32190]: vpn: tunnel tun6 flapping peer 192.168.17.253
+Mar 10 18:38:15 node_7 rlcron[44779]: CMD (rm -rf /tmp/cache)
+RLPLAIN: level=safe
+May 24 10:00:28 rlsolo: job 7841 done
+Mar  9 18:07:36 node_7 rldns[29840]: query: www.example.com IN AAAA from 203.0.113.72
+Jun 23 11:05:06 edge-3.example.net rlproxy[56323]: 1241 ALLOWED 192.168.17.45 http://b.test/
+Oct  5 11:19:08 db-02 rlids[29081]: [2000419:5] x {ICMP} 10.145.231.20 -> 192.168.7.201
+Nov 20 08:58:03 gw.lab rlsudo:    alice : TTY=pts/6 ; PWD=/home/svc-backup ; USER=root ; COMMAND=/usr/bin/passwd alice
+Nov  4 22:48:05 edge-3.example.net rltab[59498]: healthcheck	delta
+Nov 12 04:42:43 gw.lab rlpunct[53538]: #noisy
+2026-11-17T10:07:35+00:00 gw.lab rliso: level=error msg=x
+Jul 17 22:49:16 gw.lab rldyn[21217]: auth/0.13 start
+Oct 19 00:44:17 edge-3.example.net rlcase[48034]: x=57
+Jan  9 09:00:04 db-02 rlspace[109] msg healthcheck
+rlalt1 item 17
+Jul  7 08:19:00 gw.lab rlstar[14465]: a2b/
+RLLOC check noisy
+Aug 24 17:31:03 gw.lab unknownd[25845]: something happened 48
+Failed password for x free text 15
+Dec 27 15:53:34 db-02 rldns[206]: query: mail.example.ru IN MX from 10.0.0.206
+Dec  1 10:00:49 rlsolo: job 696 done
+Dec  5 10:15:44 node_7 rlauth[12835]: noisy alpha from monitor
+Nov 10 07:01:16 edge-3.example.net rlpunct[7032]: ::noisy
+Apr 22 19:57:11 db-02 rldns[28150]: query: www.example.com IN A from 10.0.0.102
+RLKV msg=Config changed by admin severity=medium
+Feb 18 10:00:25 rlsolo: job 7263 queued
+May 22 18:35:00 gw.lab rlauth: Invalid user svc-backup from 203.0.113.142
+May 26 23:50:10 web01 rlpunct[5769]: {}beta
+Jul  1 17:10:09 web01 rldyn[48406]: auth/3.5 start
+Jun 17 16:26:27 db-02 rlmail2[31673]: queued from=<svc-backup@example.org> to=<carol_1@example.org>
+Nov  9 18:44:25 db-02 rlauth: Invalid user bob from 192.168.19.103
+RLKV category=Security Events other=1
+Apr 18 14:20:31 node_7 rlpunct[40898]: <>gamma
+Jan 10 00:51:14 edge-3.example.net rlsudo: svc-backup : TTY=pts/7 ; PWD=/home/carol_1 ; USER=root ; COMMAND=/usr/bin/ls -la
+Nov  9 19:04:42 node_7 rlmail2[53415]: queued from=<bob@example.com> to=<alice@example.org>
+Jun 28 08:43:05 web01 unknownd[43127]: all good 4
+Feb 17 17:50:06 db-02 rlproxy[42321]: 18236 BLOCKED 10.83.192.246 http://a.test/setup.exe
+Mar  1 08:51:37 edge-3.example.net rlstar[55739]: a57b omega
+Apr  7 07:43:30 node_7 rlcron[11389]: CMD (rm -rf /tmp/cache)
+Jun 25 09:34:26 db-02 rlcron[26696]: CMD (run-parts /etc/cron.daily)
+RLKV category=UniFi Devices other=1
+Mar  6 06:05:21 db-02 rltab[6554]: healthcheck	omega
+Sep 28 09:11:04 node_7 rldb-3[23162]: error code=1045 msg=access denied for user
+RLLOC check noisy
+RLALT2 item 539
+Jun 13 21:42:48 node_7 rlnothing[11715]: fatal error in module 51
+Feb 27 19:49:18 db-02 rlids[51426]: [2000419:8] x {UDP} 203.0.113.168 -> 10.0.0.229
+RLLOC check alpha
+May  1 03:39:01 gw.lab rlpunct[42787]: !!gamma
+Jun 13 17:18:30 node_7 rltab[1298]: noisy	delta
+rlalt1 item 152
+Jun 23 23:06:22 node_7 rlauth: Invalid user dave@corp from 203.0.113.39
+{"rlapp": "shop", "user": {"name": "ben", "id": 712}, "srcip": "203.0.113.180", "ok": true, "amount": "22445"}
+Apr 16 21:08:23 node_7 rlvpn[55434]: vpn: tunnel tun7 flapping peer 203.0.113.61
+Dec 26 10:00:27 rlsolo: job 271 failed
+Oct 27 19:05:28 node_7 rlcron[20983]: session started
+Apr 25 10:29:40 web01 rlsudo:    bob : TTY=pts/6 ; PWD=/home/dave@corp ; USER=root ; COMMAND=/usr/bin/ls -la
+RLPLAIN: user=safe
+Mar 19 08:20:41 db-02 rlweb: HEAD /static/app.js HTTP/1.0 301 27479 ip=10.0.0.141
+Mar 18 08:06:46 db-02 rlauth[46468]: pam_unix(rlauth:session): session closed for user svc-backup
+Apr 24 10:01:00 gw.lab rlauth[57269]: noisy noisy from monitor
+Aug 18 10:53:28 db-02 rlauth[42393]: healthcheck beta from monitor
+RLKV category=System other=1
+Nov 22 10:00:37 rlsolo: job 6898 failed
+Dec 27 05:25:57 gw.lab rlweb: PUT /api/v1/items HTTP/1.1 403 14618 ip=192.168.10.44
+Apr  3 16:55:38 web01 rlpunct[10409]: #healthcheck
+May 22 22:38:28 db-02 RlCase[9008]: x=396
+Sep 16 14:48:21 edge-3.example.net rlmail2[56923]: queued from=<bob@example.com> to=<admin@example.org>
+RLPLAIN: level=x1
+{"rlapp": "auth", "user": {"name": "admin", "id": 491}, "srcip": "192.168.1.149", "ok": true, "amount": "35251", "tags": ["a", "b"]}
+Oct 20 03:56:41 web01 rlstar[32168]: a56b - beta
+Sep  5 15:09:49 node_7 rldns[45789]: query: x.test IN A from 192.168.4.112
+Oct 28 00:12:20 web01 rldb-3[29427]: error code=1045 msg=table missing
+Jul 10 02:05:29 db-02 rlweb: POST / HTTP/1.0 200 6544 ip=192.168.10.249
+Feb 27 10:59:08 gw.lab rlauth[4062]: Failed password for alice from 192.168.11.26 port 3389 ssh2
+RLALT3 item 517
+Feb 26 10:00:49 rlsolo: job 2177 queued
+Jul 22 10:00:52 rlsolo: job 8555 queued
+Aug 21 08:36:45 node_7 rlmailer[23169]: queued from=<carol_1@example.org> to=<admin@example.org>
+Failed password for x free text 44
+Aug 26 02:09:46 web01 rldyn[33968]: billing/1.16 start
+RLLOC check omega
+Oct 20 02:23:21 db-02 rldb-2[9663]: query SELECT on users took 8172ms
+Jul 14 21:19:58 web01 rlstar[12283]: ab/
+Nov 12 21:00:36 node_7 rldns[9300]: query: x.test IN AAAA from 10.52.117.131
+Sep 18 03:53:30 gw.lab rlauth: Invalid user dave@corp from 10.67.176.250
+Jun  8 22:04:20 gw.lab rlcron[50560]: CMD (run-parts /etc/cron.daily)
+Oct 26 18:49:36 edge-3.example.net rlsudo:    carol_1 : TTY=pts/1 ; PWD=/home/root ; USER=root ; COMMAND=/usr/bin/passwd alice
+May 14 09:42:37 web01 rlpunct[50613]: []healthcheck
+RLPLAIN: mode=x1
+Aug 21 11:18:21 node_7 rlfw[50132]: DROP tcp 10.171.61.94:34591 -> 10.60.84.109:22
+Aug 16 03:46:03 edge-3.example.net rlmail2[31104]: queued from=<svc-backup@example.org> to=<dave@corp@example.org>
+Feb 11 05:53:27 gw.lab rlauth: Invalid user admin from 203.0.113.235
+RLKV msg=Device went offline. severity=low
+Oct  6 05:47:54 node_7 rldb-5[16628]: error code=1146 msg=cannot connect
+Nov  5 11:50:40 web01 rlweb: GET /admin/login HTTP/1.1 500 65650 ip=192.168.10.3
+Sep 25 10:00:06 rlsolo: job 8320 done
+Failed password for x free text 41
+Oct 11 10:00:16 rlsolo: job 7659 done
+Dec 21 12:19:30 web01 rlauth: Invalid user alice from 10.234.131.35
+Aug 11 20:00:09 node_7 rlauth[21461]: Accepted password for carol_1 from 10.211.244.15 port 80 ssh2
+Jul 24 20:06:03 node_7 rldns[33872]: query: mail.example.ru IN A from 10.0.0.19
+random free text 5
+Aug  6 20:29:25 node_7 rlsudo: alice : TTY=pts/0 ; PWD=/home/svc-backup ; USER=postgres ; COMMAND=/usr/bin/cat /etc/shadow
+Nov  1 11:02:32 edge-3.example.net rldb-5[48686]: error code=2002 msg=table missing
+RLKV category=Security Events other=1
+RLLOC check omega
+Aug 18 07:30:09 db-02 rlvpn[39623]: vpn: tunnel tun5 up peer 203.0.113.66
+Dec 24 02:55:37 edge-3.example.net rlweb: DELETE /api/v1/items HTTP/1.1 200 2269
+Sep 20 08:03:02 db-02 rltab[23717]: omega	beta
+Apr 11 23:59:28 edge-3.example.net rldyn[43948]: billing/3.19 start
+Aug  9 03:00:22 node_7 rldns[33049]: query: x.test IN TXT from 10.0.0.150
+Aug 24 16:37:13 edge-3.example.net rldyn[10207]: shop/3.3 start
+Nov  4 18:11:21 edge-3.example.net rlvpn[48443]: vpn: tunnel tun3 down peer 10.164.143.67
+Jan 26 00:29:53 db-02 rlauth: Invalid user bob from 10.222.214.16
+May  7 14:17:39 gw.lab rldns[27587]: query: x.test IN MX from 192.168.3.13
+RLLOC check omega
+Jan 18 14:27:38 node_7 rldyn[11135]: auth/2.17 start
+RLKV category=System other=1
+error: free text 12
+Jun 15 11:01:02 gw.lab rlfw[29353]: ACCEPT udp 192.168.12.7:13981 -> 10.0.0.1:80
+error: free text 64
+Failed password for x free text 56
+Nov 11 20:16:30 edge-3.example.net rlmail[10802]: queued from=<svc-backup@example.org> to=<root@example.com>
+RLLOC check gamma
+Sep 25 21:28:53 web01 rlweb: POST / HTTP/1.1 404 39242
+Oct  8 21:20:10 node_7 rlfw[26899]: REJECT icmp 10.187.180.86:38191 -> 10.90.149.105:8080
+RLKV severity=low category=UniFi Devices msg=x
+Nov  6 22:48:53 node_7 rlauth[4160]: pam_unix(rlauth:session): session opened for user root
+RLLOC check alpha
+Sep  4 20:10:36 gw.lab rlproxy[53110]: 52832 BLOCKED 10.235.134.220 http://c.test/x.EXE
+2026 Oct 26 10:52:55 web01 rliso: level=fatal
+Sep 28 01:25:58 gw.lab rlproxy[44323]: 39809 ALLOWED 203.0.113.154 http://b.test/
+random free text 36
+RLKV category=Security Events other=1
+Jul  7 08:14:07 db-02 rlauth[39650]: pam_unix(rlauth:session): session closed for user root by (uid=0)
+Nov  2 09:47:19 db-02 rlstar[5288]: ab - healthcheck
+Nov  4 13:49:55 db-02 rlids[54614]: [2000419:7] x {UDP} 10.0.0.139 -> 10.0.0.34
+Oct  4 01:30:08 edge-3.example.net rlvpn[48616]: vpn: tunnel tun0 up peer 10.0.0.122
+Dec 23 22:01:02 gw.lab rlweb: POST / HTTP/1.1 404 0 ip=10.56.180.2
+2026 May 12 10:16:28 edge-3.example.net rliso: level=error
+RLPLAIN: user=x1
+Jun 13 11:01:08 node_7 rldns[33323]: query: www.example.com IN A from 192.168.17.247
+Mar 14 01:08:24 edge-3.example.net rlvpn[20083]: vpn: tunnel tun4 down peer 10.60.114.154
+Sep  4 04:13:06 db-02 rlvpn[46534]: vpn: tunnel tun6 flapping peer 10.241.34.153
+RLPLAIN: mode=x1
+Jan  3 21:08:21 db-02 rlauth[22929]: Accepted publickey for root from 192.168.15.7 port 443 ssh2
+Jun  3 11:39:47 gw.lab rlauth[16488]: Accepted keyboard-interactive for svc-backup from 192.168.17.218 port 22 ssh2
+random free text 86
+May  7 11:34:36 web01 kernel[17089]: all good 49
+RLLOC check beta
+Jun 27 11:31:55 db-02 rlauth[29125]: Accepted password for root from 10.0.0.178 port 2222 ssh2
+Sep 22 05:53:41 gw.lab rldyn[54368]: auth/3.8 start
+Nov  6 07:58:41 node_7 rlauth[52176]: Accepted publickey for dave@corp from 192.168.12.113 port 8080 ssh2
+Dec 16 05:31:20 edge-3.example.net rlauth[30122]: Failed password for svc-backup from 192.168.4.151 port 80 ssh2
+Jun 18 19:31:45 edge-3.example.net rlcase[37638]: x=223
+{"rlapp": "shop", "user": {"name": "ben", "id": 375}, "srcip": "203.0.113.139", "ok": true, "amount": "38566"}
+Sep 10 19:15:32 db-02 rlproxy[20293]: 15674 ALLOWED 10.147.214.222 http://b.test/
+Nov 13 09:00:18 edge-3.example.net rlspace[161] msg omega
+Oct 13 11:46:09 edge-3.example.net rlids[13683]: [2001219:4] x {TCP} 203.0.113.25 -> 192.168.8.231
+error: free text 54
+RLPLAIN: mode=x1
+Dec  4 11:10:20 edge-3.example.net rlauth[24604]: plain noisy from monitor
+May  2 10:00:04 rlsolo: job 7164 failed
+Mar  6 08:36:56 db-02 rlfw[35723]: DROP icmp 203.0.113.33:56057 -> 10.0.0.1:8080
+Nov 20 11:40:00 node_7 rlauth[47407]: Accepted publickey for alice from 192.168.5.174 port 443 ssh2
+Dec  1 10:00:48 rlsolo: job 9536 done
+RLLOC check noisy
+Oct 17 18:31:13 edge-3.example.net rlsudo: bob : TTY=pts/6 ; PWD=/home/carol_1 ; USER=postgres ; COMMAND=/usr/bin/systemctl restart web
+Mar 26 10:00:03 rlsolo: job 1299 queued
+Jun 26 16:30:03 edge-3.example.net rlcron[8262]: CMD (run-parts /etc/cron.daily)
+error: free text 40
+Jun 14 10:11:25 node_7 rlcron[42992]: CMD (rm -rf /tmp/cache)
+2026-11-13T10:32:48+00:00 node_7 rliso: level=error msg=x
+Apr 10 15:06:41 edge-3.example.net rlauth[28489]: plain gamma from monitor
+May 12 19:19:08 node_7 RLCASE[5974]: x=447
+random free text 30
+RLPLAIN: level=safe
+Nov 12 09:00:14 gw.lab rlspace[64] other omega
+{"rlapp": "auth", "user": {"name": "ann", "id": 208}, "srcip": "10.113.107.68", "ok": true, "amount": "164032"}
+2026-11-26T10:20:49.804+01:00 edge-3.example.net rliso[737]: level=error
+RLLOC check noisy
+Aug  4 14:43:08 db-02 rlauth[19362]: plain gamma from monitor
+Sep 21 17:25:50 gw.lab rlauth[57843]: Failed password for admin from 10.0.0.15 port 443 ssh2
+Feb 19 09:00:37 gw.lab rlspace[425] msg omega
+Nov 26 05:17:19 gw.lab rlweb: POST /static/app.js HTTP/1.1 201 55134 ip=192.168.10.235
+Feb  1 04:17:40 node_7 rldyn[13960]: shop/1.11 start
+May  8 11:09:47 edge-3.example.net rlproxy[50646]: 48852 BLOCKED 10.0.0.184 http://a.test/setup.exe
+Mar  4 19:56:22 gw.lab rldns[27220]: query: www.example.com IN AAAA from 10.241.179.89
+RLKV msg=Login ok severity=low
+Jan  3 22:12:52 web01 rlproxy[6984]: 497 DENIED 203.0.113.112 http://b.test/
+Mar 27 07:52:53 edge-3.example.net rldns[57079]: query: mail.example.ru IN A from 10.0.0.36
+RLKV category=security other=1
+May  7 09:16:01 web01 rlweb: POST /static/app.js HTTP/1.1 404 27807 ip=192.168.10.101
+May 11 07:36:46 gw.lab rlauth[33241]: Accepted publickey for bob from 192.168.15.218 port 443 ssh2
+Aug 10 13:17:59 node_7 rltab[8530]: noisy	beta
+Apr  3 23:02:46 db-02 rlmail[49967]: queued from=<dave@corp@example.com> to=<bob@example.org>
+RLKV category=Security Events other=1
+Jan  8 21:00:14 db-02 rlauth[31873]: healthcheck noisy from monitor
+Jan  4 13:02:06 gw.lab RLCASE[54289]: x=427
+Sep 25 09:00:00 web01 rlspace[209] other gamma
+Feb  1 08:30:36 db-02 rlproxy[54810]: 62118 DENIED 192.168.0.221 http://b.test/
+Mar 10 12:47:08 edge-3.example.net RLCASE[44330]: x=50
+Feb 25 10:29:34 gw.lab rlfw[48854]: ACCEPT icmp 10.21.28.86:55361 -> 192.168.15.235:2222
+Sep 13 09:00:56 edge-3.example.net rlspace[265] other alpha
+Jan 12 21:33:27 node_7 rlauth[48596]: healthcheck beta from monitor
+May 19 20:41:07 edge-3.example.net rlweb: GET /static/app.js HTTP/1.0 403 59379 ip=203.0.113.15
+Mar 28 16:40:41 edge-3.example.net rlpunct[18898]: #noisy
+{"rlapp": "billing", "user": {"name": "ben", "id": 879}, "srcip": "192.168.9.161", "ok": true, "amount": "195417"}
+Aug  3 19:18:04 edge-3.example.net rlweb: GET /static/app.js HTTP/1.0 301 0 ip=192.168.16.34
+RLLOC check beta
+May  7 14:22:27 db-02 rlcron[34888]: CMD (run-parts /etc/cron.daily)
+Oct 16 19:21:47 node_7 rlids[7566]: [1000:7] Possible exploit attempt {TCP} 10.0.0.26 -> 10.240.221.182
+Nov  4 01:22:46 edge-3.example.net rlsudo: svc-backup : TTY=pts/6 ; PWD=/home/svc-backup ; USER=postgres ; COMMAND=/usr/bin/cat /etc/shadow
+RLKV msg=x severity=medium
+Dec 22 18:40:32 edge-3.example.net rlpunct[37759]: {}noisy
+Mar 12 15:06:10 db-02 rlvpn[17762]: vpn: tunnel tun5 down peer 203.0.113.215
+{"rlapp": "billing-eu", "user": {"name": "ann", "id": 497}, "srcip": "203.0.113.225", "ok": false, "amount": "198809"}
+Jun 22 00:47:06 edge-3.example.net rltab[17391]: omega	gamma
+Feb 10 15:32:57 gw.lab rlpunct[21066]: <>noisy
+RLLOC check healthcheck
+Failed password for x free text 38
+Mar 28 19:16:29 gw.lab rlproxy[37011]: 60932 DENIED 10.160.2.39 http://a.test/setup.exe
+Nov 27 08:03:34 gw.lab rlpunct[54516]: ::gamma
+Apr  8 09:28:26 gw.lab rlvpn[55341]: vpn: tunnel tun8 flapping peer 192.168.18.160
+{"rlapp": "auth", "user": {"name": "admin", "id": 901}, "srcip": "10.0.0.1", "ok": true, "amount": "156022"}
+RLALT3 item 165
+2026-11-27T10:23:18+00:00 node_7 rliso: level=fatal msg=x
+RLLOC check gamma
+RLKV severity=medium category=security msg=Device went offline.
+Jun 25 13:19:36 edge-3.example.net rlauth[35638]: healthcheck noisy from monitor
+Oct 26 19:06:47 web01 rlweb: HEAD /admin/login HTTP/1.0 200 75197 ip=192.168.5.181
+May  9 10:00:30 rlsolo: job 8167 queued
+Feb 15 06:58:18 node_7 RlCase[38223]: x=272
+Apr  8 18:48:40 node_7 rlvpn[12585]: vpn: tunnel tun4 up peer 10.192.120.32
+Apr 26 07:16:39 web01 rltab[52147]: omega	omega
+Aug 20 00:09:07 gw.lab rlcron[35382]: session started
+May  9 02:00:01 db-02 rlmailer[46185]: queued from=<carol_1@example.com> to=<carol_1@example.com>
+Aug 20 04:59:17 db-02 rlstar[55390]: ab - omega
+Aug 17 14:43:30 gw.lab rltab[56187]: gamma	delta
+Aug 15 18:14:38 web01 rlfw[30620]: REJECT tcp 192.168.1.150:20807 -> 10.0.0.99:53
+Sep  9 10:00:58 rlsolo: job 3336 done
+RLALT2 item 478
+Dec 17 17:44:52 node_7 rlstar[58019]: a50b - alpha
+Apr 25 19:28:37 gw.lab rlcron[19553]: CMD (backup.sh --full)
+Sep 27 04:30:48 node_7 rlsudo:    carol_1 : TTY=pts/2 ; PWD=/home/carol_1 ; USER=root ; COMMAND=/usr/bin/cat /etc/shadow
+May 26 05:50:40 gw.lab rlids[35514]: [2000419:8] x {UDP} 10.0.0.43 -> 10.0.0.229
+Jun 28 09:47:11 web01 rlweb: HEAD /api/v1/items HTTP/1.1 503 89885 ip=192.168.10.15
+Jan  5 10:00:17 rlsolo: job 78 failed
+Feb 18 22:03:11 edge-3.example.net rlproxy[55467]: 4581 ALLOWED 203.0.113.117 http://b.test/
+Oct 22 19:47:06 web01 rldns[3705]: query: www.example.com IN AAAA from 10.3.82.14
+May  1 10:03:49 node_7 rldns[54282]: query: mail.example.ru IN SRV from 192.168.10.118
+error: free text 23
+RLLOC check alpha
+Nov  7 20:45:19 edge-3.example.net rlcron[48480]: CMD (backup.sh --full)
+2026-11-20T10:40:27+00:00 node_7 rliso: level=error msg=x
+Mar 17 07:31:30 edge-3.example.net rlids[46726]: [1000:7] x {ICMP} 10.220.248.190 -> 192.168.9.123
+Jul  6 06:45:43 gw.lab rlauth[45402]: Accepted keyboard-interactive for root from 10.191.185.68 port 80 ssh2
+Nov 18 08:47:53 node_7 rlauth[13213]: pam_unix(rlauth:session): session opened for user admin
+Jul 19 18:54:39 web01 rlids[35240]: [2000419:6] ET SCAN probe {ICMP} 203.0.113.111 -> 203.0.113.167
+Jan 24 20:53:05 web01 rlfw[27959]: ACCEPT tcp 10.190.25.199:21927 -> 10.0.0.107:53
+Feb 16 23:31:04 gw.lab RLCASE[73]: x=240
+Jun 14 12:51:25 web01 rlauth[10242]: healthcheck healthcheck from monitor
+Jun  8 17:28:32 web01 rlvpn[38802]: vpn: tunnel tun3 down peer 10.231.79.16
+Jul 20 02:01:05 db-02 rlstar[37711]: ab/beta
+RLLOC check noisy
+RLALT1 item 435
+Feb 16 19:44:22 node_7 rltab[22025]: noisy	healthcheck
+Nov  4 15:00:23 edge-3.example.net rlauth[5671]: Accepted password for bob from 10.0.0.82 port 8080 ssh2
+Apr 21 19:35:37 db-02 rlmailer[33576]: queued from=<admin@example.com> to=<carol_1@example.com>
+Apr 18 12:29:22 db-02 rlweb: HEAD /api/v1/items HTTP/1.1 301 0 ip=192.168.10.168
+Jan  7 14:22:32 node_7 rlmailer[26452]: queued from=<dave@corp@example.org> to=<alice@example.org>
+May 10 12:37:21 edge-3.example.net rlvpn[23519]: vpn: tunnel tun8 down peer 10.165.24.28
+Dec  8 16:23:36 web01 rlfw[43950]: DROP icmp 10.0.0.28:1119 -> 203.0.113.149:22
+Sep  4 22:34:30 edge-3.example.net rltab[46931]: healthcheck	alpha
+{"rlapp": "billing", "user": {"name": "ben", "id": 482}, "srcip": "10.184.245.59", "ok": true, "amount": "33850", "tags": ["a", "b"]}
+May 16 03:55:44 db-02 rldns[32070]: query: x.test IN TXT from 10.0.0.157
+Apr 22 01:44:59 db-02 rlauth: Invalid user carol_1 from 10.3.96.111
+{"rlapp": "billing-eu", "user": {"name": "ann", "id": 537}, "srcip": "192.168.6.130", "ok": true, "amount": "181251"}
+Apr  4 10:00:13 rlsolo: job 9347 queued
+Jul 11 20:39:38 db-02 rldb-6[11628]: query INSERT on users took 10732ms
+Mar  2 16:52:47 db-02 rlproxy[45983]: 6312 BLOCKED 10.0.0.16 http://c.test/x.EXE
+Dec 18 07:08:39 gw.lab rlfw[334]: REJECT tcp 10.83.209.166:16391 -> 10.60.55.153:80
+2026-11-01T10:52:43.258+01:00 node_7 rliso[674]: level=fatal
+{"rlapp": "shop", "user": {"name": "ann", "id": 209}, "srcip": "10.191.63.26", "ok": true, "amount": "52771", "tags": ["a", "b"]}
+Sep  3 05:07:17 db-02 rltab[29795]: healthcheck	noisy
+Aug 19 03:13:23 node_7 rlauth[25682]: pam_unix(rlauth:session): session closed for user bob
+Jun  6 06:51:56 edge-3.example.net rlfw[8849]: REJECT icmp 10.15.6.46:51931 -> 10.0.0.1:3389
+Apr  4 19:07:31 edge-3.example.net rlsudo:    svc-backup : TTY=pts/0 ; PWD=/home/svc-backup ; USER=postgres ; COMMAND=/usr/bin/ls -la
+May 28 02:50:52 db-02 RlCase[32486]: x=289
+Mar 16 11:08:32 gw.lab rlauth: Invalid user dave@corp from 10.61.109.218
+Oct 10 23:38:44 edge-3.example.net rlvpn[2727]: vpn: tunnel tun5 up peer 10.0.0.114
+Mar 17 08:22:32 gw.lab rlsudo: carol_1 : TTY=pts/1 ; PWD=/home/svc-backup ; USER=postgres ; COMMAND=/usr/bin/ls -la
+Mar 15 04:01:15 gw.lab rldns[35622]: query: www.example.com IN MX from 10.172.155.219
+RLALT1 item 373
+Nov 21 09:00:37 gw.lab rlspace[212] other noisy
+Oct 22 06:14:27 db-02 rlauth[31260]: healthcheck omega from monitor
+Dec 20 18:05:14 node_7 rlsudo: alice : TTY=pts/4 ; PWD=/home/svc-backup ; USER=postgres ; COMMAND=/usr/bin/passwd alice
+RLLOC check healthcheck
+RLLOC check alpha
+Dec 11 11:18:07 edge-3.example.net rlids[32172]: [1000:8] x {ICMP} 192.168.6.100 -> 10.110.209.38
+Sep  3 22:56:41 gw.lab rlids[53300]: [1000:9] x {UDP} 10.0.0.159 -> 192.168.18.94
+Mar 20 08:09:26 db-02 rlauth[39768]: Accepted password for carol_1 from 203.0.113.209 port 53 ssh2
+Jun 17 12:12:28 gw.lab rlauth[13791]: Accepted publickey for admin from 192.168.12.93 port 8080 ssh2
+Aug 25 13:25:52 web01 rlmail2[12085]: queued from=<admin@example.com> to=<bob@example.org>
+Jan 23 22:13:52 node_7 rltab[14636]: noisy	healthcheck
+Jan 26 03:44:25 db-02 rlweb: POST /api/v1/items HTTP/1.1 200 79020
+Apr 21 09:00:11 web01 rlspace[84] msg omega
+Dec 11 10:54:21 gw.lab rlauth[29352]: noisy alpha from monitor
+RLALT1 item 57
+Jan 22 12:25:14 web01 rlauth: Invalid user  from 10.3.13.3
+RLKV severity=high category=UniFi Devices msg=x
+Dec  6 17:56:00 gw.lab rlproxy[25555]: 7344 DENIED 10.246.25.37 http://a.test/setup.exe
+Dec 19 10:36:47 gw.lab rlauth[44040]: Accepted password for alice from 10.0.0.113 port 8080 ssh2
+Jun 19 11:03:57 db-02 rlvpn[15449]: vpn: tunnel tun8 flapping peer 203.0.113.114
+Oct 22 15:40:15 gw.lab rldyn[7856]: auth/0.19 start
+Jun 24 18:02:22 web01 rldb-1[47743]: query drop on audit took 555ms
+Jan  8 00:29:59 gw.lab rlauth[19160]: Failed password for root from 192.168.5.235 port 2222 ssh2
+Mar 26 14:19:06 db-02 rlweb: DELETE /index.html HTTP/1.0 404 16033 ip=203.0.113.201
+RLPLAIN: user=debug
+May 27 16:57:48 gw.lab rlproxy[909]: 22450 ALLOWED 192.168.17.113 http://a.test/setup.exe
+Apr 18 05:02:56 db-02 kernel[11735]: fatal error in module 15
+Mar 25 08:56:34 node_7 rlnothing[31697]: something happened 94
+Oct 27 08:33:31 web01 RLCASE[56409]: x=0
+RLLOC check gamma
+May 19 17:57:27 node_7 rlsudo: dave@corp : TTY=pts/7 ; PWD=/home/alice ; USER=postgres ; COMMAND=/usr/bin/passwd alice
+{"rlapp": "auth", "user": {"name": "ben", "id": 990}, "srcip": "192.168.11.251", "ok": false, "amount": "132103"}
+May 26 14:15:41 node_7 rlpunct[39062]: []omega
+RLLOC check beta
+Jun 13 00:35:36 web01 rlcron[27584]: CMD (backup.sh --full)
+Sep 22 02:12:55 edge-3.example.net rlauth[47036]: pam_unix(rlauth:session): session closed for user svc-backup
+{"rlapp": "billing", "user": {"name": "ben", "id": 308}, "srcip": "192.168.13.23", "ok": true, "amount": "85295"}
+RLALT1 item 711
+RLLOC check alpha
+Apr  9 00:13:29 gw.lab rlpunct[41991]: #delta
+Jun 23 18:19:40 gw.lab rlauth[38391]: Accepted password for root from 10.251.199.103 port 3389 ssh2
+Mar  8 19:19:11 gw.lab rlstar[15506]: ab - delta
+Jun 13 23:45:13 web01 RLCASE[28125]: x=392
+Sep 26 12:53:49 db-02 rlids[27065]: [2000419:3] Possible exploit attempt {ICMP} 10.210.224.123 -> 203.0.113.167
+Mar 12 23:50:42 db-02 rlauth[50111]: pam_unix(rlauth:session): session closed for user dave@corp
+Apr 19 15:15:30 node_7 rlvpn[14437]: vpn: tunnel tun6 up peer 10.0.0.93
+Nov 26 05:45:35 gw.lab rltab[30760]: gamma	healthcheck
+Apr 10 13:04:40 edge-3.example.net rlmail2[13489]: queued from=<root@example.org> to=<admin@example.com>
+Feb  9 08:28:18 gw.lab RlCase[18441]: x=250
+Jun  4 18:56:07 gw.lab rldyn[47112]: billing/4.2 start
+Dec 19 07:54:14 db-02 rlweb: DELETE /static/app.js HTTP/1.1 403 69727 ip=10.195.223.52
+random free text 26
+RLKV msg=Config changed by admin severity=medium
+Oct 17 18:50:39 db-02 rlauth[17706]: Failed password for alice from 203.0.113.33 port 53 ssh2
+Jan  1 14:35:25 web01 rlmailer[1337]: queued from=<carol_1@example.com> to=<dave@corp@example.com>
+Mar 25 02:27:25 gw.lab rldyn[58782]: auth/1.5 start
+RLPLAIN: user=safe
+Dec  5 03:39:20 web01 rlids[24786]: [1000:3] Possible exploit attempt {TCP} 203.0.113.120 -> 10.0.0.44
+Mar  5 13:29:04 edge-3.example.net unknownd[17369]: all good 57
+Jan  4 00:39:01 db-02 rldb-5[27912]: query SELECT on audit took 10135ms
+{"rlapp": "billing", "user": {"name": "ann", "id": 310}, "srcip": "10.12.33.110", "ok": true, "amount": "27143"}
+Sep  3 15:05:19 edge-3.example.net rlfw[28682]: ACCEPT tcp 192.168.13.22:53322 -> 203.0.113.18:2222
+rlalt1 item 548
+Jan 19 16:59:32 db-02 rlvpn[11960]: vpn: tunnel tun0 down peer 10.158.85.229
+RLALT3 item 356
+random free text 6
+Feb 27 07:59:18 gw.lab rlmail[23418]: queued from=<root@example.com> to=<root@example.com>
+Oct  9 07:14:19 gw.lab rlmail2[5777]: queued from=<bob@example.org> to=<carol_1@example.com>
+Apr 22 03:03:44 web01 rlauth[42029]: pam_unix(rlauth:session): session opened for user carol_1
+Mar 24 15:17:32 web01 rldb-2[7219]: error code=1146 msg=access denied for user
+Mar 19 16:17:00 edge-3.example.net rlstar[56501]: ab::
+Dec  5 15:16:54 web01 rlauth[53693]: pam_unix(rlauth:session): session opened for user alice by (uid=0)
+Nov 18 04:07:24 node_7 rlproxy[11311]: 29743 ALLOWED 10.70.185.197 http://a.test/setup.exe
+Aug  3 14:04:12 web01 rlcron[15777]: CMD (backup.sh --full)
+May  3 19:38:31 db-02 rlcron[36011]: session started
+Mar 26 15:12:14 edge-3.example.net RLCASE[5912]: x=72
+Sep  5 09:23:19 db-02 rlproxy[13059]: 64895 DENIED 203.0.113.149 http://b.test/
+Mar  2 09:41:07 gw.lab rlcron[6730]: session started
+Oct  9 19:26:10 db-02 RLCASE[15162]: x=492
+Jun  7 20:22:15 db-02 rlauth[50746]: Accepted password for svc-backup from 10.2.19.119 port 3389 ssh2
+{"rlapp": "shop", "user": {"name": "ben", "id": 907}, "srcip": "192.168.18.6", "ok": true, "amount": "131844", "tags": ["a", "b"]}
+May 11 13:17:47 edge-3.example.net rlauth[12821]: Failed password for alice from 10.0.0.73 port 2222 ssh2
+Nov  2 07:05:44 db-02 rldns[43925]: query: x.test IN AAAA from 192.168.19.141
+Feb 20 22:19:47 node_7 rldns[24633]: query: mail.example.ru IN A from 10.0.0.254
+Nov 12 22:31:21 db-02 rlfw[4373]: ACCEPT icmp 10.0.0.19:41538 -> 10.0.0.1:3389
+Jun 22 16:40:24 gw.lab RLCASE[2586]: x=256
+Jan 22 03:52:36 db-02 rlcron[6593]: session started
+Dec 25 03:53:12 node_7 rlauth[11359]: plain omega from monitor
+Jan 15 01:39:05 db-02 rlpunct[21018]: #delta
+RLLOC check alpha
+Dec 21 21:32:26 web01 rlauth: Invalid user svc-backup from 10.221.64.194
+{"rlapp": "auth", "user": {"name": "ann", "id": 958}, "srcip": "10.0.0.131", "ok": true, "amount": "60300"}
+Jul 17 22:19:54 web01 rlcron[43264]: CMD (backup.sh --full)
+Apr 16 15:57:14 node_7 rldyn[19657]: shop/2.1 start
+RLALT2 item 518
+Jan 28 00:00:57 gw.lab rlids[56972]: [2001219:4] ET SCAN probe {ICMP} 10.0.0.198 -> 10.0.0.54
+Feb 19 10:00:37 rlsolo: job 3365 failed
+RLALT2 item 889
+Apr  7 10:48:58 node_7 rlids[51180]: [2001219:5] ET SCAN probe {TCP} 10.0.0.18 -> 203.0.113.248
+RLKV severity=medium category=Security Events msg=Config changed by admin
+Jan  6 06:15:23 db-02 rldns[29234]: query: www.example.com IN A from 10.25.237.183
+Jan 11 15:23:20 gw.lab rlpunct[16620]: <>beta
+Feb  7 04:48:38 web01 rlproxy[58791]: 28244 DENIED 10.0.0.140 http://b.test/
+{"rlapp": "shop", "user": {"name": "admin", "id": 117}, "srcip": "10.0.0.150", "ok": false, "amount": "112016", "tags": ["a", "b"]}
+Jul  4 02:14:34 gw.lab rlauth[58720]: healthcheck healthcheck from monitor
+Oct 18 15:42:31 node_7 rlstar[30443]: a37b/omega
+RLLOC check noisy
+RLALT1 item 950
+RLKV msg=x severity=high
+RLALT3 item 65
+May 23 09:48:57 web01 rlstar[2071]: ab/healthcheck
+Mar  8 06:48:13 edge-3.example.net rlauth[57731]: Failed password for bob from 203.0.113.126 port 443 ssh2
+Dec 23 08:35:38 web01 rlpunct[9232]: []omega
+Dec 14 05:33:08 gw.lab rlauth: Invalid user svc-backup from 10.220.179.142
+{"rlapp": "shop", "user": {"name": "ann", "id": 933}, "srcip": "10.0.0.240", "ok": true, "amount": "45545", "tags": ["a", "b"]}
+Sep 19 16:59:39 gw.lab rlauth[15515]: Accepted publickey for bob from 10.107.112.29 port 3389 ssh2
+Mar 24 02:49:44 gw.lab rlweb: HEAD /api/v1/items HTTP/1.1 301 40974 ip=10.0.0.210
+Aug 15 04:28:49 node_7 rlcron[29847]: session started
+Jul  3 22:29:03 gw.lab rlfw[19172]: REJECT udp 10.211.91.62:59292 -> 203.0.113.149:8080
+Nov 12 11:50:36 db-02 rlcron[12247]: CMD (backup.sh --full)
+Nov 24 10:00:32 rlsolo: job 9665 failed
+Aug 23 07:15:05 edge-3.example.net rlcase[8822]: x=376
+Mar 11 11:28:08 node_7 kernel[34007]: fatal error in module 85
+Dec 10 10:00:06 rlsolo: job 8473 queued
+Nov 15 17:09:40 web01 rlauth[51245]: pam_unix(rlauth:session): session closed for user admin
+Mar 24 17:24:34 edge-3.example.net rlauth[49221]: healthcheck alpha from monitor
+{"rlapp": "shop", "user": {"name": "ben", "id": 86}, "srcip": "10.0.0.224", "ok": false, "amount": "124041"}
+Nov 14 08:15:33 edge-3.example.net rlauth[27754]: Accepted password for svc-backup from 192.168.0.63 port 51515 ssh2
+RLKV severity=low category=UniFi Devices msg=Device went offline.
+May 17 10:00:54 rlsolo: job 7250 queued
+Feb 28 18:50:19 node_7 rlcron[17686]: CMD (rm -rf /tmp/cache)
+Feb 22 03:27:34 edge-3.example.net rldyn[5009]: billing/1.14 start
+Jul 25 13:02:45 gw.lab rlfw[21025]: ACCEPT tcp 203.0.113.148:37113 -> 203.0.113.252:443
+Dec 19 16:40:04 node_7 rlcron[53616]: CMD (backup.sh --full)
+Nov 18 04:42:35 web01 rlpunct[14419]: []delta
+Feb 25 01:01:29 node_7 rlcron[32064]: session started
+Nov 28 21:50:47 node_7 rlcase[35111]: x=490
+Mar 10 18:56:29 db-02 rlsudo: admin : TTY=pts/8 ; PWD=/home/root ; USER=postgres ; COMMAND=/usr/bin/systemctl restart web
+RLPLAIN: user=debug
+Jul 26 05:26:04 gw.lab rlauth[952]: Accepted password for admin from 192.168.3.78 port 8080 ssh2
+Jul  3 00:08:40 node_7 rldyn[5178]: billing/2.18 start
+RLKV category=UniFi Devices other=1
+random free text 42
+RLPLAIN: user=x1
+Sep 21 02:16:19 edge-3.example.net rlfw[17593]: DROP udp 10.138.66.35:40406 -> 10.37.86.109:80
+Mar 22 13:37:01 gw.lab rldns[36717]: query: mail.example.ru IN MX from 192.168.2.247
+RLALT2 item 630
+Jan  1 14:55:36 edge-3.example.net rlproxy[13319]: 92714 ALLOWED 203.0.113.159 http://c.test/x.EXE
+Sep 23 09:40:33 edge-3.example.net rlvpn[51461]: vpn: tunnel tun8 up peer 203.0.113.37
+{"rlapp": "shop", "user": {"name": "ben", "id": 21}, "srcip": "10.49.236.124", "ok": true, "amount": "61972", "tags": ["a", "b"]}
+RLALT3 item 527
+{"rlapp": "auth", "user": {"name": "admin", "id": 640}, "srcip": "203.0.113.141", "ok": false, "amount": "52146"}
+Feb 21 09:00:53 gw.lab rlspace[58] other healthcheck
+Jun 23 11:28:47 db-02 rlproxy[35057]: 76586 ALLOWED 192.168.13.39 http://c.test/x.EXE
+RLPLAIN: mode=x1
+2026 Oct 01 10:36:58 db-02 rliso: level=info
+Oct 14 00:33:46 db-02 rltab[35310]: beta	noisy
+Feb  8 07:33:12 edge-3.example.net rldns[35599]: query: mail.example.ru IN SRV from 203.0.113.195
+Apr 11 01:11:50 gw.lab rlproxy[3122]: 6427 BLOCKED 203.0.113.18 http://c.test/x.EXE
+Jan  8 21:37:53 db-02 rlauth[39753]: Failed password for admin from 10.28.209.205 port 2222 ssh2
+Jul 27 10:59:05 node_7 rldns[14904]: query: x.test IN MX from 192.168.19.187
+Apr 25 06:59:30 gw.lab rlstar[50036]: a7b/beta
+Dec 25 17:43:35 web01 rlproxy[42491]: 53059 BLOCKED 192.168.18.113 http://c.test/x.EXE
+RLKV severity=high category=UniFi Devices msg=Config changed by admin
+Feb  7 14:58:40 edge-3.example.net rlstar[9722]: ab 
+{"rlapp": "auth", "user": {"name": "ben", "id": 572}, "srcip": "192.168.8.124", "ok": true, "amount": "174779"}
+RLALT2 item 872
+May  3 15:12:53 node_7 rlnothing[9754]: fatal error in module 72
+Jan  4 02:41:06 db-02 rlauth[56792]: Accepted publickey for svc-backup from 192.168.4.74 port 53 ssh2
+{"rlapp": "billing-eu", "user": {"name": "ann", "id": 32}, "srcip": "10.0.0.71", "ok": false, "amount": "127096"}
+RLPLAIN: user=safe
+Jun  1 06:14:35 node_7 rlauth[48272]: pam_unix(rlauth:session): session opened for user svc-backup
+May  5 19:19:17 gw.lab rlauth[33427]: pam_unix(rlauth:session): session opened for user admin
+Aug 15 23:50:59 web01 rlauth[18523]: pam_unix(rlauth:session): session closed for user carol_1
+RLLOC check beta
+Nov  8 11:11:01 web01 rlvpn[43068]: vpn: tunnel tun5 up peer 10.16.155.126
+error: free text 22
+random free text 54
+May  9 15:52:35 gw.lab rlproxy[26670]: 2777 DENIED 10.0.0.139 http://b.test/
+Jul 14 03:11:57 edge-3.example.net rldyn[27755]: billing/0.0 start
+Jun  4 10:00:08 rlsolo: job 4181 queued
+Jul  1 20:43:21 gw.lab rlauth[5653]: healthcheck beta from monitor
+{"rlapp": "billing-eu", "user": {"name": "admin", "id": 733}, "srcip": "203.0.113.226", "ok": false, "amount": "110835"}
+Jul 12 10:36:25 gw.lab rlauth[37036]: Failed password for alice from 10.0.0.245 port 2222 ssh2
+Feb  9 21:28:59 edge-3.example.net rlstar[35951]: ab gamma
+Oct 14 14:39:45 node_7 rlvpn[29466]: vpn: tunnel tun2 up peer 192.168.5.146
+Mar 18 20:33:23 web01 rlcron[755]: CMD (backup.sh --full)
+Mar  2 08:44:42 gw.lab rlauth[36533]: plain omega from monitor
+Apr 22 10:41:53 node_7 rlproxy[2239]: 69629 ALLOWED 192.168.18.12 http://b.test/
+Feb  4 22:15:15 gw.lab rldns[4959]: query: mail.example.ru IN SRV from 10.145.44.40
+Jun 28 09:00:10 edge-3.example.net rlspace[378] msg alpha
+Jun 14 09:58:20 gw.lab rlcron[604]: CMD (run-parts /etc/cron.daily)
+Jun 16 02:56:30 edge-3.example.net rldyn[44782]: auth/4.3 start
+RLLOC check omega
+Feb 26 17:58:54 edge-3.example.net rlweb: POST /admin/login HTTP/1.1 301 38204 ip=10.0.0.34
+Apr 11 20:41:35 node_7 rlcron[54383]: session started
+Jun 27 23:47:07 edge-3.example.net rlvpn[36078]: vpn: tunnel tun5 flapping peer 203.0.113.16
+Oct 16 07:51:09 db-02 rlsudo: bob : TTY=pts/4 ; PWD=/home/dave@corp ; USER=root ; COMMAND=/usr/bin/systemctl restart web
+Aug 12 15:05:25 gw.lab rlsudo: alice : TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/ls -la
+RLLOC check omega
+RLKV msg=Device went offline. severity=medium
+2026-11-09T10:59:42+00:00 gw.lab rliso: level=info msg=x
+RLKV category=security other=1
+Apr 26 14:30:29 edge-3.example.net rlauth[28220]: noisy gamma from monitor
+Nov  3 22:03:58 web01 rlcron[19896]: CMD (backup.sh --full)
+Nov 28 03:43:24 gw.lab rlpunct[48707]: {}delta
+Oct 25 09:24:22 gw.lab rlweb: GET /index.html HTTP/1.1 200 65036 ip=192.168.10.41
+Oct 21 20:32:04 db-02 rldns[40028]: query: www.example.com IN MX from 203.0.113.164
+Aug 13 13:55:12 edge-3.example.net rlstar[47713]: a99b - omega
+May 15 13:30:42 db-02 kernel[15276]: something happened 98
+{"rlapp": "auth", "user": {"name": "ben", "id": 288}, "srcip": "10.224.112.104", "ok": false, "amount": "188225", "tags": ["a", "b"]}
+Feb 17 00:20:12 edge-3.example.net rlpunct[35358]: !!gamma
+Apr  8 09:00:27 db-02 rlspace[496] msg healthcheck
+Feb 27 08:41:03 node_7 rltab[42357]: noisy	noisy
+May 18 01:47:00 gw.lab rltab[23523]: healthcheck	omega
+Mar 25 01:20:12 db-02 rlauth[47092]: pam_unix(rlauth:session): session opened for user root
+Jan 13 12:47:19 web01 rldb-3[20936]: error code=1045 msg=access denied for user
+RLLOC check noisy
+Jun 10 09:00:13 node_7 rlspace[66] other gamma
+Apr  5 01:19:50 gw.lab RlCase[24460]: x=347
+May  7 21:48:09 db-02 rlcron[34072]: CMD (backup.sh --full)
+RLPLAIN: user=debug
+Aug 27 02:27:52 db-02 rltab[33471]: alpha	gamma
+Dec  3 10:36:17 node_7 rlproxy[23597]: 77355 ALLOWED 192.168.6.157 http://b.test/
+May  3 01:29:26 web01 rlids[40887]: [1000:9] Possible exploit attempt {UDP} 10.21.102.196 -> 203.0.113.181
+Nov 10 10:46:50 gw.lab rldyn[44791]: shop/2.2 start
+Feb 22 20:52:09 db-02 rlproxy[6464]: 93530 DENIED 192.168.2.43 http://c.test/x.EXE
+Aug 13 20:47:49 gw.lab rlauth: Invalid user carol_1 from 10.0.0.80
+Feb 27 23:54:32 edge-3.example.net rlmail2[30033]: queued from=<dave@corp@example.com> to=<svc-backup@example.org>
+RLALT3 item 96
+RLALT1 item 680
+Feb  6 01:58:53 web01 rlmail2[28465]: queued from=<root@example.com> to=<bob@example.com>
+Dec 13 22:13:36 gw.lab rldyn[50368]: billing/4.10 start
+Aug 14 01:26:21 gw.lab rldyn[51106]: billing/1.11 start
+Jul 18 15:02:36 web01 rlcron[23566]: session started
+Jul 16 23:07:23 gw.lab rldyn[20481]: billing/4.7 start
+Nov  1 00:40:28 edge-3.example.net rlvpn[59804]: vpn: tunnel tun3 up peer 10.66.65.59
+Jan 27 02:51:18 db-02 rlweb: PUT /static/app.js HTTP/1.1 500 22329 ip=10.104.9.221
+Jul 12 09:00:32 gw.lab rlspace[167] other delta
+Oct 17 10:00:02 rlsolo: job 2811 done
+Dec 26 13:34:04 node_7 rlweb: DELETE /api/v1/items HTTP/1.0 404 23407 ip=203.0.113.142
+Jul 22 09:49:38 node_7 rlfw[37300]: ACCEPT tcp 10.0.0.132:36426 -> 10.0.0.1:3389
+Jul  7 21:25:13 web01 rlcase[52206]: x=497
+RLKV category=System other=1
+Nov  7 17:53:46 gw.lab rlauth[6649]: Failed password for dave@corp from 10.0.0.180 port 51515 ssh2 failure
+Dec  6 11:37:24 db-02 rlids[1634]: [2001219:6] Possible exploit attempt {TCP} 203.0.113.117 -> 10.0.0.26
+Sep 26 15:28:23 db-02 rlproxy[56449]: 30770 BLOCKED 203.0.113.167 http://c.test/x.EXE
+Dec  1 09:04:28 node_7 rlpunct[17880]: ::omega
+Nov 19 09:22:22 node_7 rlauth[47700]: pam_unix(rlauth:session): session closed for user bob
+Aug 23 09:00:58 db-02 rlspace[168] msg beta
+Aug 22 09:57:23 db-02 rlauth: Invalid user root from 10.233.140.190
+Apr 16 00:52:40 gw.lab rldns[51087]: query: mail.example.ru IN A from 203.0.113.65
+Jun  7 12:00:12 db-02 rlcase[55789]: x=160
+random free text 86
+Nov  4 21:45:58 gw.lab rltab[54318]: healthcheck	omega
+RLPLAIN: mode=safe
+May 15 21:22:03 gw.lab rlvpn[20642]: vpn: tunnel tun0 up peer 203.0.113.82
+random free text 32
+RLPLAIN: level=debug
+Jan 16 07:03:54 gw.lab rlauth[2609]: Failed password for alice from 10.0.0.85 port 2222 ssh2
+Nov 18 09:59:03 gw.lab unknownd[39998]: all good 62
+Jun  2 15:33:25 edge-3.example.net rltab[28800]: gamma	gamma
+Oct  3 03:40:49 node_7 kernel[52]: all good 70
+RLLOC check omega
+RLLOC check beta
+Aug 17 18:10:16 edge-3.example.net rlauth[43174]: pam_unix(rlauth:session): session closed for user svc-backup by (uid=0)
+Failed password for x free text 96
+{"rlapp": "auth", "user": {"name": "ann", "id": 985}, "srcip": "192.168.5.33", "ok": true, "amount": "119122"}
+Aug 17 14:06:09 db-02 rlauth[24184]: pam_unix(rlauth:session): session closed for user bob
+May  3 03:38:09 db-02 rlstar[8252]: a23b - healthcheck
+Jul 21 16:15:55 gw.lab rlpunct[5621]: #alpha
+Aug 23 11:38:41 gw.lab rlstar[15087]: a58b::
+Aug 21 20:15:42 web01 rlauth[55657]: Failed password for svc-backup from 203.0.113.11 port 8080 ssh2
+Sep  4 16:15:27 node_7 rlcron[51520]: session started
+Feb 10 06:03:23 web01 rltab[48286]: healthcheck	omega
+{"rlapp": "shop", "user": {"name": "ann", "id": 387}, "srcip": "192.168.9.227", "ok": true, "amount": "163447"}
+Apr  3 00:12:50 web01 rlcron[41644]: CMD (run-parts /etc/cron.daily)
+RLALT2 item 524
+Aug 26 05:51:26 db-02 rlauth[43214]: Accepted publickey for root from 203.0.113.46 port 443 ssh2
+May 24 03:02:52 web01 rlproxy[28971]: 1882 BLOCKED 203.0.113.1 http://b.test/
+RLKV category=System other=1
+Feb 17 10:00:10 rlsolo: job 3020 done
+Failed password for x free text 51
+error: free text 26
+Oct  7 22:53:29 web01 rldns[43468]: query: www.example.com IN TXT from 192.168.16.30
+RLKV msg=Device went offline. severity=high
+Jun 19 11:05:34 gw.lab rlmail[50714]: queued from=<dave@corp@example.org> to=<admin@example.org>
+Sep 19 22:59:22 edge-3.example.net kernel[24423]: fatal error in module 45
+Dec  5 20:52:54 node_7 rlauth[7210]: noisy healthcheck from monitor
+error: free text 94
+random free text 79
+Oct 28 11:14:38 edge-3.example.net rltab[509]: noisy	alpha
+Mar  5 19:45:09 edge-3.example.net rlauth: Invalid user root from 203.0.113.193
+Dec  5 16:10:54 node_7 rldns[28087]: query: www.example.com IN TXT from 10.0.0.203
+May  4 16:38:13 web01 rlids[15293]: [2001219:5] Possible exploit attempt {UDP} 203.0.113.47 -> 192.168.13.99
+Apr  7 15:59:14 db-02 rlauth[56115]: Failed password for admin from 10.0.0.224 port 22 ssh2
+May 23 00:40:27 web01 rlauth: Invalid user alice from 10.208.110.36
+Jul  5 21:54:46 gw.lab rlvpn[18422]: vpn: tunnel tun8 flapping peer 203.0.113.31
+RLALT1 item 710
+RLKV msg=x severity=high
+Nov  7 11:35:32 web01 rlpunct[13747]: []omega
+2026-11-20T10:24:00.296+01:00 web01 rliso[445]: level=error
+Apr  7 04:45:40 db-02 rlweb: PUT /index.html HTTP/1.1 503 66462 ip=192.168.10.171
+Mar 12 18:09:05 gw.lab rlauth[41655]: Accepted publickey for root from 192.168.8.134 port 80 ssh2
+Nov 28 16:33:23 edge-3.example.net rlpunct[37566]: []alpha
+Nov 26 08:21:48 edge-3.example.net rlmail2[49961]: queued from=<bob@example.com> to=<dave@corp@example.org>
+Jan 26 02:52:10 gw.lab rlauth[7326]: Failed password for svc-backup from 203.0.113.157 port 22 ssh2
+Jan  3 08:36:18 db-02 rlmail2[57702]: queued from=<bob@example.com> to=<bob@example.org>
+Oct  3 19:02:04 web01 rlmail[53181]: queued from=<root@example.com> to=<bob@example.com>
+Jul  7 12:33:48 web01 rlsudo: carol_1 : TTY=pts/0 ; PWD=/home/root ; USER=root ; COMMAND=/usr/bin/ls -la
+Jan  2 14:56:12 db-02 rlids[48700]: [2000419:9] ET SCAN probe {UDP} 10.0.0.181 -> 10.0.0.198
+Jan 27 09:00:32 db-02 rlspace[274] other noisy
+Aug  9 01:50:35 gw.lab rlauth[36677]: Failed password for svc-backup from 10.0.0.39 port 443 ssh2
+RLKV category=security other=1
+Oct 18 06:55:17 node_7 rlauth[17074]: Accepted keyboard-interactive for svc-backup from 192.168.19.111 port 2222 ssh2
+Nov 12 13:56:47 gw.lab rlsudo: bob : TTY=pts/5 ; PWD=/home/alice ; USER=postgres ; COMMAND=/usr/bin/ls -la
+random free text 95
+Apr 11 19:39:36 edge-3.example.net rlsudo:    bob : TTY=pts/8 ; PWD=/home/root ; USER=root ; COMMAND=/usr/bin/ls -la
+Apr 27 13:17:30 db-02 rlvpn[12717]: vpn: x tunnel tun3 down peer 10.246.198.103
+Mar 15 02:29:24 web01 rlids[36409]: [2001219:5] ET SCAN probe {TCP} 10.0.0.213 -> 203.0.113.96
+RLLOC check alpha
+May 25 15:45:16 gw.lab rlauth[21902]: Accepted publickey for carol_1 from 192.168.4.10 port 51515 ssh2
+Jul  6 04:48:31 gw.lab rlids[19518]: [2000419:3] x {UDP} 10.0.0.170 -> 203.0.113.78
+May 12 01:02:47 edge-3.example.net rlcron[23614]: CMD (run-parts /etc/cron.daily)
+RLPLAIN: mode=x1
+Dec  4 17:06:22 gw.lab rldb-4[40392]: query drop on users took 11190ms
+Aug 15 14:24:30 web01 rlmail2[43209]: queued from=<root@example.com> to=<alice@example.com>
+Aug  3 08:39:32 web01 rlids[32780]: [1000:9] x {ICMP} 203.0.113.127 -> 203.0.113.236
+Nov 11 20:17:47 web01 rlcron[54769]: CMD (backup.sh --full)
+Aug 24 20:18:35 web01 rlvpn[888]: vpn: tunnel tun3 up peer 192.168.7.97
+Nov  3 13:53:42 web01 rlpunct[43689]: #noisy
+Jul 26 13:51:02 gw.lab rlvpn[50105]: vpn: x tunnel tun3 down peer 192.168.13.47
+Nov 19 21:49:09 node_7 rlvpn[40797]: vpn: tunnel tun4 down peer 10.213.249.35
+Nov  6 11:06:58 node_7 rlsudo: dave@corp : TTY=pts/4 ; PWD=/home/bob ; USER=postgres ; COMMAND=/usr/bin/passwd alice
+RLLOC check gamma
+2026 Jul 03 10:27:44 node_7 rliso: level=debug
+Nov 23 09:00:54 db-02 rlspace[457] other gamma
+{"rlapp": "auth", "user": {"name": "ben", "id": 527}, "srcip": "192.168.8.119", "ok": false, "amount": "31283", "tags": ["a", "b"]}
+Feb 14 06:02:48 web01 rlids[30386]: [2001219:7] Possible exploit attempt {ICMP} 203.0.113.163 -> 10.95.20.122
+Jun  5 07:23:12 web01 rlstar[16169]: ab healthcheck
+Failed password for x free text 94
+Jul 24 13:35:49 gw.lab rlmailer[5528]: queued from=<svc-backup@example.org> to=<dave@corp@example.com>
+Apr  3 01:59:27 db-02 rlauth[50953]: Failed password for dave@corp from 10.0.0.215 port 80 ssh2 failure
+Aug  4 03:12:25 db-02 rldns[13182]: query: x.test IN TXT from 203.0.113.84
+RLLOC check alpha
+{"rlapp": "shop", "user": {"name": "admin", "id": 435}, "srcip": "203.0.113.94", "ok": true, "amount": "143929"}
+Jul  3 06:43:23 node_7 rldns[46655]: query: x.test IN AAAA from 10.0.0.228
+Mar 21 03:40:32 edge-3.example.net rlauth[32190]: noisy gamma from monitor
+RLKV severity=low category=Security Events msg=Login ok
+Jun  2 18:34:37 web01 rldb-5[55657]: query drop on audit took 15570ms
+Jul  7 07:02:34 web01 rlpunct[17759]: #beta
+RLALT2 item 251
+Apr 26 14:20:07 gw.lab rlauth[17583]: noisy noisy from monitor
+Jul 12 03:57:02 web01 rlnothing[33894]: all good 23
+Aug 28 12:05:02 gw.lab rlstar[55057]: a87b - gamma
+May 11 17:27:33 db-02 rlauth[207]: noisy gamma from monitor
+Feb  5 10:39:02 db-02 rlproxy[6867]: 31155 ALLOWED 10.0.0.4 http://b.test/
+Jul 15 10:27:09 db-02 rlcase[40051]: x=335
+Oct 11 09:35:17 gw.lab rlauth[42884]: Accepted password for dave@corp from 203.0.113.169 port 22 ssh2
+Jul 19 01:11:15 node_7 rlids[54883]: [2001219:8] ET SCAN probe {TCP} 203.0.113.106 -> 203.0.113.149
+Apr 14 07:29:47 edge-3.example.net rlstar[54369]: ab - beta
+Jun 16 03:16:01 node_7 rlids[26654]: [2000419:8] Possible exploit attempt {ICMP} 10.32.48.212 -> 10.168.241.189
+RLALT1 item 526
+Jul  4 04:52:48 node_7 rlmail[52730]: queued from=<admin@example.com> to=<svc-backup@example.com>
+Apr  6 00:06:23 gw.lab rlproxy[50614]: 3288 DENIED 10.188.206.90 http://a.test/setup.exe
+Jan 25 08:18:24 edge-3.example.net rldns[17877]: query: x.test IN A from 192.168.15.72
+Apr  6 09:00:48 db-02 rlspace[50] msg noisy
+{"rlapp": "auth", "user": {"name": "ann", "id": 236}, "srcip": "203.0.113.242", "ok": false, "amount": "101758"}
+Jun  4 18:56:02 web01 rlfw[28070]: ACCEPT tcp 10.0.0.164:5703 -> 10.0.0.1:80
+Jun 18 12:26:24 web01 rldb-4[48778]: error code=2002 msg=access denied for user
+Oct 20 09:55:03 node_7 rlauth[25953]: Accepted password for admin from 10.0.0.228 port 443 ssh2
+RLKV severity=high category=Security Events msg=x
+Oct 27 13:48:45 db-02 rlcron[37538]: CMD (rm -rf /tmp/cache)
+Jun  2 22:23:52 db-02 rlauth: Invalid user svc-backup from 203.0.113.99
+Apr 12 10:00:15 rlsolo: job 311 failed
+Aug 25 08:10:09 web01 rldns[14371]: query: x.test IN A from 10.0.0.34
+Dec 25 16:26:34 edge-3.example.net rlmail2[30008]: queued from=<svc-backup@example.com> to=<carol_1@example.com>
+Aug 23 19:29:58 node_7 rlproxy[14175]: 5039 ALLOWED 203.0.113.184 http://b.test/
+May  8 18:18:12 node_7 rlfw[18532]: ACCEPT tcp 10.185.164.71:47697 -> 203.0.113.17:2222
+Nov  2 07:55:42 node_7 rlfw[11882]: REJECT udp 10.0.0.23:20729 -> 10.11.107.196:2222
+Feb 28 17:43:24 node_7 rlvpn[42569]: vpn: tunnel tun7 flapping peer 203.0.113.190
+May 23 09:00:29 node_7 rlspace[266] msg alpha
+Mar 15 03:41:18 node_7 rlfw[9952]: DROP icmp 10.0.0.16:10725 -> 10.0.0.1:2222
+Aug  3 09:50:51 edge-3.example.net rldyn[19160]: billing/0.11 start
+RLKV msg=Login ok severity=low
+Nov 13 04:15:18 node_7 rlfw[994]: REJECT tcp 192.168.11.233:13529 -> 10.159.114.87:53
+Nov 22 10:00:21 rlsolo: job 8962 queued
+2026-11-03T10:25:32+00:00 node_7 rliso: level=error msg=x
+2026 Jun 22 10:11:52 node_7 rliso: level=info
+Dec 26 13:25:51 db-02 rlcron[59253]: CMD (backup.sh --full)
+Oct  3 20:21:41 gw.lab rldyn[49465]: billing/4.19 start
+Aug 12 06:38:10 gw.lab rldns[58077]: query: www.example.com IN A from 10.0.0.145
+RLLOC check omega
+{"rlapp": "billing-eu", "user": {"name": "admin", "id": 499}, "srcip": "10.0.0.78", "ok": true, "amount": "58175"}
+Jul  4 03:40:39 db-02 rlauth[43796]: Failed password for alice from 10.55.119.76 port 3389 ssh2
+Apr  9 20:01:53 node_7 rlauth[26551]: pam_unix(rlauth:session): session closed for user root by (uid=0)
+{"rlapp": "billing-eu", "user": {"name": "ann", "id": 648}, "srcip": "10.212.127.158", "ok": false, "amount": "92050"}
+Jun 26 10:21:52 node_7 rlfw[54812]: REJECT tcp 10.86.13.47:15423 -> 203.0.113.121:51515
+2026-11-21T10:59:57+00:00 web01 rliso: level=info msg=x
+Jun 18 03:51:57 db-02 rlstar[11690]: a44b/gamma
+RLLOC check noisy
+Mar 23 08:26:00 db-02 rlstar[21948]: a35b/
+Apr  8 10:00:46 rlsolo: job 843 failed
+random free text 12
+Nov 17 10:13:15 node_7 rlmailer[6362]: queued from=<root@example.com> to=<bob@example.com>
+Jun 20 06:20:16 db-02 rlproxy[1538]: 16551 BLOCKED 10.0.0.114 http://c.test/x.EXE
+May  2 21:46:52 edge-3.example.net rlfw[58211]: REJECT tcp 192.168.17.67:7104 -> 192.168.7.104:2222
+Jan 21 12:46:17 db-02 unknownd[22042]: something happened 21
+Feb  9 06:22:20 web01 rlstar[25077]: a9b::alpha
+Feb 10 00:19:22 gw.lab rlauth[54644]: pam_unix(rlauth:session): session closed for user carol_1
+Dec 13 00:38:51 web01 rlstar[11821]: a75b::healthcheck
+Jan  1 07:46:20 web01 rltab[52655]: delta	alpha
+Mar 14 14:59:00 web01 rldyn[14364]: auth/1.5 start
+Sep  9 14:15:27 edge-3.example.net rldb-7[9763]: query DROP on audit took 7960ms
+Jan  7 01:05:01 node_7 rlauth[8012]: plain healthcheck from monitor
+Sep 21 22:35:27 web01 rlweb: GET /index.html HTTP/1.1 503 47659
+2026 Sep 18 10:51:56 gw.lab rliso: level=debug
+May 27 00:10:13 edge-3.example.net rlauth[6528]: Failed password for alice from 10.0.0.235 port 8080 ssh2
+May 26 19:46:44 web01 rlvpn[57695]: vpn: tunnel tun2 down peer 10.0.0.173
+Aug  8 13:13:41 gw.lab rldns[51764]: query: mail.example.ru IN AAAA from 203.0.113.200
+Feb 15 01:58:44 node_7 rlauth[34501]: pam_unix(rlauth:session): session opened for user bob
+Aug  7 12:04:57 edge-3.example.net unknownd[2827]: all good 77
+Aug  7 03:59:22 db-02 rlpunct[59238]: ::alpha
+RLALT2 item 441
+Feb  3 19:06:00 db-02 rlsudo: svc-backup : TTY=pts/1 ; PWD=/home/admin ; USER=postgres ; COMMAND=/usr/bin/systemctl restart web
+Dec 22 05:42:21 web01 rlids[15084]: [2001219:9] x {TCP} 203.0.113.35 -> 192.168.14.12
+2026-11-24T10:13:17.517+01:00 web01 rliso[915]: level=error
+random free text 53
+Sep 20 04:13:43 web01 rlstar[35247]: ab/beta
+Aug  5 18:07:18 gw.lab rlpunct[57468]: <>noisy
+random free text 25
+random free text 39
+Dec 11 16:46:57 db-02 rlsudo: svc-backup : TTY=pts/5 ; PWD=/home/bob ; USER=postgres ; COMMAND=/usr/bin/passwd alice
+RLKV category=security other=1
+May 13 01:59:20 node_7 rlauth[13836]: Failed password for dave@corp from 10.0.0.103 port 2222 ssh2
+Mar 23 05:15:44 edge-3.example.net rlstar[25781]: ab::
+RLLOC check healthcheck
+Jan  3 07:44:21 node_7 RLCASE[59097]: x=446
+Jun  4 20:52:42 db-02 rlmail2[48476]: queued from=<root@example.com> to=<root@example.com>
+Oct 17 20:45:04 gw.lab rlids[42036]: [1000:8] x {ICMP} 10.50.112.177 -> 192.168.2.216
+RLALT3 item 945
+Aug 19 16:54:22 node_7 rlauth[12364]: Accepted keyboard-interactive for svc-backup from 192.168.3.241 port 53 ssh2
+Jun  8 00:14:16 web01 rlauth[33943]: healthcheck gamma from monitor
+Aug 25 13:49:11 node_7 rldns[16881]: query: mail.example.ru IN MX from 203.0.113.81
+RLPLAIN: user=x1
+RLKV category=Security Events other=1
+Jul  8 08:46:12 edge-3.example.net rlauth: Invalid user carol_1 from 203.0.113.126
+Dec 14 22:07:30 edge-3.example.net rldb-5[8565]: error code=1045 msg=access denied for user
+Feb  7 17:03:14 edge-3.example.net rlauth[50471]: pam_unix(rlauth:session): session closed for user root
+Aug 21 14:36:31 web01 rldb-2[42154]: error code=2002 msg=table missing
+Sep 16 12:44:12 edge-3.example.net rldns[10192]: query: www.example.com IN SRV from 10.0.0.91
+Mar 27 18:30:32 db-02 rlweb: GET / HTTP/1.1 200 74322 ip=192.168.10.58
+Sep 18 13:10:04 db-02 rlpunct[48482]: <>alpha
+Nov 25 12:51:16 gw.lab rlstar[41286]: a28b - healthcheck
+Jul 22 20:15:30 db-02 rlauth[22352]: Accepted publickey for bob from 203.0.113.192 port 443 ssh2
+Dec  4 08:04:07 node_7 rlcron[35028]: session started
+{"rlapp": "billing-eu", "user": {"name": "admin", "id": 202}, "srcip": "10.0.0.238", "ok": false, "amount": "23981"}
+May 13 20:00:53 db-02 rlcron[25177]: session started
+RLLOC check alpha
+Jan 15 02:09:57 db-02 rlauth[20431]: pam_unix(rlauth:session): session opened for user bob
+Mar 11 11:40:31 node_7 rldb-2[57561]: query INSERT on users took 14322ms
+Jun  8 09:31:54 db-02 rlauth[12197]: Failed password for admin from 10.0.0.15 port 2222 ssh2
+Jun 20 23:36:58 db-02 kernel[51178]: something happened 56
+Oct  5 02:42:48 node_7 rlstar[4218]: ab/delta
+Aug  5 11:14:22 edge-3.example.net rlpunct[48509]: {}omega
+{"rlapp": "billing-eu", "user": {"name": "admin", "id": 133}, "srcip": "203.0.113.65", "ok": true, "amount": "119627"}
+Nov 21 05:19:55 gw.lab rlauth[14927]: Accepted publickey for root from 203.0.113.195 port 8080 ssh2
+Jun  3 09:54:32 web01 rldb-1[7598]: query INSERT on orders took 19302ms
+Jul 13 16:47:35 web01 rlvpn[45273]: vpn: tunnel tun7 down peer 203.0.113.78
+Aug 17 13:58:51 db-02 rlpunct[37585]: #noisy
+Apr 26 18:32:59 gw.lab rlfw[8227]: ACCEPT tcp 10.0.0.218:53969 -> 10.81.208.79:443
+RLLOC check gamma
+Jan  1 19:54:02 edge-3.example.net rlmail[3106]: queued from=<alice@example.com> to=<alice@example.com>
+Apr  6 05:39:12 node_7 rlcase[35040]: x=153
+Feb  8 10:00:53 rlsolo: job 8661 failed
+Oct 11 08:57:40 edge-3.example.net rlids[27342]: [1000:5] x {UDP} 10.53.98.101 -> 192.168.12.215
+Oct 15 11:41:41 web01 rlproxy[7649]: 58090 DENIED 10.0.0.139 http://c.test/x.EXE
+Mar 20 12:27:36 db-02 rlauth[51467]: Accepted keyboard-interactive for svc-backup from 10.217.8.52 port 22 ssh2
+Nov 13 01:14:58 edge-3.example.net rldyn[25349]: auth/0.7 start
+Jan 22 08:23:20 web01 rlauth[26943]: healthcheck gamma from monitor
+Nov 24 05:26:56 gw.lab rlauth[15467]: Accepted keyboard-interactive for alice from 10.42.205.135 port 80 ssh2
+Oct 12 13:19:53 db-02 rldb-4[24443]: error code=1146 msg=table missing
+error: free text 0
+Jul 25 23:07:05 gw.lab rlfw[37402]: ACCEPT icmp 10.228.187.20:9924 -> 192.168.2.74:2222
+Mar 27 15:44:41 edge-3.example.net rlauth[36428]: Failed password for bob from 192.168.9.217 port 3389 ssh2
+Jun  2 06:24:41 node_7 rldb-7[23054]: error code=1146 msg=table missing
+Oct 11 19:47:03 edge-3.example.net rldb-4[26086]: query SELECT on audit took 10200ms
+Jun 12 03:20:57 web01 rlnothing[19650]: fatal error in module 77
+Mar 25 10:00:26 rlsolo: job 7629 queued
+Apr 13 11:57:41 db-02 rlweb: HEAD /api/v1/items HTTP/1.1 500 43645 ip=203.0.113.254
+Jan  4 16:56:30 node_7 rldns[44853]: query: www.example.com IN SRV from 10.0.0.179
+Jan 10 19:06:45 gw.lab rlauth[30727]: Failed password for root from 203.0.113.141 port 443 ssh2 failure
+Dec 24 10:43:34 edge-3.example.net rlauth: Invalid user svc-backup from 192.168.7.170
+Sep 10 03:27:32 web01 rlauth[45923]: plain healthcheck from monitor
+Feb 11 19:52:45 node_7 rlauth: Invalid user alice from 203.0.113.176
+May  8 01:10:57 edge-3.example.net rlauth[39066]: Accepted publickey for alice from 10.0.0.239 port 8080 ssh2
+Oct 21 23:37:24 db-02 rlpunct[49106]: []delta
+Mar  2 10:00:59 rlsolo: job 7269 queued
+Jun 26 13:07:28 node_7 rlproxy[10116]: 10520 ALLOWED 203.0.113.3 http://a.test/setup.exe
+RLALT2 item 331
+Sep 27 09:12:24 edge-3.example.net rlauth[130]: pam_unix(rlauth:session): session closed for user svc-backup
+RLPLAIN: level=x1
+Dec 19 12:23:52 gw.lab rlauth[24917]: pam_unix(rlauth:session): session opened for user alice
+RLKV msg=x severity=high
+Aug 27 04:46:31 edge-3.example.net rlfw[47731]: ACCEPT icmp 203.0.113.8:26802 -> 10.0.0.1:2222
+Jun  3 16:15:37 node_7 rlauth[6096]: Failed password for admin from 192.168.17.165 port 51515 ssh2 failure
+Apr 22 17:14:44 gw.lab rlproxy[55596]: 44141 DENIED 10.37.81.36 http://c.test/x.EXE
+Apr 20 12:29:51 gw.lab rlweb: GET /static/app.js HTTP/1.1 201 53124
+Jan  2 13:52:36 gw.lab rlcase[53530]: x=483
+Feb 22 18:33:15 node_7 rltab[20795]: gamma	beta
+Jun  4 23:56:56 edge-3.example.net rlauth[35345]: pam_unix(rlauth:session): session opened for user carol_1
+Jun 14 23:07:32 web01 rlweb: DELETE /admin/login HTTP/1.0 200 69935 ip=10.0.0.162
+Apr 12 04:30:47 web01 rlmail[14796]: queued from=<dave@corp@example.org> to=<svc-backup@example.org>
+Nov 19 02:33:52 node_7 rldns[20532]: query: mail.example.ru IN AAAA from 192.168.16.12
+Nov 22 04:09:13 gw.lab rltab[58225]: beta	omega
+Oct  5 18:06:33 node_7 rlsudo: svc-backup : TTY=pts/0 ; PWD=/home/alice ; USER=postgres ; COMMAND=/usr/bin/ls -la
+RLKV msg=Config changed by admin severity=high
+RLKV severity=high category=System msg=x
+Mar 23 03:21:18 web01 rlauth[23697]: pam_unix(rlauth:session): session closed for user admin by (uid=0)
+Jun 18 15:47:38 gw.lab rlstar[42577]: ab/beta
+Jun  2 15:36:53 web01 rldns[33637]: query: x.test IN AAAA from 10.209.229.241
+Mar  3 16:33:56 node_7 rlweb: HEAD /admin/login HTTP/1.1 200 29479 ip=203.0.113.39
+Jan  6 10:18:04 gw.lab rlauth: Invalid user bob from 10.103.65.160
+Sep 28 00:35:48 db-02 rlcron[28080]: CMD (backup.sh --full)
+Mar 16 19:22:45 node_7 RlCase[49004]: x=297
+Nov 16 08:35:29 edge-3.example.net rlfw[11891]: ACCEPT tcp 192.168.9.190:19698 -> 203.0.113.112:53
+Jul 25 12:49:54 web01 rlauth: Invalid user  from 203.0.113.197
+Apr  5 21:28:43 node_7 rldb-0[40046]: query DROP on users took 14898ms
+Apr 10 11:01:25 gw.lab rlauth[32337]: Failed password for svc-backup from 10.135.47.165 port 8080 ssh2
+Dec 16 02:44:13 node_7 rlauth[40227]: Failed password for dave@corp from 10.195.200.86 port 51515 ssh2
+Jun 27 06:54:44 edge-3.example.net rldns[49538]: query: x.test IN A from 10.147.168.186
+Mar  3 19:00:26 web01 rlpunct[54772]: {}healthcheck
+Jul  3 04:44:53 gw.lab rlpunct[9652]: !!alpha
+RLKV category=UniFi Devices other=1
+Failed password for x free text 64
+RLPLAIN: mode=debug
+RLALT3 item 883
+Apr  3 02:21:59 gw.lab RLCASE[461]: x=289
+{"rlapp": "auth", "user": {"name": "ben", "id": 238}, "srcip": "10.254.177.98", "ok": true, "amount": "34767"}
+random free text 66
+RLLOC check beta
+Dec 12 16:13:36 gw.lab rlauth[15013]: pam_unix(rlauth:session): session opened for user carol_1
+Mar 10 03:18:21 gw.lab rldyn[52068]: auth/0.9 start
+Dec  5 17:55:40 edge-3.example.net rlmailer[29841]: queued from=<root@example.com> to=<carol_1@example.com>
+RLLOC check alpha
+May  2 02:02:33 edge-3.example.net rlauth[17961]: Accepted keyboard-interactive for bob from 10.146.254.39 port 22 ssh2
+May  8 18:11:34 node_7 rltab[33741]: healthcheck	gamma
+Jun 17 13:51:44 edge-3.example.net rlcron[84]: session started
+2026 Aug 11 10:04:11 gw.lab rliso: level=info
+RLKV category=Security Events other=1
+RLKV severity=medium category=Security Events msg=x
+Jan  1 05:17:55 db-02 rldyn[54239]: shop/0.10 start
+Nov 28 09:00:15 db-02 rlspace[199] other delta
+Sep  1 09:02:54 db-02 rlauth[6324]: pam_unix(rlauth:session): session closed for user alice by (uid=0)
+{"rlapp": "billing-eu", "user": {"name": "ann", "id": 177}, "srcip": "10.151.81.210", "ok": false, "amount": "103513"}
+Jul 28 11:45:48 gw.lab rlauth[55283]: noisy healthcheck from monitor
+May 11 10:29:34 web01 rlpunct[36277]: <>alpha
+Mar 18 20:17:23 gw.lab rlcron[59325]: session started
+RLALT2 item 413
+Jun  9 18:05:27 web01 rlauth[11169]: Accepted publickey for svc-backup from 10.0.0.214 port 22 ssh2
+error: free text 14
+Feb 10 09:37:07 db-02 rlauth: Invalid user admin from 10.199.245.123
+error: free text 27
+Oct  9 23:04:40 gw.lab rlfw[48213]: DROP udp 10.0.0.71:26769 -> 10.0.0.1:51515
+Nov 27 16:00:42 db-02 rlauth[4824]: pam_unix(rlauth:session): session opened for user svc-backup
+Nov 26 23:11:11 web01 rlproxy[49578]: 66971 BLOCKED 10.0.0.51 http://b.test/
+Jul  5 17:19:08 web01 rlproxy[41469]: 46183 BLOCKED 203.0.113.119 http://c.test/x.EXE
+RLLOC check alpha
+Jan  8 03:57:41 web01 rlpunct[26509]: []delta
+RLLOC check delta
+rlalt1 item 180
+May  5 03:43:14 db-02 rlweb: PUT /admin/login HTTP/1.1 403 36677
+Apr 11 11:00:07 web01 unknownd[38384]: fatal error in module 23
+RLPLAIN: mode=debug
+Apr  6 02:57:51 web01 rldns[53258]: query: www.example.com IN MX from 10.70.201.40
+Aug 11 14:58:53 node_7 rldns[48418]: query: x.test IN AAAA from 10.0.0.250
+Dec  3 00:38:47 node_7 rlproxy[14166]: 18574 BLOCKED 203.0.113.18 http://b.test/
+Mar  3 10:42:05 node_7 rlstar[50664]: a41b - 
+Aug 27 15:07:51 edge-3.example.net rlauth[30388]: pam_unix(rlauth:session): session closed for user alice
+Feb  5 10:00:03 rlsolo: job 5788 queued
+Dec 22 17:57:34 gw.lab rlids[36972]: [2000419:1] Possible exploit attempt {ICMP} 10.0.0.151 -> 203.0.113.94
+{"rlapp": "billing-eu", "user": {"name": "ben", "id": 530}, "srcip": "10.0.0.32", "ok": false, "amount": "134888", "tags": ["a", "b"]}
+2026-11-01T10:08:15+00:00 edge-3.example.net rliso: level=error msg=x
+random free text 48
+Nov 18 08:59:27 edge-3.example.net rltab[40765]: beta	omega
+Aug  8 09:59:16 edge-3.example.net rltab[11122]: alpha	alpha
+Dec 28 09:00:54 db-02 rlspace[195] msg alpha
+Feb 12 08:00:14 node_7 rlauth: Invalid user root from 10.13.149.28
+Dec 26 02:30:04 web01 rlfw[57415]: REJECT tcp 10.254.103.115:8842 -> 10.3.74.189:2222
+Sep 14 09:00:36 web01 rlspace[348] msg alpha
+Mar 16 01:23:37 gw.lab rlauth[16000]: healthcheck healthcheck from monitor
+Jul  1 15:47:26 edge-3.example.net rlcron[56769]: CMD (rm -rf /tmp/cache)
+Dec  4 23:24:00 gw.lab rlauth[44614]: pam_unix(rlauth:session): session opened for user bob by (uid=0)
+Jan 23 23:55:16 gw.lab rlfw[31839]: ACCEPT tcp 10.67.1.65:47745 -> 203.0.113.74:8080
+Mar  7 22:56:54 web01 rlnothing[13055]: something happened 75
+Feb 15 14:53:30 web01 rldyn[44655]: auth/0.16 start
+Mar 19 11:43:27 gw.lab rlpunct[6671]: ::gamma
+Apr  1 09:00:20 web01 rlspace[185] other gamma
+RLKV msg=Config changed by admin severity=low
+Apr 16 23:39:36 db-02 rltab[33093]: noisy	healthcheck
+Oct  2 13:38:56 edge-3.example.net rlweb: POST /static/app.js HTTP/1.1 403 28485 ip=192.168.10.210
+Oct  6 07:10:40 gw.lab rlauth[9530]: pam_unix(rlauth:session): session opened for user carol_1
+Feb  1 09:00:45 edge-3.example.net rlspace[256] other noisy
+Dec 27 16:40:39 edge-3.example.net rlvpn[4645]: vpn: tunnel tun2 flapping peer 192.168.6.215
+Jul 22 10:00:34 rlsolo: job 531 failed
+Jul 15 04:56:24 edge-3.example.net rldns[7359]: query: www.example.com IN SRV from 192.168.2.32
+random free text 41
+Mar 11 03:06:29 node_7 kernel[48029]: something happened 76
+Oct 10 04:43:04 web01 rlstar[35981]: a95b/gamma
+Jun 12 11:51:53 db-02 rlauth[47510]: Accepted publickey for svc-backup from 192.168.14.20 port 51515 ssh2
+Jan  1 19:43:05 gw.lab rlfw[39603]: DROP udp 203.0.113.140:15956 -> 192.168.14.34:53
+Nov  9 05:07:23 edge-3.example.net unknownd[1378]: all good 44
+Nov  6 14:12:28 web01 rlauth[59314]: pam_unix(rlauth:session): session closed for user carol_1
+Mar  2 23:32:32 node_7 rlpunct[13997]: ::healthcheck
+Apr  1 20:51:32 db-02 rlvpn[47497]: vpn: tunnel tun2 down peer 10.0.0.174
+Oct 14 10:02:23 edge-3.example.net rlcron[51935]: CMD (backup.sh --full)
+Mar 17 01:39:08 node_7 rlauth[33106]: plain omega from monitor
+Feb  7 00:35:05 web01 rlauth[18597]: Failed password for admin from 203.0.113.127 port 80 ssh2
+Mar 11 10:00:21 rlsolo: job 530 failed
+May 25 09:33:19 db-02 rlstar[39938]: a21b::delta
+May 18 05:36:19 edge-3.example.net rlauth[52513]: Accepted keyboard-interactive for root from 10.0.0.8 port 80 ssh2
+Jun 17 22:38:33 node_7 rldyn[49216]: billing/1.3 start
+Aug 25 15:03:22 edge-3.example.net rlfw[22478]: DROP icmp 10.0.0.47:46728 -> 10.132.54.250:53
+Feb  2 00:04:34 db-02 rlweb: POST /admin/login HTTP/1.1 301 0
+RLPLAIN: user=x1
+Jul 20 17:51:25 db-02 rlfw[10990]: ACCEPT icmp 192.168.15.123:18995 -> 203.0.113.147:3389
+Aug  7 21:56:23 gw.lab rlcase[59788]: x=432
+Aug 21 11:15:00 edge-3.example.net rlpunct[53250]: {}healthcheck
+Nov 19 15:44:06 db-02 rlauth[1138]: Accepted keyboard-interactive for svc-backup from 203.0.113.26 port 22 ssh2
+RLALT2 item 793
+Jul 19 04:12:58 node_7 rlnothing[48619]: all good 56
+Nov 27 11:39:08 gw.lab rlcron[12246]: CMD (run-parts /etc/cron.daily)
+Feb  2 19:17:45 db-02 rlpunct[42492]: !!beta
+Aug 26 02:07:22 edge-3.example.net rlproxy[23958]: 45975 ALLOWED 10.57.83.78 http://c.test/x.EXE
+Dec 21 22:56:36 edge-3.example.net rlauth[38922]: pam_unix(rlauth:session): session opened for user svc-backup
+May 16 20:18:31 node_7 rlmail2[4755]: queued from=<admin@example.com> to=<carol_1@example.org>
+Jan  9 21:57:47 node_7 rlmail[16877]: queued from=<admin@example.com> to=<svc-backup@example.org>
+Dec 27 10:16:11 gw.lab rltab[40795]: alpha	gamma
+Oct  5 12:35:20 web01 rlmail2[56572]: queued from=<alice@example.org> to=<bob@example.org>
+RLALT1 item 283
+RLPLAIN: user=debug
+Jun  4 00:11:19 edge-3.example.net rldns[1711]: query: x.test IN MX from 203.0.113.118
+RLLOC check beta
+Feb 12 07:48:09 node_7 rlproxy[41616]: 61631 DENIED 192.168.9.46 http://c.test/x.EXE
+RLPLAIN: user=x1
+Jan  4 10:00:29 rlsolo: job 2021 queued
+Nov  5 03:12:42 db-02 rlmail[22372]: queued from=<bob@example.org> to=<admin@example.com>
+RLKV severity=low category=UniFi Devices msg=Config changed by admin
+Oct 20 11:23:55 web01 rldns[34875]: query: x.test IN A from 192.168.2.205
+Nov 14 05:34:53 node_7 rlvpn[52284]: vpn: tunnel tun8 down peer 10.162.107.20
+Oct  4 10:21:56 node_7 rldns[38230]: query: x.test IN A from 203.0.113.33
+RLPLAIN: level=safe
+Apr 21 19:42:15 web01 rlmail2[42134]: queued from=<admin@example.org> to=<alice@example.org>
+Apr  5 09:39:01 db-02 rlstar[4506]: a77b omega
+RLPLAIN: mode=x1
+Feb  8 00:21:37 node_7 rlauth[42290]: pam_unix(rlauth:session): session closed for user dave@corp
+Mar 19 17:26:07 gw.lab rlfw[57298]: REJECT tcp 10.60.218.204:4460 -> 192.168.18.131:3389
+Feb 25 11:46:41 node_7 rlids[48191]: [2001219:9] x {UDP} 10.45.150.123 -> 192.168.4.98
+Mar  9 14:47:47 gw.lab rlpunct[25400]: {}alpha
+Sep  7 12:20:16 node_7 rlcron[3860]: session started
+May 15 12:29:53 node_7 kernel[18548]: fatal error in module 48
+Oct  8 12:22:08 db-02 rlfw[43423]: REJECT udp 192.168.3.113:19257 -> 10.92.80.36:53
+Feb  9 01:43:06 edge-3.example.net rlcron[41381]: CMD (backup.sh --full)
+Aug  6 04:09:39 db-02 RlCase[39574]: x=448
+Oct  3 08:11:48 node_7 rlvpn[13003]: vpn: tunnel tun0 down peer 10.65.138.60
+May 23 00:00:20 web01 rlauth: Invalid user svc-backup from 192.168.12.250
+Feb  7 01:07:21 gw.lab rlauth[55240]: Failed password for bob from 203.0.113.54 port 80 ssh2
+Jan 25 08:03:43 edge-3.example.net rlids[17179]: [2001219:2] Possible exploit attempt {ICMP} 10.177.210.207 -> 192.168.2.217
+Failed password for x free text 20
+Apr  6 09:09:24 web01 rlsudo: admin : TTY=pts/5 ; PWD=/home/svc-backup ; USER=postgres ; COMMAND=/usr/bin/cat /etc/shadow
+May  7 12:22:37 edge-3.example.net rlauth: Invalid user bob from 203.0.113.122
+Jun  6 14:58:09 node_7 rldb-1[26992]: query SELECT on audit took 12591ms
+Jun  1 01:47:38 edge-3.example.net rlweb: GET /admin/login HTTP/1.0 301 42133 ip=10.24.186.48
+Jan 14 22:04:31 gw.lab rlauth[54421]: pam_unix(rlauth:session): session closed for user svc-backup by (uid=0)
+Apr  7 21:03:35 node_7 rlauth: Invalid user root from 10.149.194.45
+Dec 23 02:32:19 node_7 rltab[38391]: gamma	noisy
+Mar 15 22:39:07 node_7 rlcron[3971]: session started
+RLPLAIN: level=debug
+RLPLAIN: user=x1
+Nov 22 12:42:28 web01 rlauth: Invalid user admin from 10.98.4.190
+Jun  3 10:00:45 rlsolo: job 2651 failed
+May  7 02:11:26 web01 rlauth[29965]: Accepted keyboard-interactive for svc-backup from 192.168.19.215 port 443 ssh2
+2026-11-07T10:08:46+00:00 node_7 rliso: level=info msg=x
+Jun 18 09:00:09 edge-3.example.net rlspace[245] msg omega
+May  7 14:51:25 edge-3.example.net rlids[7298]: [2001219:2] Possible exploit attempt {TCP} 203.0.113.139 -> 192.168.2.19
+May  9 07:51:48 edge-3.example.net rlmailer[46733]: queued from=<dave@corp@example.org> to=<dave@corp@example.com>
+Nov 13 23:32:47 node_7 rlmailer[46015]: queued from=<carol_1@example.com> to=<admin@example.org>
+Mar  5 03:00:58 gw.lab rltab[39429]: noisy	omega
+Nov  9 10:33:05 web01 rlvpn[44328]: vpn: tunnel tun3 down peer 10.56.2.117
+Dec 12 08:20:38 edge-3.example.net rlfw[49944]: DROP udp 203.0.113.161:52177 -> 192.168.11.3:2222
+2026-11-03T10:38:09+00:00 gw.lab rliso: level=fatal msg=x
+Feb 18 08:15:12 node_7 rldb-6[21609]: query INSERT on users took 8539ms
+Jul 12 04:54:30 gw.lab rlproxy[55689]: 7713 BLOCKED 10.0.0.28 http://b.test/
+Nov 27 13:23:54 edge-3.example.net rlweb: DELETE /admin/login HTTP/1.1 503 61209 ip=10.143.202.74
+Nov 13 13:18:34 edge-3.example.net rlstar[22750]: ab/omega
+{"rlapp": "billing", "user": {"name": "ben", "id": 668}, "srcip": "10.195.203.64", "ok": false, "amount": "101218"}
+Apr 27 01:19:32 node_7 rlauth[44011]: Accepted password for carol_1 from 203.0.113.164 port 53 ssh2
+Dec 18 00:38:58 web01 rlproxy[2859]: 15249 DENIED 192.168.15.236 http://a.test/setup.exe
+Jul  9 18:41:40 edge-3.example.net RLCASE[46077]: x=145
+RLKV category=security other=1
+Oct 21 07:01:01 node_7 rlauth: Invalid user root from 10.194.238.238
+Oct 11 21:27:20 gw.lab rltab[37905]: omega	alpha
+Jan 17 10:00:57 rlsolo: job 2321 queued
+Jun 14 06:56:38 edge-3.example.net rlsudo: admin : TTY=pts/7 ; PWD=/home/bob ; USER=postgres ; COMMAND=/usr/bin/ls -la
+Nov 13 10:00:10 rlsolo: job 7456 failed
+Mar  2 19:23:46 edge-3.example.net rlids[21349]: [2001219:1] ET SCAN probe {ICMP} 203.0.113.124 -> 10.0.0.206
+Mar 11 22:15:18 edge-3.example.net rlauth[30296]: Failed password for carol_1 from 10.0.0.188 port 443 ssh2
+May 22 19:38:02 gw.lab rlsudo:    bob : TTY=pts/7 ; PWD=/home/alice ; USER=postgres ; COMMAND=/usr/bin/passwd alice
+{"rlapp": "shop", "user": {"name": "ann", "id": 990}, "srcip": "10.0.0.19", "ok": true, "amount": "62577"}
+Oct 12 12:41:02 node_7 rlauth[36626]: healthcheck alpha from monitor
+Failed password for x free text 62
+Oct 20 22:23:06 gw.lab rlproxy[55266]: 68578 ALLOWED 203.0.113.94 http://c.test/x.EXE
+Dec 27 11:48:26 gw.lab rlauth: Invalid user alice from 10.0.0.64
+Aug  3 14:46:55 edge-3.example.net rlfw[48486]: REJECT tcp 10.0.0.106:57951 -> 192.168.8.173:3389
+May 13 05:12:23 gw.lab rlmail[55838]: queued from=<carol_1@example.com> to=<dave@corp@example.com>
+Jan 20 13:41:31 db-02 rlauth: Invalid user alice from 10.43.144.61
+Nov 19 14:19:41 node_7 rlauth[43151]: Accepted publickey for admin from 10.0.0.201 port 443 ssh2
+Jan 23 03:48:10 node_7 rlauth[58352]: pam_unix(rlauth:session): session opened for user alice by (uid=0)
+Dec 19 21:10:22 db-02 rlsudo: bob : TTY=pts/0 ; PWD=/home/carol_1 ; USER=postgres ; COMMAND=/usr/bin/passwd alice
+Jan 23 08:35:36 gw.lab rlpunct[35011]: ::delta
+Nov 23 19:44:03 db-02 rlauth[34099]: Accepted publickey for bob from 10.133.195.182 port 80 ssh2
+Jul 25 22:17:46 node_7 rldb-4[40286]: error code=1146 msg=cannot connect
+Aug 16 11:41:19 web01 RlCase[57035]: x=358
+Nov 13 03:16:28 gw.lab rldyn[23693]: billing/0.2 start
+RLPLAIN: level=debug
+Jan 13 08:11:16 node_7 RLCASE[10874]: x=44
+Feb  8 18:27:07 web01 rlauth[47904]: Accepted publickey for carol_1 from 10.5.181.144 port 51515 ssh2
+Mar  5 05:41:33 node_7 rlmail2[46394]: queued from=<bob@example.org> to=<bob@example.com>
+May 13 20:35:23 edge-3.example.net rlfw[23782]: ACCEPT tcp 10.222.6.149:54140 -> 203.0.113.29:22
+RLLOC check healthcheck
+Jan 15 12:32:48 gw.lab rlpunct[59091]: <>omega
+Jan 14 20:28:07 web01 rldns[11406]: query: www.example.com IN SRV from 10.0.0.252
+Oct  2 07:26:51 gw.lab rlauth[32416]: pam_unix(rlauth:session): session closed for user carol_1
+Dec  7 04:06:24 edge-3.example.net rldyn[18375]: shop/2.18 start
+RLALT2 item 289
+Failed password for x free text 49
+Jan  8 05:21:25 web01 rlmailer[57813]: queued from=<admin@example.org> to=<admin@example.com>
+RLPLAIN: level=safe
+Oct 15 12:16:16 edge-3.example.net rlauth[17545]: Failed password for svc-backup from 10.0.7.174 port 53 ssh2
+{"rlapp": "billing-eu", "user": {"name": "admin", "id": 163}, "srcip": "10.0.0.116", "ok": true, "amount": "75935"}
+Jul 14 10:00:28 rlsolo: job 3694 queued
+Jan 28 00:36:14 gw.lab rldyn[54919]: auth/4.15 start
+{"rlapp": "billing-eu", "user": {"name": "ben", "id": 851}, "srcip": "203.0.113.156", "ok": false, "amount": "159805"}
+random free text 36
+Apr 23 19:53:10 edge-3.example.net rltab[8107]: healthcheck	alpha
+Aug 11 06:42:35 db-02 RlCase[726]: x=427
+Jun  3 10:00:22 rlsolo: job 3570 queued
+Feb 15 18:53:46 web01 rlauth[59406]: noisy gamma from monitor
+Dec 12 03:06:51 web01 rlproxy[12620]: 70090 DENIED 10.53.30.171 http://a.test/setup.exe
+Apr  3 09:34:08 db-02 RlCase[17701]: x=294
+Dec  1 04:09:14 edge-3.example.net rlauth: Invalid user svc-backup from 10.0.0.142
+Apr 21 18:52:19 node_7 rlproxy[46329]: 84893 BLOCKED 10.0.0.40 http://b.test/
+RLKV category=System other=1
+Mar 11 13:10:15 edge-3.example.net RLCASE[22691]: x=244
+Mar 17 10:09:27 web01 rldns[49611]: query: x.test IN SRV from 203.0.113.20
+2026-11-21T10:42:52.385+01:00 web01 rliso[904]: level=error
+Apr 19 10:00:59 rlsolo: job 5332 queued
+Jan 10 21:15:22 db-02 rldb-7[43476]: error code=1045 msg=access denied for user
+RLPLAIN: level=x1
+Dec 19 08:44:31 db-02 rlstar[55092]: ab::
+Oct  9 02:40:56 edge-3.example.net rlfw[17219]: DROP tcp 192.168.5.164:35284 -> 192.168.0.164:22
+Aug 27 07:46:35 web01 rlstar[35242]: a27b::gamma
+Aug 27 19:16:31 db-02 rlsudo: admin : TTY=pts/1 ; PWD=/home/admin ; USER=postgres ; COMMAND=/usr/bin/cat /etc/shadow
+Dec 28 15:23:52 db-02 rlsudo: svc-backup : TTY=pts/0 ; PWD=/home/admin ; USER=postgres ; COMMAND=/usr/bin/ls -la
+RLLOC check delta
+2026 Jan 15 10:49:39 gw.lab rliso: level=error
+Oct  3 14:44:22 web01 rlweb: POST / HTTP/1.1 403 36816 ip=192.168.16.253
+Oct 16 10:00:28 rlsolo: job 7852 failed
+Dec 14 22:35:44 web01 rlcron[35768]: CMD (backup.sh --full)
+Nov 19 02:01:14 edge-3.example.net RLCASE[52322]: x=242
+Oct 24 10:00:45 rlsolo: job 1951 done
+May 28 13:25:38 web01 kernel[53317]: fatal error in module 96
+RLKV msg=Login ok severity=low
+Nov 14 17:10:51 gw.lab rlauth[29983]: pam_unix(rlauth:session): session opened for user admin
+Sep 13 16:07:07 edge-3.example.net rlweb: PUT / HTTP/1.0 404 48519 ip=10.0.0.77
+Nov 24 08:25:42 db-02 rlauth[868]: Accepted publickey for admin from 203.0.113.132 port 3389 ssh2
+Feb 26 15:45:35 node_7 rltab[22103]: gamma	gamma
+Jun 17 03:59:55 gw.lab rlauth[19327]: Failed password for bob from 10.168.245.224 port 2222 ssh2 failure
+Sep 17 14:36:56 node_7 rlweb: GET /api/v1/items HTTP/1.0 301 17049 ip=192.168.10.223
+Nov 27 06:11:58 node_7 rldb-0[42903]: query DROP on orders took 18750ms
+rlalt1 item 659
+Apr 23 10:52:59 node_7 rldb-2[27616]: error code=1146 msg=cannot connect
+Jan  9 02:26:05 db-02 rlauth[22714]: pam_unix(rlauth:session): session opened for user carol_1 by (uid=0)
+May  5 06:51:21 web01 rldyn[33889]: auth/1.1 start
+2026 Aug 16 10:03:50 gw.lab rliso: level=error
+RLPLAIN: level=debug
+Apr 22 10:39:43 node_7 rldyn[50334]: auth/2.19 start
+Feb 20 14:21:29 gw.lab rlsudo: alice : TTY=pts/8 ; PWD=/home/carol_1 ; USER=root ; COMMAND=/usr/bin/cat /etc/shadow
+Failed password for x free text 42
+Jun 10 11:17:24 edge-3.example.net rlmail[30587]: queued from=<dave@corp@example.org> to=<bob@example.org>
+Oct  6 22:47:43 node_7 rltab[59805]: beta	delta
+Apr  8 04:57:50 web01 rlweb: POST / HTTP/1.0 404 82228 ip=192.168.1.162
+Feb 28 09:00:54 gw.lab rlspace[332] other gamma
+RLALT1 item 778
+Jan 14 09:00:28 gw.lab rlspace[246] msg gamma
+Nov 17 07:06:03 gw.lab rlauth[34266]: Accepted publickey for svc-backup from 10.26.155.92 port 3389 ssh2
+Jun 27 17:54:22 node_7 unknownd[17981]: all good 84
+Failed password for x free text 33
+Oct  2 10:00:22 rlsolo: job 3106 queued
+2026 Oct 11 10:07:16 web01 rliso: level=fatal
+Mar 10 17:47:31 web01 rlcase[28972]: x=6
+Jul 23 00:01:58 edge-3.example.net rlauth[29882]: Accepted password for bob from 10.0.0.249 port 3389 ssh2
+Mar 13 09:00:29 node_7 rlspace[476] other healthcheck
+May 12 09:40:59 web01 rlpunct[16300]: <>gamma
+Nov 28 02:17:00 gw.lab unknownd[36490]: something happened 56
+RLKV msg=x severity=low
+Mar 17 21:29:09 node_7 rlauth[31827]: pam_unix(rlauth:session): session opened for user bob
+Sep 22 03:26:34 node_7 rlproxy[25449]: 99248 BLOCKED 10.0.0.73 http://b.test/
+Aug 15 00:05:28 edge-3.example.net rltab[6903]: gamma	delta
+Dec 10 15:38:21 web01 rlauth: Invalid user alice from 203.0.113.47
+Jul 14 10:55:01 gw.lab rldb-7[38889]: query UPDATE on orders took 14911ms
+May 17 11:52:39 edge-3.example.net rlweb: HEAD /admin/login HTTP/1.1 403 41224 ip=10.118.52.91
+May 20 12:14:10 web01 rlvpn[15841]: vpn: tunnel tun2 up peer 10.0.0.25
+Feb 12 08:40:21 node_7 rldyn[3838]: shop/0.4 start
+RLPLAIN: mode=safe
+Jan 15 09:00:57 web01 rlspace[175] msg gamma
+Apr 20 17:04:36 web01 rlvpn[27874]: vpn: tunnel tun2 down peer 10.170.190.1
+random free text 92
+May  6 10:00:47 rlsolo: job 6084 failed
+Jan 25 09:00:48 edge-3.example.net rlspace[89] other omega
+2026-11-10T10:54:12.139+01:00 web01 rliso[465]: level=info
+Jan 17 07:06:04 db-02 rldb-8[22969]: query UPDATE on orders took 5038ms
+Nov 20 13:52:40 web01 rlweb: PUT /admin/login HTTP/1.0 301 74928 ip=10.0.0.235
+Sep 14 08:57:51 web01 rlfw[23380]: REJECT udp 10.134.15.59:30272 -> 10.0.0.1:443
+Sep  4 06:51:57 gw.lab rlfw[54743]: REJECT icmp 192.168.10.106:63869 -> 10.0.0.1:3389
+Oct 28 11:55:07 node_7 rldns[1009]: query: www.example.com IN A from 203.0.113.39
+Feb 23 03:20:27 gw.lab rlids[38815]: [2001219:8] x {UDP} 192.168.1.104 -> 203.0.113.83
+Mar 18 15:28:17 node_7 unknownd[28423]: all good 73
+RLKV category=System other=1
+Mar 19 16:35:37 node_7 RlCase[25733]: x=383
+Feb 12 01:27:31 node_7 rlauth[42574]: Failed password for root from 10.0.0.15 port 22 ssh2
+Oct 22 10:00:09 rlsolo: job 2234 done
+Nov 23 19:17:25 edge-3.example.net rlstar[17687]: a16b/gamma
+Nov  6 14:28:49 db-02 rltab[58517]: alpha	beta
+RLALT3 item 310
+Jun 14 03:28:40 node_7 rlauth[5861]: Failed password for root from 203.0.113.234 port 443 ssh2
+Jul  9 14:58:34 node_7 rlpunct[59588]: <>alpha
+Aug 16 00:07:03 db-02 rlcron[17602]: CMD (run-parts /etc/cron.daily)
+Sep  3 10:00:58 rlsolo: job 7483 queued
+Sep 18 02:04:48 web01 rlauth[19881]: pam_unix(rlauth:session): session opened for user root by (uid=0)
+Sep  1 04:39:46 web01 rldns[24376]: query: mail.example.ru IN MX from 10.115.170.200
+May  2 16:40:19 edge-3.example.net RLCASE[24019]: x=459
+Sep  1 17:34:16 web01 rlnothing[55926]: something happened 51
+Nov 19 10:43:42 node_7 rlcron[22332]: session started
+Feb 10 00:12:34 db-02 rlsudo:    dave@corp : TTY=pts/8 ; PWD=/home/bob ; USER=postgres ; COMMAND=/usr/bin/ls -la
+Mar 16 00:23:22 gw.lab rlproxy[35027]: 27089 DENIED 203.0.113.40 http://b.test/
+2026 Aug 01 10:10:15 web01 rliso: level=debug
+Jul 25 23:09:32 web01 rldb-2[55758]: query UPDATE on users took 8896ms
+Nov  5 15:02:44 web01 rlauth[47092]: plain beta from monitor
+RLLOC check alpha
+RLKV severity=high category=UniFi Devices msg=x
+Jan  9 03:17:40 web01 rlauth: Invalid user svc-backup from 203.0.113.122
+{"rlapp": "shop", "user": {"name": "ben", "id": 803}, "srcip": "10.33.208.159", "ok": true, "amount": "50226"}
+Dec 25 02:42:27 db-02 rlids[3527]: [1000:2] ET SCAN probe {ICMP} 203.0.113.60 -> 203.0.113.175
+Sep  8 08:28:29 edge-3.example.net rlfw[53128]: ACCEPT icmp 203.0.113.212:11328 -> 10.24.59.132:53
+RLPLAIN: level=x1
+May 22 20:08:01 node_7 rlproxy[31479]: 54780 ALLOWED 203.0.113.138 http://b.test/
+Jul 24 09:19:00 web01 rlweb: POST / HTTP/1.1 404 0 ip=192.168.10.238
+Feb 26 16:23:33 db-02 rldb-0[39539]: error code=1146 msg=access denied for user
+RLKV severity=high category=security msg=Config changed by admin
+Dec  8 17:09:50 web01 rlstar[31923]: a82b::
+Feb 12 05:03:01 db-02 rlauth[42358]: healthcheck healthcheck from monitor
+Apr  7 16:39:43 web01 rlweb: PUT /index.html HTTP/1.1 403 11835 ip=192.168.10.107
+Mar 13 21:33:58 db-02 rldns[28292]: query: mail.example.ru IN A from 10.0.0.150
+Feb  4 17:57:56 web01 rlsudo: svc-backup : TTY=pts/0 ; PWD=/home/bob ; USER=root ; COMMAND=/usr/bin/ls -la
+Dec 12 21:38:55 edge-3.example.net rlids[49308]: [1000:2] ET SCAN probe {ICMP} 192.168.2.63 -> 192.168.15.97
+Aug 23 23:03:44 gw.lab rldb-2[59575]: query SELECT on users took 2444ms
+Jun 18 23:55:44 edge-3.example.net rldb-8[52778]: error code=1045 msg=table missing
+2026 Apr 28 10:41:38 edge-3.example.net rliso: level=info
+Mar 16 09:57:11 web01 rlcase[48846]: x=0
+Apr  1 07:31:31 node_7 kernel[12581]: fatal error in module 4
+RLLOC check alpha
+RLKV category=System other=1
+Oct 21 10:56:00 edge-3.example.net rldyn[49043]: shop/1.10 start
+Aug 15 19:33:16 node_7 rlproxy[19900]: 26178 DENIED 10.0.0.69 http://b.test/
+Jun 20 09:16:55 web01 rltab[10010]: alpha	beta
+Apr  6 20:29:10 web01 rltab[48306]: healthcheck	gamma
+May 25 21:18:54 gw.lab rlmail2[16695]: queued from=<root@example.com> to=<svc-backup@example.org>
+RLALT2 item 303
+Jan  1 11:50:17 gw.lab rlauth[8201]: Accepted keyboard-interactive for svc-backup from 203.0.113.136 port 3389 ssh2
+Aug 27 13:55:16 gw.lab rlproxy[38416]: 86022 ALLOWED 10.112.155.95 http://a.test/setup.exe
+{"rlapp": "billing-eu", "user": {"name": "admin", "id": 409}, "srcip": "10.158.127.197", "ok": false, "amount": "116093"}
+Jun 22 09:00:08 db-02 rlspace[102] msg healthcheck
+{"rlapp": "billing", "user": {"name": "ben", "id": 638}, "srcip": "10.0.0.57", "ok": false, "amount": "86660"}
+Oct 18 18:23:24 gw.lab kernel[16973]: fatal error in module 91
+RLLOC check delta
+Dec 12 10:53:46 node_7 rlauth[51725]: pam_unix(rlauth:session): session closed for user bob
+Jan  3 01:30:12 edge-3.example.net rlstar[52676]: a98b gamma
+Jul 15 18:08:45 web01 rlstar[57985]: ab::omega
+Feb  6 11:20:54 web01 rlstar[28926]: a20b/gamma
+Mar 17 23:27:04 web01 rlproxy[44533]: 18305 DENIED 192.168.2.245 http://b.test/
+Feb 20 14:50:45 node_7 rlpunct[43444]: !!healthcheck
+Sep 28 10:00:59 rlsolo: job 4874 queued
+Jan  1 17:00:23 gw.lab rlauth: Invalid user admin from 10.194.241.197

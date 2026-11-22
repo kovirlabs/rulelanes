@@ -1,0 +1,6 @@
+<decoder name="rlu-fts">
+  <program_name>rlu</program_name>
+  <regex>user (\S+)</regex>
+  <order>user</order>
+  <fts>name, user</fts>
+</decoder>

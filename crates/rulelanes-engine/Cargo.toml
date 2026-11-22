@@ -1,0 +1,17 @@
+[package]
+name = "rulelanes-engine"
+description = "The single-threaded rulelanes reference engine: pre-decode, decode, match."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+rulelanes-model.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+rulelanes-syntax.workspace = true
+
+[lints]
+workspace = true

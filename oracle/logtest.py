@@ -22,6 +22,8 @@ import json
 import os
 import ssl
 import sys
+import time
+import urllib.error
 import urllib.request
 
 API = os.environ.get('WAZUH_API_URL', 'https://localhost:55000')
@@ -46,8 +48,18 @@ def request(method, path, token=None, body=None, basic=False):
     if body is not None:
         data = json.dumps(body).encode()
         req.add_header('Content-Type', 'application/json')
-    with urllib.request.urlopen(req, data=data, context=CTX, timeout=60) as resp:
-        return resp.read()
+    # The API limits requests per minute (api.yaml
+    # access.max_request_per_minute, 300 by default) and answers 429 above
+    # it. Wait and retry rather than change the deployment's configuration.
+    for _ in range(600):
+        try:
+            with urllib.request.urlopen(req, data=data, context=CTX, timeout=60) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as e:
+            if e.code != 429:
+                raise
+            time.sleep(1)
+    raise RuntimeError('API rate limit did not clear')
 
 
 def main():

@@ -1,0 +1,5 @@
+<decoder name="rlu-pcre2">
+  <program_name>rlu</program_name>
+  <regex type="pcre2">(?|(a)|(b))</regex>
+  <order>a</order>
+</decoder>

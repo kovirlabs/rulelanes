@@ -1,0 +1,522 @@
+<!--
+  rulelanes test rules. Written for rulelanes (Apache-2.0); not derived from
+  the Wazuh ruleset. IDs 880000-880999 (and the category roots 1-3) stay
+  clear of the 100010-100399 range used by the UniFi rules.
+-->
+
+<var name="RL_BAD_WORDS">failure|error|fatal</var>
+
+<group name="rl_root,">
+  <rule id="1" level="0">
+    <category>syslog</category>
+    <description>rulelanes: syslog root</description>
+  </rule>
+  <rule id="2" level="0">
+    <category>firewall</category>
+    <description>rulelanes: firewall root</description>
+  </rule>
+  <rule id="3" level="0">
+    <category>ids</category>
+    <description>rulelanes: ids root</description>
+  </rule>
+</group>
+
+<group name="rl,rlauth,">
+  <rule id="880100" level="0">
+    <decoded_as>rl-auth</decoded_as>
+    <description>rlauth: messages grouped</description>
+  </rule>
+
+  <rule id="880101" level="5">
+    <if_sid>880100</if_sid>
+    <match>Failed password</match>
+    <group>authentication_failed,</group>
+    <description>rlauth: failed password for $(dstuser) from $(srcip)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <rule id="880102" level="10">
+    <if_sid>880101</if_sid>
+    <user>^root$</user>
+    <group>authentication_failed,root_login,</group>
+    <description>rlauth: failed password for root</description>
+  </rule>
+
+  <rule id="880103" level="3">
+    <if_sid>880101</if_sid>
+    <srcip>10.0.0.0/8</srcip>
+    <description>rlauth: failed password from an internal address</description>
+  </rule>
+
+  <rule id="880104" level="3">
+    <if_sid>880100</if_sid>
+    <match>^Accepted</match>
+    <group>authentication_success,</group>
+    <description>rlauth: login accepted</description>
+  </rule>
+
+  <rule id="880105" level="4">
+    <if_sid>880104</if_sid>
+    <field name="method">^publickey$</field>
+    <description>rlauth: key login for $(srcuser)</description>
+    <options>no_full_log</options>
+  </rule>
+
+  <rule id="880106" level="6">
+    <decoded_as>rl-auth-invalid</decoded_as>
+    <group>invalid_login,</group>
+    <description>rlauth: invalid user $(srcuser)</description>
+  </rule>
+
+  <rule id="880107" level="2">
+    <if_sid>880100</if_sid>
+    <status>^opened$</status>
+    <description>rlauth: session opened</description>
+  </rule>
+
+  <rule id="880108" level="7">
+    <if_sid>880107</if_sid>
+    <user>^admin|^root</user>
+    <description>rlauth: privileged session opened</description>
+  </rule>
+
+  <rule id="880109" level="0">
+    <if_sid>880100</if_sid>
+    <match>healthcheck</match>
+    <description>rlauth: health checks are ignored</description>
+  </rule>
+
+  <rule id="880110" level="4" noalert="1">
+    <if_sid>880100</if_sid>
+    <match>noisy</match>
+    <description>rlauth: noisy, never alerts by itself</description>
+  </rule>
+
+  <rule id="880111" level="3">
+    <if_sid>880100</if_sid>
+    <match>session</match>
+    <description>rlauth: other session message</description>
+  </rule>
+
+  <rule id="880112" level="12">
+    <if_group>authentication_failed</if_group>
+    <srcport>^2222$</srcport>
+    <description>rlauth: failure on the honeypot port</description>
+  </rule>
+
+  <rule id="880113" level="8">
+    <if_sid>880100</if_sid>
+    <match>$RL_BAD_WORDS</match>
+    <description>rlauth: bad word</description>
+  </rule>
+</group>
+
+<group name="rl,web,">
+  <rule id="880200" level="0">
+    <decoded_as>rl-web</decoded_as>
+    <description>rlweb: access</description>
+  </rule>
+
+  <rule id="880201" level="7">
+    <if_sid>880200</if_sid>
+    <status>^5</status>
+    <description>rlweb: server error $(status) on $(url)</description>
+  </rule>
+
+  <rule id="880202" level="4">
+    <if_sid>880200</if_sid>
+    <status>^4</status>
+    <description>rlweb: client error</description>
+  </rule>
+
+  <rule id="880203" level="6">
+    <if_sid>880200</if_sid>
+    <url>admin</url>
+    <description>rlweb: admin page</description>
+  </rule>
+
+  <rule id="880204" level="5">
+    <if_sid>880202</if_sid>
+    <field name="bytes">^0$</field>
+    <description>rlweb: client error with an empty body</description>
+  </rule>
+
+  <rule id="880205" level="3">
+    <if_sid>880200</if_sid>
+    <action>POST</action>
+    <description>rlweb: form post</description>
+  </rule>
+
+  <rule id="880206" level="2">
+    <if_sid>880200</if_sid>
+    <action type="osmatch">^put|^delete</action>
+    <description>rlweb: write method</description>
+  </rule>
+
+  <rule id="880207" level="1">
+    <if_sid>880200</if_sid>
+    <srcip>192.168.10.0/24</srcip>
+    <description>rlweb: from the office network</description>
+  </rule>
+</group>
+
+<group name="rl,firewall,">
+  <rule id="880300" level="0">
+    <if_sid>2</if_sid>
+    <decoded_as>rl-fw</decoded_as>
+    <description>rlfw: firewall event</description>
+  </rule>
+
+  <rule id="880301" level="5">
+    <if_sid>880300</if_sid>
+    <action>DROP</action>
+    <group>firewall_drop,</group>
+    <description>rlfw: dropped $(protocol) from $(srcip)</description>
+  </rule>
+
+  <rule id="880302" level="8">
+    <if_sid>880300</if_sid>
+    <dstport>^22$|^3389$</dstport>
+    <description>rlfw: remote access port</description>
+  </rule>
+
+  <rule id="880303" level="3">
+    <if_sid>880301</if_sid>
+    <srcip>192.168.0.0/16</srcip>
+    <description>rlfw: internal drop</description>
+  </rule>
+
+  <rule id="880304" level="6">
+    <if_sid>880300</if_sid>
+    <dstip>10.0.0.1</dstip>
+    <description>rlfw: to the gateway</description>
+  </rule>
+
+  <rule id="880305" level="4">
+    <if_sid>880300</if_sid>
+    <match>udp</match>
+    <description>rlfw: udp</description>
+  </rule>
+</group>
+
+<group name="rl,json,">
+  <rule id="880400" level="3">
+    <decoded_as>rl-json</decoded_as>
+    <description>rlapp: event</description>
+  </rule>
+
+  <rule id="880401" level="9">
+    <if_sid>880400</if_sid>
+    <field name="user.name">^admin$</field>
+    <description>rlapp: admin action in $(rlapp)</description>
+  </rule>
+
+  <rule id="880402" level="6">
+    <if_sid>880400</if_sid>
+    <field name="ok">^false$</field>
+    <description>rlapp: failed operation</description>
+  </rule>
+
+  <rule id="880403" level="4">
+    <if_sid>880400</if_sid>
+    <srcip>10.0.0.0/24</srcip>
+    <description>rlapp: from the server network</description>
+  </rule>
+
+  <rule id="880404" level="5">
+    <if_sid>880400</if_sid>
+    <field name="rlapp" type="pcre2">^bill</field>
+    <description>rlapp: billing</description>
+  </rule>
+
+  <rule id="880405" level="7">
+    <if_sid>880404</if_sid>
+    <field name="amount" type="pcre2">^\d{5,}$</field>
+    <description>rlapp: large amount</description>
+  </rule>
+</group>
+
+<group name="rl,kv,">
+  <rule id="880500" level="2">
+    <decoded_as>rl-kv</decoded_as>
+    <description>rlkv: event</description>
+  </rule>
+
+  <rule id="880501" level="10">
+    <if_sid>880500</if_sid>
+    <field name="severity">^high$</field>
+    <description>rlkv: high severity: $(msg)</description>
+  </rule>
+
+  <rule id="880502" level="8">
+    <if_sid>880500</if_sid>
+    <field name="category" type="pcre2">(?i)^security</field>
+    <description>rlkv: security category</description>
+  </rule>
+
+  <rule id="880503" level="4">
+    <if_sid>880500</if_sid>
+    <field name="msg" negate="yes">offline</field>
+    <field name="severity">^medium$</field>
+    <description>rlkv: medium and not offline</description>
+  </rule>
+</group>
+
+<group name="rl,db,">
+  <rule id="880600" level="0">
+    <decoded_as>rl-db</decoded_as>
+    <description>rldb: event</description>
+  </rule>
+
+  <rule id="880601" level="9">
+    <if_sid>880600</if_sid>
+    <field name="operation">^DROP$</field>
+    <description>rldb: drop on $(table)</description>
+  </rule>
+
+  <rule id="880602" level="5">
+    <if_sid>880600</if_sid>
+    <field name="duration" type="pcre2">^\d{4,}$</field>
+    <description>rldb: slow query</description>
+  </rule>
+
+  <rule id="880603" level="7">
+    <if_sid>880600</if_sid>
+    <id>^1045$</id>
+    <description>rldb: access denied error</description>
+  </rule>
+
+  <rule id="880604" level="6">
+    <if_sid>880600</if_sid>
+    <extra_data>denied</extra_data>
+    <description>rldb: denied</description>
+  </rule>
+
+  <rule id="880605" level="2">
+    <if_sid>880600</if_sid>
+    <regex>^query \w+ on users </regex>
+    <description>rldb: users table</description>
+  </rule>
+</group>
+
+<group name="rl,mail,">
+  <rule id="880700" level="3">
+    <decoded_as>rl-mail</decoded_as>
+    <description>rlmail: message</description>
+  </rule>
+
+  <rule id="880701" level="5">
+    <if_sid>880700</if_sid>
+    <user>example.org$</user>
+    <description>rlmail: to example.org</description>
+  </rule>
+</group>
+
+<group name="rl,vpn,">
+  <rule id="880800" level="0">
+    <decoded_as>rl-vpn</decoded_as>
+    <description>rlvpn: event</description>
+  </rule>
+
+  <rule id="880801" level="8">
+    <if_sid>880800</if_sid>
+    <status>^down$</status>
+    <description>rlvpn: tunnel $(id) down</description>
+  </rule>
+
+  <rule id="880802" level="3">
+    <if_sid>880800</if_sid>
+    <status>^up$</status>
+    <description>rlvpn: tunnel up</description>
+  </rule>
+</group>
+
+<group name="rl,cron,">
+  <rule id="880900" level="1" noalert="1">
+    <decoded_as>rl-cron</decoded_as>
+    <description>rlcron: event (no alert)</description>
+  </rule>
+
+  <rule id="880901" level="3">
+    <decoded_as>rl-cron-job</decoded_as>
+    <description>rlcron: job started</description>
+  </rule>
+
+  <rule id="880902" level="10">
+    <if_sid>880901</if_sid>
+    <field name="command">rm -rf</field>
+    <description>rlcron: destructive job</description>
+  </rule>
+</group>
+
+<group name="rl,misc,">
+  <rule id="880910" level="2">
+    <decoded_as>rl-plain</decoded_as>
+    <description>rlplain: event</description>
+  </rule>
+
+  <rule id="880911" level="4">
+    <if_sid>880910</if_sid>
+    <field name="key">^mode$</field>
+    <description>rlplain: mode change to $(value)</description>
+  </rule>
+
+  <rule id="880920" level="3">
+    <decoded_as>rl-solo</decoded_as>
+    <description>rlsolo: job</description>
+  </rule>
+
+  <rule id="880921" level="9">
+    <if_sid>880920</if_sid>
+    <hostname>.</hostname>
+    <description>rlsolo: has a hostname (never, the lines have none)</description>
+  </rule>
+
+  <rule id="880922" level="5">
+    <if_sid>880920</if_sid>
+    <status>^failed$</status>
+    <description>rlsolo: job failed</description>
+  </rule>
+
+  <rule id="880930" level="2">
+    <decoded_as>rl-dns</decoded_as>
+    <description>rldns: query</description>
+  </rule>
+
+  <rule id="880931" level="6">
+    <if_sid>880930</if_sid>
+    <regex>IN TXT from</regex>
+    <description>rldns: TXT query</description>
+  </rule>
+
+  <rule id="880932" level="7">
+    <if_sid>880930</if_sid>
+    <url>.ru$</url>
+    <description>rldns: .ru domain</description>
+  </rule>
+
+  <rule id="880940" level="0">
+    <decoded_as>rl-proxy</decoded_as>
+    <description>rlproxy: request</description>
+  </rule>
+
+  <rule id="880941" level="5">
+    <if_sid>880940</if_sid>
+    <match>DENIED</match>
+    <description>rlproxy: denied</description>
+  </rule>
+
+  <rule id="880942" level="9">
+    <if_sid>880941</if_sid>
+    <url>.exe$</url>
+    <description>rlproxy: denied executable download</description>
+  </rule>
+
+  <rule id="880960" level="3">
+    <decoded_as>rl-sudo</decoded_as>
+    <description>rlsudo: command</description>
+  </rule>
+
+  <rule id="880961" level="5">
+    <if_sid>880960</if_sid>
+    <user>^root$</user>
+    <description>rlsudo: command as root</description>
+  </rule>
+
+  <rule id="880962" level="9">
+    <if_sid>880961</if_sid>
+    <field name="command">passwd|shadow</field>
+    <description>rlsudo: credential file touched by $(srcuser)</description>
+  </rule>
+
+  <rule id="880970" level="1">
+    <decoded_as>rl-tab</decoded_as>
+    <description>rltab: event</description>
+  </rule>
+
+  <rule id="880971" level="1">
+    <decoded_as>rl-punct</decoded_as>
+    <description>rlpunct: event</description>
+  </rule>
+
+  <rule id="880972" level="2">
+    <decoded_as>rl-iso</decoded_as>
+    <description>rliso: event</description>
+  </rule>
+
+  <rule id="880973" level="6">
+    <if_sid>880972</if_sid>
+    <status>^error$|^fatal$</status>
+    <description>rliso: error level</description>
+  </rule>
+
+  <rule id="880974" level="2">
+    <decoded_as>rl-dyn</decoded_as>
+    <description>rldyn: start</description>
+  </rule>
+
+  <rule id="880975" level="4">
+    <if_sid>880974</if_sid>
+    <field name="app.name">^billing$</field>
+    <description>rldyn: billing $(app.version) started</description>
+  </rule>
+
+  <rule id="880976" level="2">
+    <decoded_as>rl-case</decoded_as>
+    <description>rlcase: event</description>
+  </rule>
+
+  <rule id="880977" level="2">
+    <decoded_as>rl-space</decoded_as>
+    <description>rlspace: event</description>
+  </rule>
+
+  <rule id="880978" level="2">
+    <decoded_as>rl-alt</decoded_as>
+    <description>rlalt: event</description>
+  </rule>
+
+  <rule id="880979" level="2">
+    <decoded_as>rl-star</decoded_as>
+    <description>rlstar: event</description>
+  </rule>
+
+  <rule id="880980" level="1">
+    <program_name>^rlspace$</program_name>
+    <match>other</match>
+    <description>rlspace: other message (by program name)</description>
+  </rule>
+
+  <rule id="880981" level="1">
+    <location>rulelanes</location>
+    <match>RLLOC</match>
+    <description>any: location rule</description>
+  </rule>
+
+  <rule id="880982" level="4">
+    <match>$RL_BAD_WORDS</match>
+    <description>any: bad word</description>
+  </rule>
+</group>
+
+<group name="rl,ids,">
+  <rule id="880950" level="0">
+    <if_sid>3</if_sid>
+    <decoded_as>rl-ids</decoded_as>
+    <description>rlids: alert</description>
+  </rule>
+
+  <rule id="880951" level="7">
+    <if_sid>880950</if_sid>
+    <id>^2000</id>
+    <description>rlids: signature $(id) rev $(rev)</description>
+  </rule>
+
+  <rule id="880952" level="5">
+    <if_sid>880950</if_sid>
+    <match>{TCP}</match>
+    <description>rlids: tcp alert</description>
+  </rule>
+</group>

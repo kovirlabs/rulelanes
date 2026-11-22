@@ -1,0 +1,16 @@
+[package]
+name = "rulelanes-oracle"
+description = "Test support: drives wazuh-logtest in the Wazuh container, records fixtures and compares results with the reference engine (R1). Dev-only."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+rulelanes-model.workspace = true
+rulelanes-syntax.workspace = true
+rulelanes-engine.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
