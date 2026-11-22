@@ -138,3 +138,18 @@ Checks after the live install: analysisd started with no new errors;
 sshd sample → 5710 and the UniFi README sample → 100301 on the live
 manager (`oracle/logtest.sh --live`); new real events in the live archive
 are decoded by the new decoders (see the report of this task for counts).
+
+## Update 2026-11-22 (later): the UniFi branches are merged upstream
+
+Evan asked for both `device-syslog` branches to be pushed and merged. They
+are now on `main` of the two UniFi repos, so the live manager no longer
+runs versions that exist only on this PC.
+
+| Repo | Pull request | Merge commit |
+| --- | --- | --- |
+| `evangress/wazuh-unifi-decoder` | #2 | `a8b637c` |
+| `evangress/wazuh-unifi-rules` | #1 | `2f02ece` |
+
+The submodule pins under `third_party/unifi/` still point at the older
+commits (`3a9a2d5`, `3619359`). Moving them is a separate change, because
+the M1 gate counts were measured at those pins.
