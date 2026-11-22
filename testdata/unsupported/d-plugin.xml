@@ -1,0 +1,4 @@
+<decoder name="rlu-pf">
+  <prematch>^RLU </prematch>
+  <plugin_decoder>PF_Decoder</plugin_decoder>
+</decoder>

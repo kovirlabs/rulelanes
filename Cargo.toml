@@ -1,0 +1,23 @@
+[workspace]
+resolver = "3"
+members = ["crates/rulelanes-model", "crates/rulelanes-syntax"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+rust-version = "1.85"
+
+[workspace.dependencies]
+rulelanes-model = { path = "crates/rulelanes-model" }
+rulelanes-syntax = { path = "crates/rulelanes-syntax" }
+rulelanes-engine = { path = "crates/rulelanes-engine" }
+rulelanes-oracle = { path = "crates/rulelanes-oracle" }
+# MIT. PCRE2-style patterns need look-around and backreferences.
+fancy-regex = "0.20.2"
+# MIT OR Apache-2.0.
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"

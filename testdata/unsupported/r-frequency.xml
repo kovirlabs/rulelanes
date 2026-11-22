@@ -1,0 +1,6 @@
+<group name="rlu,">
+  <rule id="881001" level="5" frequency="4" timeframe="60">
+    <if_sid>1</if_sid>
+    <description>frequency rule</description>
+  </rule>
+</group>

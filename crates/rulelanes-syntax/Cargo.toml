@@ -1,0 +1,14 @@
+[package]
+name = "rulelanes-syntax"
+description = "Loads Wazuh-format decoder and rule XML into rulelanes types; osregex and osmatch parsing; load-time errors."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+rulelanes-model.workspace = true
+fancy-regex.workspace = true
+
+[lints]
+workspace = true

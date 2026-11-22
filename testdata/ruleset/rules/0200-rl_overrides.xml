@@ -1,0 +1,8 @@
+<!-- rulelanes test: overwrite an existing rule in place. -->
+<group name="rl,web,overridden,">
+  <rule id="880205" level="4" overwrite="yes">
+    <if_sid>880200</if_sid>
+    <action>POST</action>
+    <description>rlweb: form post (overwritten)</description>
+  </rule>
+</group>

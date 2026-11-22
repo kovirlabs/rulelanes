@@ -1,0 +1,7 @@
+<group name="rlu,">
+  <rule id="881003" level="5">
+    <if_sid>1</if_sid>
+    <list field="srcip" lookup="address_match_key">etc/lists/bad-ips</list>
+    <description>list rule</description>
+  </rule>
+</group>
