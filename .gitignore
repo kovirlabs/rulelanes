@@ -12,4 +12,4 @@ captures/
 *.key
 # Live oracle output written by `rulelanes-oracle` runs that are not fixtures.
 /oracle/out/
-/oracle/unifi/
+/oracle/secrets.env
