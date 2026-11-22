@@ -33,7 +33,7 @@ the CPU has fast paths, and CPU SIMD regex is one.
 
 | # | Requirement | How it is tested |
 | --- | --- | --- |
-| R1 | For supported syntax, alerts equal Wazuh's | A corpus of generated log lines runs through `wazuh-logtest` in the Wazuh container and through the reference engine with the same decoders and rules. Decoder name, extracted fields, rule id, level and groups must be equal for every line |
+| R1 | For supported syntax, alerts equal Wazuh's | A corpus of generated log lines runs through `wazuh-logtest` in the Wazuh container and through the reference engine with the same decoders and rules. Decoder name, extracted fields, rule id, level and groups must be equal for every line (M1 also compares decoder parent, rule description and the alert flag; the oracle loads only the ruleset under test, see `docs/status/M1.md`) |
 | R2 | Unsupported syntax is refused, not ignored | Loading a decoder or rule that uses an unsupported element or attribute fails and names the file, the rule and the element |
 | R3 | The pipeline equals the reference engine | The staged pipeline and the single-threaded reference engine produce the same alerts, in the same per-source order, for the corpus and for 10,000 generated cases |
 | R4 | No event is lost | Events in equals events out plus events rejected, with every reject counted by reason. A full link applies back-pressure to the input |
