@@ -1,0 +1,18 @@
+# rulelanes override for the official wazuh-docker single-node compose file
+# (tag v4.14.10). It changes one thing: every published port is bound to
+# 127.0.0.1 instead of all interfaces, because the stack runs with the
+# documented default passwords and is a test oracle, not a service.
+# `!override` needs Docker Compose 2.24 or later.
+services:
+  wazuh.manager:
+    ports: !override
+      - "127.0.0.1:1514:1514"
+      - "127.0.0.1:1515:1515"
+      - "127.0.0.1:514:514/udp"
+      - "127.0.0.1:55000:55000"
+  wazuh.indexer:
+    ports: !override
+      - "127.0.0.1:9200:9200"
+  wazuh.dashboard:
+    ports: !override
+      - "127.0.0.1:443:5601"
