@@ -1,0 +1,179 @@
+{
+ "ruleset_root": "/var/ossec/ruleset",
+ "decoders": {
+  "files": 120,
+  "items": 1575,
+  "item_attributes": {
+   "name": 1575
+  },
+  "elements": {
+   "regex": 1436,
+   "order": 1388,
+   "parent": 1367,
+   "prematch": 580,
+   "program_name": 110,
+   "type": 107,
+   "fts": 22,
+   "plugin_decoder": 11,
+   "use_own_name": 9,
+   "accumulate": 5,
+   "ftscomment": 4,
+   "json_null_field": 1
+  },
+  "element_attributes": {
+   "regex@offset": 528,
+   "prematch@offset": 178,
+   "regex@type": 158,
+   "prematch@type": 21,
+   "plugin_decoder@offset": 4
+  },
+  "attribute_values": {
+   "plugin_decoder@offset": {
+    "after_prematch": 2,
+    "after_parent": 2
+   },
+   "prematch@offset": {
+    "after_parent": 178
+   },
+   "prematch@type": {
+    "pcre2": 21
+   },
+   "regex@offset": {
+    "after_parent": 238,
+    "after_regex": 155,
+    "after_prematch": 135
+   },
+   "regex@type": {
+    "pcre2": 158
+   }
+  },
+  "top_level_tags": {}
+ },
+ "rules": {
+  "files": 168,
+  "items": 4515,
+  "item_attributes": {
+   "id": 4515,
+   "level": 4515,
+   "frequency": 208,
+   "timeframe": 200,
+   "ignore": 49,
+   "noalert": 40,
+   "maxsize": 2
+  },
+  "elements": {
+   "description": 4564,
+   "if_sid": 3868,
+   "field": 3182,
+   "group": 2443,
+   "options": 2273,
+   "mitre": 1064,
+   "match": 782,
+   "id": 286,
+   "decoded_as": 233,
+   "if_matched_sid": 205,
+   "regex": 148,
+   "if_group": 130,
+   "same_source_ip": 123,
+   "info": 108,
+   "action": 77,
+   "status": 75,
+   "url": 47,
+   "category": 35,
+   "program_name": 33,
+   "list": 25,
+   "extra_data": 9,
+   "if_fts": 8,
+   "same_field": 7,
+   "if_matched_group": 6,
+   "same_id": 5,
+   "user": 5,
+   "different_url": 5,
+   "check_diff": 3,
+   "same_user": 3,
+   "check_if_ignored": 3,
+   "compiled_rule": 3,
+   "location": 2,
+   "ignore": 2,
+   "hostname": 1,
+   "time": 1,
+   "weekday": 1,
+   "same_location": 1
+  },
+  "element_attributes": {
+   "field@name": 3182,
+   "field@type": 517,
+   "info@type": 99,
+   "field@negate": 29,
+   "list@field": 25,
+   "list@lookup": 25,
+   "action@type": 11,
+   "match@type": 9,
+   "list@check_value": 5,
+   "regex@type": 5,
+   "action@negate": 2,
+   "regex@negate": 1
+  },
+  "attribute_values": {
+   "action@negate": {
+    "yes": 2
+   },
+   "action@type": {
+    "pcre2": 11
+   },
+   "field@negate": {
+    "yes": 29
+   },
+   "field@type": {
+    "pcre2": 342,
+    "osregex": 175
+   },
+   "info@type": {
+    "link": 87,
+    "text": 7,
+    "cve": 5
+   },
+   "list@lookup": {
+    "match_key": 20,
+    "match_key_value": 5
+   },
+   "match@type": {
+    "pcre2": 9
+   },
+   "regex@negate": {
+    "yes": 1
+   },
+   "regex@type": {
+    "pcre2": 5
+   },
+   "rule@noalert": {
+    "1": 40
+   }
+  },
+  "top_level_tags": {
+   "group": 211,
+   "var": 28
+  }
+ },
+ "decoder_plugin_values": {
+  "JSON_Decoder": 6,
+  "OSSECAlert_Decoder": 2,
+  "PF_Decoder": 1,
+  "SonicWall_Decoder": 1,
+  "SymantecWS_Decoder": 1
+ },
+ "rule_options_values": {
+  "no_full_log": 2268,
+  "no_log": 5,
+  "no_email_alert": 1
+ },
+ "rule_category_values": {
+  "ossec": 19,
+  "windows": 5,
+  "firewall": 3,
+  "ids": 3,
+  "web-log": 2,
+  "squid": 2,
+  "syslog": 1
+ }
+}
