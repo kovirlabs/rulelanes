@@ -129,6 +129,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "rulelanes-oracle"
+version = "0.1.0"
+dependencies = [
+ "rulelanes-engine",
+ "rulelanes-model",
+ "rulelanes-syntax",
+ "serde_json",
+]
+
+[[package]]
 name = "rulelanes-syntax"
 version = "0.1.0"
 dependencies = [

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/rulelanes-model", "crates/rulelanes-syntax", "crates/rulelanes-engine"]
+members = ["crates/rulelanes-model", "crates/rulelanes-syntax", "crates/rulelanes-engine", "crates/rulelanes-oracle"]
 
 [workspace.package]
 version = "0.1.0"
