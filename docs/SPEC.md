@@ -1,6 +1,7 @@
 # rulelanes specification
 
-Date: 2026-11-22. Status: DRAFT. Items marked TBD are open decisions for
+Date: 2026-11-22. Status: DRAFT. Name (`rulelanes`) and licence (Apache-2.0)
+are decided. Items marked TBD are open decisions for
 Evan. Items marked "verify in M0" are from memory and must be checked
 against current documentation before code depends on them.
 
@@ -50,10 +51,13 @@ each decoder and rule element and attribute appears. The supported subset
 for M1 is chosen from that count, most used first, and listed in
 `docs/syntax.md` with the count beside each item.
 
-Expected M1 subset (verify in M0):
+Expected M1 subset (checked in M0; the chosen subset and the counts are in
+`docs/syntax.md`, which is authoritative):
 
 - **Decoders:** `prematch`, `program_name`, `parent`, `regex`, `order`,
-  `offset`, the three pattern types (`osmatch`, `osregex`, `pcre2`), and the
+  `offset`, the pattern types (`osregex` and `pcre2` for `prematch` and
+  `regex`; `osmatch`, `osregex` and `pcre2` for `program_name`; corrected
+  in M0: decoder `prematch` and `regex` do not accept `osmatch`), and the
   JSON decoder.
 - **Rules:** `if_sid`, `if_group`, `match`, `regex`, `decoded_as`,
   `field`, `srcip`, `dstip`, `srcport`, `dstport`, `user`, `program_name`,
@@ -105,10 +109,13 @@ input ──► pre-decode ──► decode ──► route ──► match (N w
 - Wazuh runs as the official single-node Docker deployment on Docker
   Desktop. M0 records the image tags and the compose file used, under
   `oracle/`.
-- The oracle version is the current stable 4.x release, because 5.0
+- The oracle version is the current stable 4.x release (4.14.10 in M0, the
+  line Evan's UniFi decoder and rules were tested on), because 5.0
   replaces `analysisd` with a new engine. TBD: when to add 5.x.
-- `wazuh-logtest` is driven through its documented interface (verify in
-  M0: the command-line tool and the API endpoint), not by scraping the
+- `wazuh-logtest` is driven through its documented interface (checked in
+  M0: the command-line tool `/var/ossec/bin/wazuh-logtest` and the API
+  endpoints `PUT /logtest` and `DELETE /logtest/sessions/{token}`; the
+  oracle uses the API because it returns JSON), not by scraping the
   dashboard.
 - Test decoders and rules are written here and copied into the container's
   custom ruleset directories for the run.

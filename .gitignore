@@ -2,3 +2,14 @@ target/
 captures/
 *.pcap
 *.pcapng
+
+# The wazuh-docker checkout (GPL-2.0, not ours). It also holds the generated
+# TLS certificates and keys under single-node/config/wazuh_indexer_ssl_certs/.
+/oracle/wazuh-docker/
+# Anything secret or machine-specific for the oracle.
+/oracle/.env
+*.pem
+*.key
+# Live oracle output written by `rulelanes-oracle` runs that are not fixtures.
+/oracle/out/
+/oracle/unifi/
