@@ -101,3 +101,40 @@ fmt, clippy, tests | pass | `cargo fmt --all`, `cargo clippy --workspace --all-t
 ## Requests for other repos
 
 None.
+
+## Update 2026-11-22: live manager runs unpushed UniFi branch versions
+
+The live manager (`single-node-wazuh.manager-1`) now runs the
+`device-syslog` branch versions of Evan's UniFi decoder and rules, which
+add decoders and rules for UniFi device syslog (DNS filtering, DHCP,
+gateway and device debug output). These commits are **not pushed** and the
+submodule pins in this repo are **unchanged**:
+
+| Repo (sibling clone) | Branch | Commit installed on live | Submodule pin here |
+| --- | --- | --- | --- |
+| `../wazuh-unifi-decoder` | `device-syslog` | `7f4c05d` | `3a9a2d5` |
+| `../wazuh-unifi-rules` | `device-syslog` | `6cb2d7e` | `3619359` |
+
+The oracle (`rulelanes-oracle-manager`) also has the branch versions
+installed. Installed by copying the two XML files into
+`/var/ossec/etc/{decoders,rules}/` and recreating the manager (not
+restarting it).
+
+To return either manager to the pinned versions:
+
+```
+git submodule update --init third_party/unifi
+oracle/install-unifi.sh           # oracle
+oracle/install-unifi.sh --live    # live manager
+```
+
+then, for the live manager, recreate it so the change is applied cleanly:
+`docker compose -f docker-compose.yml -f ../../compose.live.yml --env-file ../../secrets.env up -d --force-recreate --no-deps wazuh.manager`
+(from `oracle/wazuh-docker/single-node`). When the branches are pushed and
+merged upstream, move the submodule pins and reinstall with
+`install-unifi.sh` instead.
+
+Checks after the live install: analysisd started with no new errors;
+sshd sample → 5710 and the UniFi README sample → 100301 on the live
+manager (`oracle/logtest.sh --live`); new real events in the live archive
+are decoded by the new decoders (see the report of this task for counts).
