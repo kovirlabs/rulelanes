@@ -40,19 +40,23 @@ status file and stop that task.
   records machine, OS and build number, Rust version, the Wazuh version
   compared against, the ruleset used and the exact command.
 - **A negative result is a result.** If `analysisd` is faster, publish that.
-- **No Wazuh content in this repo.** Wazuh's decoders and rules are
-  GPL-2.0. Tests use decoders, rules and logs written or generated here.
-  Runs against the stock ruleset read it from the Wazuh container at run
-  time.
+- **No Wazuh content in this repo.** Wazuh's code, decoders and rules are
+  GPL-2.0-only (checked in its v4.14.10 LICENSE: "version 2", no "or
+  later"), which is not compatible with GPL-3.0. Tests use decoders,
+  rules and logs written or generated here. Runs against the stock ruleset
+  read it from the Wazuh container at run time. Evan's UniFi decoder and
+  rules (MIT, his own work, not Wazuh content) are pinned git submodules
+  under `third_party/unifi/`.
 - **Data rule.** Generated logs, or logs Evan confirms he owns. Never
   commit logs from a real network, an employer or a customer.
 - **`unsafe` is forbidden** (`#![forbid(unsafe_code)]` in every crate).
 - **No `#[cfg(target_os)]`** outside a module named `platform`.
 - **Look up current docs** before using any crate API, the Wazuh ruleset
   syntax, or Docker images. Do not write them from memory.
-- **Licence compatibility.** This repo is Apache-2.0 (decided). Every new
-  dependency must be MIT, Apache-2.0, BSD, ISC, Zlib or MPL-2.0. No GPL or
-  LGPL dependencies.
+- **Licence compatibility.** This repo is GPL-3.0-only (decided 2026-11-22,
+  changed from Apache-2.0). Every new dependency must be GPL-3.0 compatible:
+  MIT, Apache-2.0, BSD, ISC, Zlib, MPL-2.0, LGPL-3.0 or GPL-3.0 are fine;
+  GPL-2.0-only, SSPL, BUSL and proprietary licences are not.
 - Crates carry `publish = false` until Evan removes it.
 
 ## Status files
@@ -97,6 +101,6 @@ latency figures from it are provisional until repeated on Linux.
 ## Open decisions (TBD)
 
 - GitHub owner (decided 2026-11-22: the name `rulelanes` is final and the
-  licence is Apache-2.0)
+  licence is GPL-3.0-only, changed from Apache-2.0 the same day)
 - Whether status and run files move to `paralanes` like the other repos'
 - Which Wazuh version is the oracle once 5.0 ships its new engine

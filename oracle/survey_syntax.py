@@ -3,7 +3,7 @@
 
 Run inside the Wazuh manager container (see oracle/README.md). It reads the
 ruleset from disk at run time and prints counts as JSON; no ruleset content
-is printed or stored. Written for rulelanes; Apache-2.0 (TBD).
+is printed or stored. Written for rulelanes; GPL-3.0-only.
 
 The Wazuh XML dialect is not always well-formed XML (several roots per file,
 `\<` escapes in patterns), so this uses a small tolerant tag scanner rather

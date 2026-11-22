@@ -4,8 +4,10 @@
 Runs inside the Wazuh manager container, where Python and the API on
 https://localhost:55000 are both available:
 
-    docker exec -i single-node-wazuh.manager-1 \
+    docker exec -i -e WAZUH_API_PASSWORD rulelanes-oracle-manager \
         /var/ossec/framework/python/bin/python3 -c "$(cat oracle/logtest.py)" < lines.txt
+
+(oracle/logtest.sh does this and reads the password from oracle/secrets.env.)
 
 Reads one log line per stdin line and writes one JSON object per line to
 stdout: {"event": <line>, "error": <int>, "alert": <bool>, "output": {...}}.
@@ -13,9 +15,9 @@ All lines share one logtest session; the session is closed at the end.
 Uses only the documented endpoints PUT /logtest and
 DELETE /logtest/sessions/{token}.
 
-Credentials come from WAZUH_API_USER and WAZUH_API_PASSWORD; the defaults
-are the documented defaults of the official single-node deployment.
-Written for rulelanes; Apache-2.0 (TBD).
+Credentials come from WAZUH_API_USER (default wazuh-wui) and
+WAZUH_API_PASSWORD, which is required: there is no built-in password.
+Written for rulelanes; GPL-3.0-only.
 """
 import base64
 import json
@@ -28,7 +30,9 @@ import urllib.request
 
 API = os.environ.get('WAZUH_API_URL', 'https://localhost:55000')
 USER = os.environ.get('WAZUH_API_USER', 'wazuh-wui')
-PASSWORD = os.environ.get('WAZUH_API_PASSWORD', 'MyS3cr37P450r.*-')
+PASSWORD = os.environ.get('WAZUH_API_PASSWORD')
+if not PASSWORD:
+    sys.exit('logtest.py: WAZUH_API_PASSWORD is not set')
 LOG_FORMAT = os.environ.get('LOGTEST_LOG_FORMAT', 'syslog')
 LOCATION = os.environ.get('LOGTEST_LOCATION', 'rulelanes')
 

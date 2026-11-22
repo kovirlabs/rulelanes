@@ -225,6 +225,19 @@ pub fn write_fixture(path: &Path, header: &Value, rows: &[FixtureRow]) -> std::i
 /// The Wazuh manager container used as the oracle.
 pub struct Oracle {
     pub container: String,
+    api_password: Option<String>,
+}
+
+/// The oracle-only manager container (`oracle/compose.oracle.yml`).
+pub const ORACLE_CONTAINER: &str = "rulelanes-oracle-manager";
+
+/// Read `KEY=value` from the git-ignored `oracle/secrets.env`.
+fn secret(key: &str) -> Option<String> {
+    let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../oracle/secrets.env");
+    let text = std::fs::read_to_string(path).ok()?;
+    text.lines()
+        .filter(|l| !l.trim_start().starts_with('#'))
+        .find_map(|l| l.strip_prefix(key)?.strip_prefix('=').map(str::to_string))
 }
 
 impl Default for Oracle {
@@ -234,18 +247,40 @@ impl Default for Oracle {
 }
 
 impl Oracle {
-    /// Container name from `RULELANES_WAZUH_CONTAINER`, default
-    /// `single-node-wazuh.manager-1`.
+    /// The oracle container [`ORACLE_CONTAINER`], or the one named in
+    /// `RULELANES_WAZUH_CONTAINER`. A run edits the target's `ossec.conf`
+    /// for its duration, so any other target is refused by
+    /// [`Oracle::available`] unless `RULELANES_ALLOW_NON_ORACLE_TARGET=1`.
+    /// The API password comes from `WAZUH_API_PASSWORD` or
+    /// `ORACLE_API_PASSWORD` in `oracle/secrets.env`.
     pub fn from_env() -> Oracle {
         Oracle {
             container: std::env::var("RULELANES_WAZUH_CONTAINER")
-                .unwrap_or_else(|_| "single-node-wazuh.manager-1".to_string()),
+                .unwrap_or_else(|_| ORACLE_CONTAINER.to_string()),
+            api_password: std::env::var("WAZUH_API_PASSWORD")
+                .ok()
+                .or_else(|| secret("ORACLE_API_PASSWORD")),
         }
     }
 
-    /// `Ok` when the container is running and has `wazuh-logtest`;
-    /// otherwise the reason, for a SKIPPED message.
+    /// `Ok` when the target is the oracle container (or explicitly
+    /// allowed), it is running, it has `wazuh-logtest`, and an API password
+    /// is known; otherwise the reason, for a SKIPPED message.
     pub fn available(&self) -> Result<(), String> {
+        if self.container != ORACLE_CONTAINER
+            && std::env::var("RULELANES_ALLOW_NON_ORACLE_TARGET").as_deref() != Ok("1")
+        {
+            return Err(format!(
+                "refusing to use '{}' as the oracle: only {ORACLE_CONTAINER} \
+                 (set RULELANES_ALLOW_NON_ORACLE_TARGET=1 to override)",
+                self.container
+            ));
+        }
+        if self.api_password.is_none() {
+            return Err(
+                "no API password: set WAZUH_API_PASSWORD or create oracle/secrets.env".into(),
+            );
+        }
         let out = Command::new("docker")
             .args([
                 "exec",
@@ -316,6 +351,7 @@ impl Oracle {
         lines: &[String],
         location: &str,
     ) -> Result<Vec<Value>, String> {
+        self.available()?;
         let _local = LOCAL_LOCK.lock().unwrap_or_else(|p| p.into_inner());
         let mut tries = 0;
         while self
@@ -394,11 +430,19 @@ impl Oracle {
                 "-i",
                 "-e",
                 &format!("LOGTEST_LOCATION={location}"),
+                // Passed through from this process's environment, so the
+                // password is not on a command line.
+                "-e",
+                "WAZUH_API_PASSWORD",
                 &self.container,
                 PYTHON,
                 "-c",
                 LOGTEST_PY,
             ])
+            .env(
+                "WAZUH_API_PASSWORD",
+                self.api_password.as_deref().unwrap_or_default(),
+            )
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())

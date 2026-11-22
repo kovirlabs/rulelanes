@@ -1,0 +1,6 @@
+[submodule "third_party/unifi/wazuh-unifi-decoder"]
+	path = third_party/unifi/wazuh-unifi-decoder
+	url = https://github.com/evangress/wazuh-unifi-decoder.git
+[submodule "third_party/unifi/wazuh-unifi-rules"]
+	path = third_party/unifi/wazuh-unifi-rules
+	url = https://github.com/evangress/wazuh-unifi-rules.git

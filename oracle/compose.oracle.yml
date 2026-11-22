@@ -1,0 +1,36 @@
+# rulelanes oracle: a manager-only Wazuh 4.14.10 container that exists only
+# for wazuh-logtest runs. It is not the live manager: no syslog or agent
+# ports are published, the API is on 127.0.0.1:55001, and no indexer is
+# attached (its Filebeat retries and logs connection errors; analysisd,
+# logtest and the API do not need it).
+#
+#   docker compose -f oracle/compose.oracle.yml --env-file oracle/secrets.env up -d
+#
+# ORACLE_API_PASSWORD comes from the git-ignored oracle/secrets.env.
+name: rulelanes-oracle
+services:
+  oracle-manager:
+    image: wazuh/wazuh-manager:4.14.10
+    container_name: rulelanes-oracle-manager
+    hostname: rulelanes-oracle
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:55001:55000"
+    environment:
+      - INDEXER_URL=https://127.0.0.1:9200
+      - INDEXER_USERNAME=none
+      - INDEXER_PASSWORD=none
+      - FILEBEAT_SSL_VERIFICATION_MODE=none
+      - API_USERNAME=wazuh-wui
+      - API_PASSWORD=${ORACLE_API_PASSWORD:?set ORACLE_API_PASSWORD in oracle/secrets.env}
+    volumes:
+      - oracle_etc:/var/ossec/etc
+      - oracle_logs:/var/ossec/logs
+      - oracle_queue:/var/ossec/queue
+      - oracle_api_configuration:/var/ossec/api/configuration
+
+volumes:
+  oracle_etc:
+  oracle_logs:
+  oracle_queue:
+  oracle_api_configuration:
