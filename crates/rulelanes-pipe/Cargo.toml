@@ -1,0 +1,21 @@
+[package]
+name = "rulelanes-pipe"
+description = "The staged rulelanes pipeline: parse, decode, match and write as pinned stagelanes stages."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+rulelanes-model.workspace = true
+rulelanes-engine.workspace = true
+stagelanes-arch.workspace = true
+stagelanes-mem.workspace = true
+stagelanes-pipe.workspace = true
+
+[dev-dependencies]
+rulelanes-syntax.workspace = true
+rulelanes-oracle.workspace = true
+
+[lints]
+workspace = true

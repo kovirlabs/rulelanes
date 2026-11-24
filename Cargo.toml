@@ -5,6 +5,7 @@ members = [
     "crates/rulelanes-syntax",
     "crates/rulelanes-engine",
     "crates/rulelanes-oracle",
+    "crates/rulelanes-pipe",
     "crates/rulelanes",
 ]
 
@@ -20,6 +21,11 @@ rulelanes-model = { path = "crates/rulelanes-model" }
 rulelanes-syntax = { path = "crates/rulelanes-syntax" }
 rulelanes-engine = { path = "crates/rulelanes-engine" }
 rulelanes-oracle = { path = "crates/rulelanes-oracle" }
+rulelanes-pipe = { path = "crates/rulelanes-pipe" }
+# Apache-2.0. Sibling checkout `../stagelanes` (its `main`), read-only here.
+stagelanes-arch = { path = "../stagelanes/crates/stagelanes-arch" }
+stagelanes-mem = { path = "../stagelanes/crates/stagelanes-mem" }
+stagelanes-pipe = { path = "../stagelanes/crates/stagelanes-pipe" }
 # MIT. PCRE2-style patterns need look-around and backreferences.
 fancy-regex = "0.20.2"
 # MIT OR Apache-2.0.
