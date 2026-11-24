@@ -14,6 +14,12 @@ serde_json.workspace = true
 stagelanes-arch.workspace = true
 stagelanes-mem.workspace = true
 stagelanes-pipe.workspace = true
+# MIT (crate and the bundled mimalloc C library). Off by default; only for
+# the allocator experiment, which cannot count allocations.
+mimalloc = { version = "0.1.52", optional = true }
+
+[features]
+mimalloc = ["dep:mimalloc"]
 
 [lints]
 workspace = true

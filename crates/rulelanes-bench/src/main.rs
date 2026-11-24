@@ -29,8 +29,22 @@ use serde_json::{Value, json};
 use stagelanes_arch::{OsCpu, Priority, Topology};
 use stagelanes_pipe::CorePlan;
 
+/// The system allocator, counting allocations per stage (default).
+#[cfg(not(feature = "mimalloc"))]
 #[global_allocator]
 static ALLOC: stagelanes_mem::CountingAlloc = stagelanes_mem::CountingAlloc;
+
+/// The allocator experiment: mimalloc, whose per-thread heaps avoid a
+/// shared heap; allocations are not counted (reported as 0).
+#[cfg(feature = "mimalloc")]
+#[global_allocator]
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
+const ALLOCATOR: &str = if cfg!(feature = "mimalloc") {
+    "mimalloc (allocations not counted; the per-stage counts read 0)"
+} else {
+    "system, through stagelanes_mem::CountingAlloc"
+};
 
 const USAGE: &str = "usage: rulelanes-bench --machine NAME --machine-desc TEXT --date YYYY-MM-DD
     [--decoders DIR] [--rules DIR] [--corpus FILE] [--sources N]
@@ -533,6 +547,7 @@ fn main() -> ExitCode {
             "loads": o.loads, "patterns": o.patterns.iter().map(|p| p.name()).collect::<Vec<_>>(),
             "r5_rule": "p99 at 0.9 load <= 3 x p99 at 0.5 load",
             "allocations": "stagelanes_mem::CountingAlloc; per stage after ready, divided by inputs received",
+            "allocator": ALLOCATOR,
         },
         "reference_engine_single_thread": reference,
         "repeats": repeats,
