@@ -1,0 +1,1495 @@
+{
+  "kind": "rulelanes-pipeline",
+  "machine": "ryzen",
+  "machine_desc": "Ryzen 7 5700X desktop, 8 cores / 16 threads, 1 socket, bare metal, Windows 11 Home",
+  "os_build": "Microsoft Windows [Version 10.0.26300.10075]",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "build": "release",
+  "date_local": "2026-11-23",
+  "unix_time_secs": 1795481670,
+  "rulelanes": {
+    "commit": "ccc8de14829ccdc3caa14745d341666ee2321737",
+    "branch": "m2-staged-pipeline",
+    "uncommitted_changes": false
+  },
+  "stagelanes_commit": "3f276311f6c006c92288f0f3b0812f56d533f1d6",
+  "wazuh_compared": "none in this run file (R6 is a separate run)",
+  "ruleset": {
+    "decoders": "testdata/ruleset/decoders",
+    "rules": "testdata/ruleset/rules",
+    "decoders_loaded": 39,
+    "rules_loaded": 85
+  },
+  "corpus": {
+    "file": "testdata/corpus/corpus.log",
+    "lines": 1200,
+    "sources": 4,
+    "assignment": "round robin"
+  },
+  "pipeline": {
+    "stages": [
+      "parse",
+      "decode",
+      "match",
+      "write"
+    ],
+    "link_slots": 256,
+    "batch": 32,
+    "idle": "spin",
+    "priority": "time-critical",
+    "cpus": [
+      "2",
+      "4",
+      "6",
+      "8"
+    ],
+    "feeder_cpu": "10",
+    "placement_notes": []
+  },
+  "method": {
+    "secs_measured": 5.0,
+    "warmup_secs": 1.0,
+    "capacity": "median of the unpaced trials: outcomes written after warm-up / time between first and last of them",
+    "latency": "scheduled arrival time (receipt) to the write stage handing the outcome to the sink; a late feeder counts",
+    "loads": [
+      0.5,
+      0.9
+    ],
+    "patterns": [
+      "even",
+      "poisson"
+    ],
+    "r5_rule": "p99 at 0.9 load <= 3 x p99 at 0.5 load",
+    "allocations": "stagelanes_mem::CountingAlloc; per stage after ready, divided by inputs received"
+  },
+  "reference_engine_single_thread": {
+    "events": 1515600,
+    "alerts": 761589,
+    "secs": 3.0022518,
+    "rate_eps": 504821.081296379,
+    "thread": "the feeder's (main) thread"
+  },
+  "repeats": [
+    {
+      "capacity_eps": 717998.4279444612,
+      "capacity_trials": [
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 684281.4385839547,
+          "sent": 4114562,
+          "received": 4114562,
+          "written": 4114562,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 128573,
+          "measured": 3421120,
+          "alerts_measured": 1719105,
+          "latency_us": {
+            "p50": 671.743,
+            "p90": 999.423,
+            "p99": 1212.415,
+            "p999": 1376.255,
+            "max": 1787.0
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 17740589,
+              "allocations_per_input": 4.3116591753873195,
+              "busy_polls": 128582,
+              "idle_polls": 10358,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 54017667,
+              "allocations_per_input": 13.12841245313596,
+              "busy_polls": 128582,
+              "idle_polls": 4727,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 27591746,
+              "allocations_per_input": 6.705876834520904,
+              "busy_polls": 3185641,
+              "idle_polls": 95838673,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4000242,
+              "idle_polls": 171207271,
+              "setup_errors": []
+            }
+          ]
+        },
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 734435.124419345,
+          "sent": 4433346,
+          "received": 4433346,
+          "written": 4433346,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 138535,
+          "measured": 3672192,
+          "alerts_measured": 1845273,
+          "latency_us": {
+            "p50": 655.359,
+            "p90": 819.199,
+            "p99": 1245.183,
+            "p999": 1310.719,
+            "max": 1535.3
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 19115071,
+              "allocations_per_input": 4.311657831353565,
+              "busy_polls": 138544,
+              "idle_polls": 14319,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 58202982,
+              "allocations_per_input": 13.128454670580641,
+              "busy_polls": 138544,
+              "idle_polls": 5218,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 29729439,
+              "allocations_per_input": 6.705869336613925,
+              "busy_polls": 3192539,
+              "idle_polls": 72720721,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4315476,
+              "idle_polls": 160956245,
+              "setup_errors": []
+            }
+          ]
+        },
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 717998.4279444612,
+          "sent": 4329602,
+          "received": 4329602,
+          "written": 4329602,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 135293,
+          "measured": 3590048,
+          "alerts_measured": 1803999,
+          "latency_us": {
+            "p50": 638.975,
+            "p90": 983.039,
+            "p99": 1114.111,
+            "p999": 1212.415,
+            "max": 1408.7
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 18667802,
+              "allocations_per_input": 4.311666984632768,
+              "busy_polls": 135302,
+              "idle_polls": 15734,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 56840947,
+              "allocations_per_input": 13.128446217458325,
+              "busy_polls": 135302,
+              "idle_polls": 1493,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 29033759,
+              "allocations_per_input": 6.705872502830514,
+              "busy_polls": 3477428,
+              "idle_polls": 103228703,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4226875,
+              "idle_polls": 177523242,
+              "setup_errors": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "pattern": "even",
+          "target_rate_eps": 358999.2139722306,
+          "achieved_rate_eps": 358999.2215399533,
+          "sent": 2153996,
+          "received": 2153996,
+          "written": 2153996,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 0,
+          "measured": 1794996,
+          "alerts_measured": 901983,
+          "latency_us": {
+            "p50": 3.135,
+            "p90": 5.631,
+            "p99": 23.039,
+            "p999": 69.631,
+            "max": 217.441
+          },
+          "feeder_max_lag_us": 39.887,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 9287311,
+              "allocations_per_input": 4.311665852675678,
+              "busy_polls": 2149327,
+              "idle_polls": 277686461,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 28278873,
+              "allocations_per_input": 13.128563377090765,
+              "busy_polls": 2084649,
+              "idle_polls": 160371549,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 14444503,
+              "allocations_per_input": 6.705909853128789,
+              "busy_polls": 2130547,
+              "idle_polls": 209804115,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 2148960,
+              "idle_polls": 254954774,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.5
+        },
+        {
+          "pattern": "even",
+          "target_rate_eps": 646198.5851500151,
+          "achieved_rate_eps": 646142.799107869,
+          "sent": 3877192,
+          "received": 3877192,
+          "written": 3877192,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 9787,
+          "measured": 3230993,
+          "alerts_measured": 1623578,
+          "latency_us": {
+            "p50": 4.095,
+            "p90": 540.671,
+            "p99": 4325.375,
+            "p999": 6684.671,
+            "max": 7093.671
+          },
+          "feeder_max_lag_us": 6377.565,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 16717155,
+              "allocations_per_input": 4.311665504313431,
+              "busy_polls": 3510319,
+              "idle_polls": 224851662,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 50901538,
+              "allocations_per_input": 13.12845430404272,
+              "busy_polls": 2903892,
+              "idle_polls": 45781619,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 25999970,
+              "allocations_per_input": 6.705876314611193,
+              "busy_polls": 3495918,
+              "idle_polls": 130889541,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 3823086,
+              "idle_polls": 193286378,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.9
+        },
+        {
+          "pattern": "poisson",
+          "target_rate_eps": 358999.2139722306,
+          "achieved_rate_eps": 358934.0327269559,
+          "sent": 2153893,
+          "received": 2153893,
+          "written": 2153893,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 0,
+          "measured": 1794666,
+          "alerts_measured": 901822,
+          "latency_us": {
+            "p50": 4.031,
+            "p90": 8.959,
+            "p99": 26.623,
+            "p999": 69.631,
+            "max": 198.369
+          },
+          "feeder_max_lag_us": 59.757,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 9286857,
+              "allocations_per_input": 4.311661257081944,
+              "busy_polls": 2122160,
+              "idle_polls": 287924502,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 28277395,
+              "allocations_per_input": 13.128504990730738,
+              "busy_polls": 1775688,
+              "idle_polls": 168332098,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 14443832,
+              "allocations_per_input": 6.705919003404533,
+              "busy_polls": 2020419,
+              "idle_polls": 199252088,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 2143099,
+              "idle_polls": 261724658,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.5
+        },
+        {
+          "pattern": "poisson",
+          "target_rate_eps": 646198.5851500151,
+          "achieved_rate_eps": 617096.8673654797,
+          "sent": 3874757,
+          "received": 3874757,
+          "written": 3874757,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 67428,
+          "measured": 3228065,
+          "alerts_measured": 1622099,
+          "latency_us": {
+            "p50": 8126.463,
+            "p90": 150994.943,
+            "p99": 243269.631,
+            "p999": 244615.047,
+            "max": 244615.047
+          },
+          "feeder_max_lag_us": 243858.147,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 16706659,
+              "allocations_per_input": 4.3116662541676805,
+              "busy_polls": 1663143,
+              "idle_polls": 108523411,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 50869483,
+              "allocations_per_input": 13.128431795851972,
+              "busy_polls": 767296,
+              "idle_polls": 21184671,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 25983650,
+              "allocations_per_input": 6.705878587999196,
+              "busy_polls": 2668068,
+              "idle_polls": 96597896,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 3792618,
+              "idle_polls": 187933857,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.9
+        }
+      ],
+      "r5": {
+        "even": {
+          "p99_at_50_us": 23.039,
+          "p99_at_90_us": 4325.375,
+          "ratio": 187.74143843048742,
+          "pass": false
+        },
+        "poisson": {
+          "p99_at_50_us": 26.623,
+          "p99_at_90_us": 243269.631,
+          "ratio": 9137.573939826465,
+          "pass": false
+        }
+      }
+    },
+    {
+      "capacity_eps": 697365.1499800793,
+      "capacity_trials": [
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 684291.029530387,
+          "sent": 3937346,
+          "received": 3937346,
+          "written": 3937346,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 123035,
+          "measured": 3421408,
+          "alerts_measured": 1719255,
+          "latency_us": {
+            "p50": 671.743,
+            "p90": 1114.111,
+            "p99": 1179.647,
+            "p999": 1245.183,
+            "max": 3214.6
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 16976504,
+              "allocations_per_input": 4.31166171324542,
+              "busy_polls": 123044,
+              "idle_polls": 24036,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 51691121,
+              "allocations_per_input": 13.128417213016077,
+              "busy_polls": 123044,
+              "idle_polls": 11444,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 26403343,
+              "allocations_per_input": 6.705873194786539,
+              "busy_polls": 2791939,
+              "idle_polls": 90566618,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 3849887,
+              "idle_polls": 180169176,
+              "setup_errors": []
+            }
+          ]
+        },
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 697365.1499800793,
+          "sent": 4174558,
+          "received": 4174558,
+          "written": 4174558,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 130440,
+          "measured": 3486524,
+          "alerts_measured": 1751969,
+          "latency_us": {
+            "p50": 655.359,
+            "p90": 1081.343,
+            "p99": 1179.647,
+            "p999": 1277.951,
+            "max": 2499.5
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 17999272,
+              "allocations_per_input": 4.311659342138737,
+              "busy_polls": 130458,
+              "idle_polls": 106988,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 54805322,
+              "allocations_per_input": 13.128413115831664,
+              "busy_polls": 130459,
+              "idle_polls": 72855,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 27994066,
+              "allocations_per_input": 6.705875448370821,
+              "busy_polls": 2814759,
+              "idle_polls": 82929862,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4097570,
+              "idle_polls": 183333825,
+              "setup_errors": []
+            }
+          ]
+        },
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 737372.6814280588,
+          "sent": 4432162,
+          "received": 4432162,
+          "written": 4432162,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 138497,
+          "measured": 3686912,
+          "alerts_measured": 1852673,
+          "latency_us": {
+            "p50": 655.359,
+            "p90": 770.047,
+            "p99": 1245.183,
+            "p999": 2686.975,
+            "max": 2938.7
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 19109968,
+              "allocations_per_input": 4.311658283248672,
+              "busy_polls": 138507,
+              "idle_polls": 17028,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 58187438,
+              "allocations_per_input": 13.128454690961206,
+              "busy_polls": 138507,
+              "idle_polls": 5208,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 29721494,
+              "allocations_per_input": 6.70586815193127,
+              "busy_polls": 3376982,
+              "idle_polls": 75450712,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4305722,
+              "idle_polls": 156444685,
+              "setup_errors": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "pattern": "even",
+          "target_rate_eps": 348682.57499003963,
+          "achieved_rate_eps": 348682.7603940698,
+          "sent": 2092096,
+          "received": 2092096,
+          "written": 2092096,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 0,
+          "measured": 1743413,
+          "alerts_measured": 876064,
+          "latency_us": {
+            "p50": 2.815,
+            "p90": 4.351,
+            "p99": 7.551,
+            "p999": 17.407,
+            "max": 55.237
+          },
+          "feeder_max_lag_us": 26.983,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 9020375,
+              "allocations_per_input": 4.311644876716938,
+              "busy_polls": 2090456,
+              "idle_polls": 293543586,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 27466198,
+              "allocations_per_input": 13.128555286181896,
+              "busy_polls": 2081858,
+              "idle_polls": 189403752,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 14029423,
+              "allocations_per_input": 6.7059174148796235,
+              "busy_polls": 2086735,
+              "idle_polls": 232559009,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 2090645,
+              "idle_polls": 271383699,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.5
+        },
+        {
+          "pattern": "even",
+          "target_rate_eps": 627628.6349820714,
+          "achieved_rate_eps": 627628.0978975217,
+          "sent": 3765772,
+          "received": 3765772,
+          "written": 3765772,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 662,
+          "measured": 3138143,
+          "alerts_measured": 1576920,
+          "latency_us": {
+            "p50": 3.263,
+            "p90": 5.247,
+            "p99": 188.415,
+            "p999": 2293.759,
+            "max": 2794.268
+          },
+          "feeder_max_lag_us": 2072.891,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 16236734,
+              "allocations_per_input": 4.311661460120262,
+              "busy_polls": 3731844,
+              "idle_polls": 260228638,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 49438650,
+              "allocations_per_input": 13.128423600791551,
+              "busy_polls": 3496355,
+              "idle_polls": 67534378,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 25252823,
+              "allocations_per_input": 6.705882087391377,
+              "busy_polls": 3612456,
+              "idle_polls": 150683865,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 3730727,
+              "idle_polls": 207838843,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.9
+        },
+        {
+          "pattern": "poisson",
+          "target_rate_eps": 348682.57499003963,
+          "achieved_rate_eps": 348358.15327758744,
+          "sent": 2090665,
+          "received": 2090665,
+          "written": 2090665,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 0,
+          "measured": 1741790,
+          "alerts_measured": 875248,
+          "latency_us": {
+            "p50": 3.263,
+            "p90": 5.759,
+            "p99": 9.471,
+            "p999": 17.407,
+            "max": 62.035
+          },
+          "feeder_max_lag_us": 24.667,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 9014220,
+              "allocations_per_input": 4.311652034161379,
+              "busy_polls": 2068461,
+              "idle_polls": 302110566,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 27447276,
+              "allocations_per_input": 13.12849069554424,
+              "busy_polls": 1827522,
+              "idle_polls": 191900816,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 14019805,
+              "allocations_per_input": 6.705906972183492,
+              "busy_polls": 2039938,
+              "idle_polls": 238259725,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 2080921,
+              "idle_polls": 275856452,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.5
+        },
+        {
+          "pattern": "poisson",
+          "target_rate_eps": 627628.6349820714,
+          "achieved_rate_eps": 627115.349830772,
+          "sent": 3762806,
+          "received": 3762806,
+          "written": 3762806,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 1790,
+          "measured": 3135577,
+          "alerts_measured": 1575624,
+          "latency_us": {
+            "p50": 5.759,
+            "p90": 14.847,
+            "p99": 3538.943,
+            "p999": 7208.959,
+            "max": 7551.306
+          },
+          "feeder_max_lag_us": 6853.231,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 16223936,
+              "allocations_per_input": 4.311658905614586,
+              "busy_polls": 3590411,
+              "idle_polls": 264028321,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 49399837,
+              "allocations_per_input": 13.128457061033707,
+              "busy_polls": 1928696,
+              "idle_polls": 64692280,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 25232921,
+              "allocations_per_input": 6.70587880427532,
+              "busy_polls": 3482214,
+              "idle_polls": 152073576,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 3702317,
+              "idle_polls": 208067890,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.9
+        }
+      ],
+      "r5": {
+        "even": {
+          "p99_at_50_us": 7.551,
+          "p99_at_90_us": 188.415,
+          "ratio": 24.952324195470798,
+          "pass": false
+        },
+        "poisson": {
+          "p99_at_50_us": 9.471,
+          "p99_at_90_us": 3538.943,
+          "ratio": 373.66096505120896,
+          "pass": false
+        }
+      }
+    },
+    {
+      "capacity_eps": 763887.3194524172,
+      "capacity_trials": [
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 767704.9645607929,
+          "sent": 4615202,
+          "received": 4615202,
+          "written": 4615202,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 144218,
+          "measured": 3838784,
+          "alerts_measured": 1928989,
+          "latency_us": {
+            "p50": 622.591,
+            "p90": 655.359,
+            "p99": 884.735,
+            "p999": 1114.111,
+            "max": 1248.4
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 19899214,
+              "allocations_per_input": 4.311666964956247,
+              "busy_polls": 144227,
+              "idle_polls": 9504,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 60590399,
+              "allocations_per_input": 13.128439231912276,
+              "busy_polls": 144227,
+              "idle_polls": 1479,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 30948945,
+              "allocations_per_input": 6.7058700789261225,
+              "busy_polls": 4046262,
+              "idle_polls": 105917998,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4516862,
+              "idle_polls": 174365221,
+              "setup_errors": []
+            }
+          ]
+        },
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 763887.3194524172,
+          "sent": 4544834,
+          "received": 4544834,
+          "written": 4544834,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 142019,
+          "measured": 3819456,
+          "alerts_measured": 1919285,
+          "latency_us": {
+            "p50": 622.591,
+            "p90": 638.975,
+            "p99": 901.119,
+            "p999": 1114.111,
+            "max": 1269.1
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 19595780,
+              "allocations_per_input": 4.311660227854307,
+              "busy_polls": 142028,
+              "idle_polls": 15356,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 59666535,
+              "allocations_per_input": 13.12842999326268,
+              "busy_polls": 142028,
+              "idle_polls": 2713,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 30477069,
+              "allocations_per_input": 6.705870665463249,
+              "busy_polls": 3919405,
+              "idle_polls": 103701205,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4444298,
+              "idle_polls": 171926089,
+              "setup_errors": []
+            }
+          ]
+        },
+        {
+          "pattern": "unpaced",
+          "target_rate_eps": null,
+          "achieved_rate_eps": 735422.9887562711,
+          "sent": 4459266,
+          "received": 4459266,
+          "written": 4459266,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 139345,
+          "measured": 3677184,
+          "alerts_measured": 1847783,
+          "latency_us": {
+            "p50": 638.975,
+            "p90": 770.047,
+            "p99": 1114.111,
+            "p999": 1245.183,
+            "max": 1391.3
+          },
+          "feeder_max_lag_us": 0.0,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 19226868,
+              "allocations_per_input": 4.31166653884294,
+              "busy_polls": 139354,
+              "idle_polls": 13082,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 58543238,
+              "allocations_per_input": 13.128447148028398,
+              "busy_polls": 139354,
+              "idle_polls": 5609,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 29903244,
+              "allocations_per_input": 6.7058668399687305,
+              "busy_polls": 3813172,
+              "idle_polls": 106013923,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4360210,
+              "idle_polls": 174190844,
+              "setup_errors": []
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "pattern": "even",
+          "target_rate_eps": 381943.6597262086,
+          "achieved_rate_eps": 381943.74513862317,
+          "sent": 2291662,
+          "received": 2291662,
+          "written": 2291662,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 0,
+          "measured": 1909718,
+          "alerts_measured": 959632,
+          "latency_us": {
+            "p50": 3.007,
+            "p90": 5.247,
+            "p99": 15.871,
+            "p999": 45.055,
+            "max": 110.651
+          },
+          "feeder_max_lag_us": 41.523,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 9880847,
+              "allocations_per_input": 4.311651107362255,
+              "busy_polls": 2287639,
+              "idle_polls": 284547350,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 30086115,
+              "allocations_per_input": 13.128513279881588,
+              "busy_polls": 2236246,
+              "idle_polls": 160618278,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 15367682,
+              "allocations_per_input": 6.70591125567383,
+              "busy_polls": 2272802,
+              "idle_polls": 217702929,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 2288303,
+              "idle_polls": 263056631,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.5
+        },
+        {
+          "pattern": "even",
+          "target_rate_eps": 687498.5875071755,
+          "achieved_rate_eps": 687085.0023120083,
+          "sent": 4124992,
+          "received": 4124992,
+          "written": 4124992,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 5079,
+          "measured": 3437493,
+          "alerts_measured": 1727332,
+          "latency_us": {
+            "p50": 4.095,
+            "p90": 23.551,
+            "p99": 8257.535,
+            "p999": 10485.759,
+            "max": 10842.22
+          },
+          "feeder_max_lag_us": 10184.264,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 17785537,
+              "allocations_per_input": 4.311653695328379,
+              "busy_polls": 3909952,
+              "idle_polls": 239727411,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 54154761,
+              "allocations_per_input": 13.12845237033187,
+              "busy_polls": 3034876,
+              "idle_polls": 34300473,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 27661669,
+              "allocations_per_input": 6.705872156842971,
+              "busy_polls": 3824591,
+              "idle_polls": 128862324,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4060339,
+              "idle_polls": 187372409,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.9
+        },
+        {
+          "pattern": "poisson",
+          "target_rate_eps": 381943.6597262086,
+          "achieved_rate_eps": 381683.13740592945,
+          "sent": 2291539,
+          "received": 2291539,
+          "written": 2291539,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 0,
+          "measured": 1908415,
+          "alerts_measured": 958977,
+          "latency_us": {
+            "p50": 3.391,
+            "p90": 6.271,
+            "p99": 12.799,
+            "p999": 40.959,
+            "max": 114.551
+          },
+          "feeder_max_lag_us": 48.183,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 9880313,
+              "allocations_per_input": 4.311649507165272,
+              "busy_polls": 2259183,
+              "idle_polls": 293326100,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 30084639,
+              "allocations_per_input": 13.128573853641592,
+              "busy_polls": 1917850,
+              "idle_polls": 173130547,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 15366832,
+              "allocations_per_input": 6.705900270516889,
+              "busy_polls": 2213730,
+              "idle_polls": 221283865,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 2278113,
+              "idle_polls": 263230913,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.5
+        },
+        {
+          "pattern": "poisson",
+          "target_rate_eps": 687498.5875071755,
+          "achieved_rate_eps": 687342.8606874412,
+          "sent": 4125730,
+          "received": 4125730,
+          "written": 4125730,
+          "rejected": {
+            "empty": 0,
+            "too_long": 0,
+            "not_utf8": 0,
+            "unknown_source": 0
+          },
+          "balanced": true,
+          "input_full_waits": 18865,
+          "measured": 3436702,
+          "alerts_measured": 1726939,
+          "latency_us": {
+            "p50": 9.983,
+            "p90": 14942.207,
+            "p99": 36700.159,
+            "p999": 38728.595,
+            "max": 38728.595
+          },
+          "feeder_max_lag_us": 38087.536,
+          "stages": [
+            {
+              "name": "parse",
+              "cpu": "2",
+              "allocations_after_ready": 17788766,
+              "allocations_per_input": 4.311665087148214,
+              "busy_polls": 3393004,
+              "idle_polls": 222124417,
+              "setup_errors": []
+            },
+            {
+              "name": "decode",
+              "cpu": "4",
+              "allocations_after_ready": 54164384,
+              "allocations_per_input": 13.128436422160442,
+              "busy_polls": 1318897,
+              "idle_polls": 32049447,
+              "setup_errors": []
+            },
+            {
+              "name": "match",
+              "cpu": "6",
+              "allocations_after_ready": 27666622,
+              "allocations_per_input": 6.705873142449942,
+              "busy_polls": 3716988,
+              "idle_polls": 129575385,
+              "setup_errors": []
+            },
+            {
+              "name": "write",
+              "cpu": "8",
+              "allocations_after_ready": 0,
+              "allocations_per_input": 0.0,
+              "busy_polls": 4038534,
+              "idle_polls": 182913608,
+              "setup_errors": []
+            }
+          ],
+          "load": 0.9
+        }
+      ],
+      "r5": {
+        "even": {
+          "p99_at_50_us": 15.871,
+          "p99_at_90_us": 8257.535,
+          "ratio": 520.290781929305,
+          "pass": false
+        },
+        "poisson": {
+          "p99_at_50_us": 12.799,
+          "p99_at_90_us": 36700.159,
+          "ratio": 2867.4239393702633,
+          "pass": false
+        }
+      }
+    }
+  ],
+  "command": "rulelanes-bench.exe --machine ryzen --machine-desc \"Ryzen 7 5700X desktop, 8 cores / 16 threads, 1 socket, bare metal, Windows 11 Home\" --date 2026-11-23 --priority time-critical --repeats 3 --note \"Machine not quiet: another agent building and testing in ../flowlanes (no load benchmarks), a flow collector listening on UDP 2055, Docker Desktop running the rulelanes-oracle-manager container and Evan's live single-node Wazuh stack (receiving UniFi syslog). Stages spin when idle. Windows cannot isolate a core; tail figures are provisional.\"",
+  "note": "Machine not quiet: another agent building and testing in ../flowlanes (no load benchmarks), a flow collector listening on UDP 2055, Docker Desktop running the rulelanes-oracle-manager container and Evan's live single-node Wazuh stack (receiving UniFi syslog). Stages spin when idle. Windows cannot isolate a core; tail figures are provisional."
+}
