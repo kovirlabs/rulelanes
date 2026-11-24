@@ -6,6 +6,7 @@ members = [
     "crates/rulelanes-engine",
     "crates/rulelanes-oracle",
     "crates/rulelanes-pipe",
+    "crates/rulelanes-bench",
     "crates/rulelanes",
 ]
 

@@ -51,8 +51,9 @@ pub struct Input {
     pub source: u32,
     /// When it was received; latency is measured from here.
     pub received: Instant,
-    /// The raw line, without its line terminator.
-    pub bytes: Vec<u8>,
+    /// The raw line, without its line terminator. Shared, so a receiver
+    /// can hand a line over without copying or allocating.
+    pub bytes: std::sync::Arc<[u8]>,
 }
 
 /// Why the parse stage refused an input.
@@ -435,7 +436,7 @@ pub fn reference(
         let input = Input {
             source: *source,
             received: Instant::now(),
-            bytes: bytes.to_vec(),
+            bytes: (*bytes).into(),
         };
         if let Ok(line) = check(&input, &cfg.locations, cfg.max_line) {
             out.push((

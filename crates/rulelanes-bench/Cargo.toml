@@ -1,0 +1,19 @@
+[package]
+name = "rulelanes-bench"
+description = "Load runs for the rulelanes pipeline: capacity, latency at load (R5), allocations per event (R8); writes run files."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+rulelanes-engine.workspace = true
+rulelanes-pipe.workspace = true
+rulelanes-syntax.workspace = true
+serde_json.workspace = true
+stagelanes-arch.workspace = true
+stagelanes-mem.workspace = true
+stagelanes-pipe.workspace = true
+
+[lints]
+workspace = true

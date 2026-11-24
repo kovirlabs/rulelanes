@@ -40,7 +40,7 @@ fn assert_r3(inputs: &[(u32, Vec<u8>)], sources: u32) -> usize {
         feeder.send(Input {
             source: *source,
             received: Instant::now(),
-            bytes: bytes.clone(),
+            bytes: bytes.as_slice().into(),
         });
     }
     let report = running.join(feeder);
@@ -116,7 +116,7 @@ fn r4_rejects_are_counted_by_reason() {
         feeder.send(Input {
             source: *s,
             received: Instant::now(),
-            bytes: b.clone(),
+            bytes: b.as_slice().into(),
         });
     }
     let r = running.join(feeder);
@@ -150,7 +150,10 @@ fn r4_full_link_holds_the_input_back() {
     let total = 4 * SLOTS as u64 + 2_000;
     let sent = Arc::new(AtomicU64::new(0));
     let sent2 = sent.clone();
-    let line = corpus::generate(corpus::SEED, 1).remove(0).into_bytes();
+    let line: Arc<[u8]> = corpus::generate(corpus::SEED, 1)
+        .remove(0)
+        .as_bytes()
+        .into();
     let feeder_thread = std::thread::spawn(move || {
         for _ in 0..total {
             feeder.send(Input {
