@@ -10,6 +10,10 @@ pub mod predecode;
 use rulelanes_model::{Outcome, RuleSet};
 
 /// Runs events through pre-decode, decode and match against one rule set.
+///
+/// The staged pipeline gives each stage its own clone, so that no two
+/// threads use the same compiled patterns.
+#[derive(Clone)]
 pub struct Engine {
     set: RuleSet,
     alert_level: u8,
@@ -25,6 +29,11 @@ impl Engine {
 
     pub fn ruleset(&self) -> &RuleSet {
         &self.set
+    }
+
+    /// The minimum level at which a matched rule raises an alert.
+    pub fn alert_level(&self) -> u8 {
+        self.alert_level
     }
 
     /// Process one log line received from `location`.
