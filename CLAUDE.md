@@ -93,7 +93,12 @@ cargo fmt --all
 cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace
 cargo run -p rulelanes -- logtest --decoders <dir> --rules <dir>   # one log line per stdin line
+cargo run --release -p rulelanes-bench -- --machine <name> --machine-desc <text> --date <YYYY-MM-DD> [--priority time-critical] [--repeats N] --note <text>
+RUN_MACHINE=<name> RUN_DATE=<YYYY-MM-DD> RUN_NOTE=<text> oracle/analysisd-bench.sh [SECS] [SENDERS]   # R6, oracle container only
 ```
+
+Set `RULELANES_SKIP_LIVE=1` to skip the R1 test against the live oracle
+container (it takes about 200 s).
 
 ## Machines
 
