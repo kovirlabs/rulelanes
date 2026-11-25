@@ -57,8 +57,8 @@ pub fn decode_into(set: &RuleSet, ev: &Event, out: &mut DecodedEvent, sc: &mut S
             }
         }
         if let Some(pre) = &d.prematch {
-            match pre.pattern.exec_into(log, &mut sc.caps) {
-                Some((_, end)) => pmatch = end,
+            match pre.pattern.find_end(log) {
+                Some(end) => pmatch = end,
                 None => continue,
             }
         }
@@ -80,7 +80,7 @@ pub fn decode_into(set: &RuleSet, ev: &Event, out: &mut DecodedEvent, sc: &mut S
                         } else {
                             0
                         };
-                        if let Some((_, end)) = pre.pattern.exec_into(&log[base..], &mut sc.caps) {
+                        if let Some(end) = pre.pattern.find_end(&log[base..]) {
                             set_decoder(out, set, c);
                             chosen = Some((k, base + end));
                             break;

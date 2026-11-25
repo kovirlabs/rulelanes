@@ -82,6 +82,18 @@ impl Pattern {
         }
     }
 
+    /// Where the first match ends, without captures: what `prematch`
+    /// needs. Allocates nothing for `osregex` (stack buffer), `osmatch`,
+    /// exact and IP patterns, nor for PCRE2 patterns without look-around
+    /// or backreferences once the regex's cache has warmed up.
+    pub fn find_end(&self, s: &str) -> Option<usize> {
+        match self {
+            Pattern::OsRegex(r) => r.find_end(s),
+            Pattern::Pcre2(p) => p.find_end(s),
+            other => other.is_match(s).then_some(s.len()),
+        }
+    }
+
     pub fn kind(&self) -> &'static str {
         match self {
             Pattern::OsMatch(_) => "osmatch",
@@ -234,21 +246,27 @@ impl OsRegex {
         self.alts.iter().find_map(|alt| alt.exec_into(b, caps))
     }
 
-    /// True when some alternative matches. Allocates nothing: a match
-    /// without capture groups needs no capture buffer, and one with groups
-    /// uses a small buffer on the stack (Wazuh allows few groups); only a
-    /// pattern with more groups than that falls back to the heap.
+    /// True when some alternative matches. Allocates nothing (see
+    /// [`OsRegex::find_end`]).
     pub fn is_match(&self, s: &str) -> bool {
+        self.find_end(s).is_some()
+    }
+
+    /// Where the first match ends. Captures go to a small buffer on the
+    /// stack (Wazuh allows few groups); only a pattern with more groups
+    /// than that falls back to the heap.
+    pub fn find_end(&self, s: &str) -> Option<usize> {
         const STACK: usize = 32;
         let b = s.as_bytes();
-        self.alts.iter().any(|alt| {
-            if alt.groups <= STACK {
+        self.alts.iter().find_map(|alt| {
+            let found = if alt.groups <= STACK {
                 let mut caps = [(0usize, 0usize); STACK];
-                alt.find(b, &mut caps[..alt.groups]).is_some()
+                alt.find(b, &mut caps[..alt.groups])
             } else {
                 let mut caps = vec![(0usize, 0usize); alt.groups];
-                alt.find(b, &mut caps).is_some()
-            }
+                alt.find(b, &mut caps)
+            };
+            found.map(|(_, end)| end)
         })
     }
 }
@@ -364,6 +382,11 @@ impl Pcre2 {
     /// True when the pattern matches anywhere in `s`.
     pub fn is_match(&self, s: &str) -> bool {
         self.regex.is_match(s).unwrap_or(false)
+    }
+
+    /// Where the first match ends, without building captures.
+    pub fn find_end(&self, s: &str) -> Option<usize> {
+        self.regex.find(s).ok().flatten().map(|m| m.end())
     }
 }
 
