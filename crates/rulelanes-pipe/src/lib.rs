@@ -20,21 +20,27 @@
 //!   pattern is shared between threads.
 //! - The order of inputs is kept end to end (one path, FIFO links), so the
 //!   per-source order is the input order (R3).
+//! - Items circulate: [`POOL`] of them are made at start, and the write
+//!   stage hands each one back to parse over a return link. An item keeps
+//!   its event, field and description buffers, and the stages fill them
+//!   in place (`predecode_into`, `decode_into`, `match_into`), so once
+//!   the buffers have grown to fit the traffic no stage allocates (R8),
+//!   except where a pattern or the JSON plugin does (PCRE2 captures,
+//!   JSON arrays and objects with a duplicate key).
 //!
 //! The decode and match code is the reference engine's own
-//! (`rulelanes_engine::{predecode, decode, matcher}`). It builds owned
-//! strings, so the stages allocate per event; the count is reported per
-//! stage (R8), not yet zero.
+//! (`rulelanes_engine::{predecode, decode, matcher}`).
 
 #![forbid(unsafe_code)]
 
 pub mod hist;
 
+use std::sync::Arc;
 use std::thread::JoinHandle;
 use std::time::Instant;
 
 use rulelanes_engine::{Engine, decode, matcher, predecode};
-use rulelanes_model::{DecodedEvent, Event, Outcome, RuleHit};
+use rulelanes_model::Outcome;
 use stagelanes_arch::{OsCpu, Priority};
 use stagelanes_pipe::{StageReport, StageSpec, Tx, link, spawn_stage};
 
@@ -44,6 +50,11 @@ pub use stagelanes_pipe::Error;
 pub const SLOTS: usize = 256;
 /// Most items a stage takes from its input link at once.
 pub const BATCH: usize = 32;
+/// Items in circulation, and slots in the return link from write to
+/// parse. The three links between stages hold at most `3 * SLOTS`, so
+/// parse always gets an item back eventually, and the return link never
+/// fills.
+pub const POOL: usize = 1024;
 
 /// One received log line.
 pub struct Input {
@@ -155,14 +166,23 @@ impl Config {
     }
 }
 
+/// One event on its way through the stages; reused (see [`POOL`]).
 struct Item {
     seq: u64,
     source: u32,
     received: Instant,
-    event: Event,
-    decoded: DecodedEvent,
-    rule: Option<RuleHit>,
-    alert: bool,
+    outcome: Outcome,
+}
+
+impl Item {
+    fn new() -> Item {
+        Item {
+            seq: 0,
+            source: 0,
+            received: Instant::now(),
+            outcome: Outcome::default(),
+        }
+    }
 }
 
 /// The input end of a running pipeline. Dropping it (or
@@ -198,7 +218,7 @@ type Joined<T> = JoinHandle<(StageReport, T)>;
 
 /// A started pipeline.
 pub struct Running<S> {
-    parse: Joined<(u64, RejectCounts)>,
+    parse: Joined<(u64, RejectCounts, u64)>,
     decode: Joined<u64>,
     matcher: Joined<u64>,
     write: Joined<(u64, S)>,
@@ -212,6 +232,9 @@ pub struct Report<S> {
     pub received: u64,
     /// Inputs the parse stage refused, by reason.
     pub rejected: RejectCounts,
+    /// Times the parse stage found no free item and waited for the write
+    /// stage to return one.
+    pub pool_waits: u64,
     /// Items through the decode stage.
     pub decoded: u64,
     /// Items through the match stage.
@@ -245,7 +268,7 @@ fn spec(name: &str, cfg: &Config, i: usize) -> StageSpec {
     }
 }
 
-fn check<'a>(input: &'a Input, locations: &[String], max_line: usize) -> Result<&'a str, Reject> {
+fn check<'a, L>(input: &'a Input, locations: &[L], max_line: usize) -> Result<&'a str, Reject> {
     if input.source as usize >= locations.len() {
         return Err(Reject::UnknownSource);
     }
@@ -269,12 +292,24 @@ pub fn start<S: Sink>(
     let (mut tx_pd, mut rx_pd) = link::<Item, SLOTS>();
     let (mut tx_dm, mut rx_dm) = link::<Item, SLOTS>();
     let (mut tx_mw, mut rx_mw) = link::<Item, SLOTS>();
+    let (mut tx_ret, mut rx_ret) = link::<Item, POOL>();
+    for _ in 0..POOL {
+        tx_ret.send(Item::new());
+    }
 
-    let locations = cfg.locations.clone();
+    let locations: Vec<Arc<str>> = cfg
+        .locations
+        .iter()
+        .map(|l| Arc::from(l.as_str()))
+        .collect();
     let max_line = cfg.max_line;
     let parse = spawn_stage(spec("parse", &cfg, 0), move |ctx| {
         let mut received = 0u64;
         let mut rejects = RejectCounts::default();
+        let mut pool_waits = 0u64;
+        // Free items taken from the return link; never holds more than
+        // `POOL`, so it does not grow after start-up.
+        let mut free: Vec<Item> = Vec::with_capacity(POOL);
         ctx.ready();
         loop {
             let got = rx_in.recv_with(BATCH, |input| {
@@ -283,16 +318,24 @@ pub fn start<S: Sink>(
                 match check(&input, &locations, max_line) {
                     Err(r) => rejects.add(r),
                     Ok(line) => {
-                        let event = predecode::predecode(line, &locations[input.source as usize]);
-                        tx_pd.send(Item {
-                            seq,
-                            source: input.source,
-                            received: input.received,
-                            event,
-                            decoded: DecodedEvent::default(),
-                            rule: None,
-                            alert: false,
-                        });
+                        if free.is_empty() {
+                            while rx_ret.recv_with(BATCH, |it| free.push(it)) == Some(0) {
+                                pool_waits += 1;
+                                core::hint::spin_loop();
+                            }
+                        }
+                        // Empty only if the return link closed, which
+                        // means the write stage is gone.
+                        let mut item = free.pop().expect("write stage stopped returning items");
+                        item.seq = seq;
+                        item.source = input.source;
+                        item.received = input.received;
+                        predecode::predecode_into(
+                            &mut item.outcome.event,
+                            line,
+                            &locations[input.source as usize],
+                        );
+                        tx_pd.send(item);
                     }
                 }
             });
@@ -304,17 +347,19 @@ pub fn start<S: Sink>(
         }
         ctx.finish();
         drop(tx_pd);
-        (received, rejects)
+        (received, rejects, pool_waits)
     })?;
 
     let dec_engine = engine.clone();
     let decode = spawn_stage(spec("decode", &cfg, 1), move |ctx| {
         let set = dec_engine.ruleset();
+        let mut scratch = decode::Scratch::default();
         let mut n = 0u64;
         ctx.ready();
         loop {
             let got = rx_pd.recv_with(BATCH, |mut item: Item| {
-                item.decoded = decode::decode(set, &item.event);
+                let o = &mut item.outcome;
+                decode::decode_into(set, &o.event, &mut o.decoded, &mut scratch);
                 n += 1;
                 tx_dm.send(item);
             });
@@ -333,13 +378,15 @@ pub fn start<S: Sink>(
     let matcher = spawn_stage(spec("match", &cfg, 2), move |ctx| {
         let set = match_engine.ruleset();
         let level = match_engine.alert_level();
+        // One spare description buffer per item at most.
+        let mut spares: Vec<String> = Vec::with_capacity(POOL);
         let mut n = 0u64;
         ctx.ready();
         loop {
             let got = rx_dm.recv_with(BATCH, |mut item: Item| {
-                let (rule, alert) = matcher::match_rules(set, &item.event, &item.decoded, level);
-                item.rule = rule;
-                item.alert = alert;
+                let o = &mut item.outcome;
+                o.alert =
+                    matcher::match_into(set, &o.event, &o.decoded, level, &mut o.rule, &mut spares);
                 n += 1;
                 tx_mw.send(item);
             });
@@ -360,19 +407,14 @@ pub fn start<S: Sink>(
         ctx.ready();
         loop {
             let got = rx_mw.recv_with(BATCH, |item: Item| {
-                let outcome = Outcome {
-                    event: item.event,
-                    decoded: item.decoded,
-                    rule: item.rule,
-                    alert: item.alert,
-                };
                 sink.write(&Written {
                     seq: item.seq,
                     source: item.source,
                     received: item.received,
-                    outcome: &outcome,
+                    outcome: &item.outcome,
                 });
                 n += 1;
+                tx_ret.send(item);
             });
             match got {
                 None => break,
@@ -406,7 +448,8 @@ impl<S> Running<S> {
         let sent = feeder.sent;
         let input_full_waits = feeder.full_waits;
         drop(feeder);
-        let (pr, (received, rejected)) = self.parse.join().expect("parse stage panicked");
+        let (pr, (received, rejected, pool_waits)) =
+            self.parse.join().expect("parse stage panicked");
         let (dr, decoded) = self.decode.join().expect("decode stage panicked");
         let (mr, matched) = self.matcher.join().expect("match stage panicked");
         let (wr, (written, sink)) = self.write.join().expect("write stage panicked");
@@ -414,6 +457,7 @@ impl<S> Running<S> {
             sink,
             received,
             rejected,
+            pool_waits,
             decoded,
             matched,
             written,
