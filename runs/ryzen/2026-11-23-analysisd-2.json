@@ -1,0 +1,67 @@
+{
+  "kind": "analysisd-throughput",
+  "machine": "ryzen",
+  "date_local": "2026-11-23",
+  "os_build": "Microsoft Windows [Version 10.0.26300.10075]",
+  "docker": "29.8.2 (linux/amd64, kernel 6.18.58.1-microsoft-standard-WSL2)",
+  "container": {
+    "name": "rulelanes-oracle-manager",
+    "image": "wazuh/wazuh-manager:4.14.10",
+    "nproc": "16",
+    "mem_total_mb": "15955",
+    "wazuh": "WAZUH_VERSION=\"v4.14.10\" WAZUH_REVISION=\"rc2\" WAZUH_TYPE=\"server\""
+  },
+  "rulelanes": {
+    "commit": "3e1148a2fba5d271f76d53b6de46537faae2c8ff",
+    "uncommitted_changes": false
+  },
+  "ruleset": "testdata/ruleset only (isolated <ruleset>, as for the R1 oracle runs)",
+  "corpus": {
+    "file": "testdata/corpus/corpus.log",
+    "locations": 4,
+    "assignment": "round robin"
+  },
+  "method": {
+    "input": "senders in the container write the corpus in a loop to analysisd local datagram socket /var/ossec/queue/sockets/queue, message 1:source-N:<line> (Wazuh standard message format)",
+    "senders": 2,
+    "secs": 20.0,
+    "counters": "/var/ossec/var/run/wazuh-analysisd.state, written every second (analysisd.state_interval=1), sampled every 0.5 s",
+    "rate_window": "from 2 s after the senders start to 1 s before they stop",
+    "output": "alerts written to alerts.log and alerts.json as configured in the image (log_alert_level 3)",
+    "latency": "not measured: analysisd gives no per-event receipt-to-alert time"
+  },
+  "results": {
+    "senders": [
+      {
+        "sent": 279000,
+        "secs": 20.008879897000043,
+        "errors": 0
+      },
+      {
+        "sent": 277000,
+        "secs": 20.03858753999998,
+        "errors": 0
+      }
+    ],
+    "sent_total": 556000,
+    "send_errors_total": 0,
+    "sent_rate_eps": 27767.138606439126,
+    "deltas": {
+      "events_received": 556001.0,
+      "events_processed": 556001.0,
+      "events_dropped": 0.0,
+      "alerts_written": 279386.0
+    },
+    "received_rate_eps_window": 26894.18327038393,
+    "processed_rate_eps_window": 26894.18327038393,
+    "processed_rate_eps_overall": 26432.563036706637,
+    "drain_finished_after_secs": 21.034698724746704,
+    "alerts_per_processed": 0.502491901992982,
+    "max_event_queue_usage": 0.0,
+    "max_rule_matching_queue_usage": 0.0,
+    "max_alerts_queue_usage": 0.0,
+    "samples": 120
+  },
+  "command": "oracle/analysisd-bench.sh 20 2",
+  "note": "Machine not quiet: another agent building and testing in ../flowlanes, a flow collector on UDP 2055, Evan's live single-node Wazuh stack running beside the oracle in the same Docker Desktop VM (receiving UniFi syslog). Docker Desktop runs containers in a Linux VM (WSL 2) on the same 8 cores / 16 threads as Windows, so analysisd ran on Linux in a VM while rulelanes-bench ran natively on Windows."
+}

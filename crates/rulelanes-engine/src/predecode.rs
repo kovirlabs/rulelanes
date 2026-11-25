@@ -8,6 +8,8 @@
 //! Other header formats Wazuh knows (xferlog, snort, suricata, apache, AIX,
 //! macOS ULS) are treated as "no header" and are not part of R1 in M1.
 
+use std::sync::Arc;
+
 use rulelanes_model::Event;
 
 /// Characters Wazuh accepts in a hostname or program name.
@@ -87,20 +89,23 @@ fn timestamp_len(p: &[u8]) -> Option<usize> {
 }
 
 pub fn predecode(line: &str, location: &str) -> Event {
-    let mut ev = Event {
-        full_log: line.to_string(),
-        log_start: 0,
-        location: location.to_string(),
-        ..Event::default()
-    };
+    let mut ev = Event::default();
+    predecode_into(&mut ev, line, &Arc::from(location));
+    ev
+}
+
+/// [`predecode`] into an existing event, reusing its line buffer: no
+/// allocation once the buffer fits the line (R8).
+pub fn predecode_into(ev: &mut Event, line: &str, location: &Arc<str>) {
+    ev.reset(line, location);
     let b = line.as_bytes();
     let Some(ts) = timestamp_len(b) else {
-        return ev;
+        return;
     };
     if ts > b.len() {
-        return ev;
+        return;
     }
-    ev.timestamp = Some(line[..ts - 1].to_string());
+    ev.timestamp_at = Some(0..ts - 1);
     let mut i = ts;
     if b.get(i) == Some(&b' ') {
         i += 1;
@@ -113,15 +118,15 @@ pub fn predecode(line: &str, location: &str) -> Event {
     let at = |k: usize| b.get(k).copied().unwrap_or(0);
     if at(i) == b':' && at(i + 1) == b' ' {
         // No hostname: the word is the program name.
-        ev.program_name = Some(line[host_start..i].to_string());
+        ev.program_name_at = Some(host_start..i);
         ev.log_start = i + 2;
-        return ev;
+        return;
     }
     if at(i) != b' ' {
         // Not a hostname: the message starts after the timestamp.
-        return ev;
+        return;
     }
-    ev.hostname = Some(line[host_start..i].to_string());
+    ev.hostname_at = Some(host_start..i);
     i += 1;
     ev.log_start = i;
     let prog_start = i;
@@ -155,16 +160,15 @@ pub fn predecode(line: &str, location: &str) -> Event {
         None
     };
     let Some(mut m) = msg_start else {
-        return ev;
+        return;
     };
-    ev.program_name = Some(line[prog_start..prog_end].to_string());
+    ev.program_name_at = Some(prog_start..prog_end);
     if line[m..].starts_with("[ID ")
         && let Some(close) = line[m + 4..].find(']')
     {
         m = (m + 4 + close + 2).min(line.len());
     }
     ev.log_start = m.min(line.len());
-    ev
 }
 
 #[cfg(test)]
@@ -177,9 +181,9 @@ mod tests {
             "Oct 15 21:07:00 linux-agent sshd[29205]: Invalid user x",
             "l",
         );
-        assert_eq!(e.timestamp.as_deref(), Some("Oct 15 21:07:00"));
-        assert_eq!(e.hostname.as_deref(), Some("linux-agent"));
-        assert_eq!(e.program_name.as_deref(), Some("sshd"));
+        assert_eq!(e.timestamp(), Some("Oct 15 21:07:00"));
+        assert_eq!(e.hostname(), Some("linux-agent"));
+        assert_eq!(e.program_name(), Some("sshd"));
         assert_eq!(e.log(), "Invalid user x");
     }
 
@@ -187,6 +191,6 @@ mod tests {
     fn no_header() {
         let e = predecode("hello world", "l");
         assert_eq!(e.log(), "hello world");
-        assert!(e.program_name.is_none());
+        assert!(e.program_name().is_none());
     }
 }

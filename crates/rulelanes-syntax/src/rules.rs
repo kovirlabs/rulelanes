@@ -469,6 +469,7 @@ fn load_one(
         level,
         noalert,
         description,
+        groups: Rule::split_groups(&groups_raw),
         groups_raw,
         category: category.unwrap_or_default(),
         decoded_as,

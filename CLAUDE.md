@@ -16,7 +16,7 @@ background is `../paralanes/docs/ROADMAP.md` (project 1).
 | Repo | Role | Used here as |
 | --- | --- | --- |
 | `rulelanes` (this repo) | The engine, its CLI, its benchmark | — |
-| `../stagelanes` | Pinned stages, rings, pinned memory | Path dependency, read-only. `stagelanes-pipe` is on branch `m6-stage-pipeline` |
+| `../stagelanes` | Pinned stages, rings, pinned memory | Path dependency, read-only. `stagelanes-pipe` is on its `main` |
 | `../flowlanes` | Flow collector; a producer of events for this engine | Sibling; no code dependency |
 | `../paralanes` | Roadmap and the measurements this design rests on | Read-only |
 
@@ -26,8 +26,12 @@ status file and stop that task.
 
 ## Hard rules
 
-- **Agents never merge, tag, publish or push.** There is no remote yet.
-  Prepare the branch and the changelog; Evan does the rest.
+- **Agents push their own branches and open pull requests without
+  asking** (remote `kovirlabs/rulelanes`; never push to `main`). Agents
+  merge a pull request only when Evan asks for that merge. They never tag
+  or publish. (Changed by Evan 2026-11-23.)
+- **Run files carry no local paths.** Record the program by file name, not
+  its directory, and no user or home directory anywhere in a run file.
 - **One milestone per session unless Evan says otherwise.** Stop at the
   gate.
 - **The oracle decides.** `wazuh-logtest` on a real Wazuh manager defines
@@ -89,7 +93,12 @@ cargo fmt --all
 cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace
 cargo run -p rulelanes -- logtest --decoders <dir> --rules <dir>   # one log line per stdin line
+cargo run --release -p rulelanes-bench -- --machine <name> --machine-desc <text> --date <YYYY-MM-DD> [--priority time-critical] [--repeats N] --note <text>
+RUN_MACHINE=<name> RUN_DATE=<YYYY-MM-DD> RUN_NOTE=<text> oracle/analysisd-bench.sh [SECS] [SENDERS]   # R6, oracle container only
 ```
+
+Set `RULELANES_SKIP_LIVE=1` to skip the R1 test against the live oracle
+container (it takes about 200 s).
 
 ## Machines
 

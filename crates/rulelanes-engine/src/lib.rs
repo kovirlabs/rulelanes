@@ -10,6 +10,10 @@ pub mod predecode;
 use rulelanes_model::{Outcome, RuleSet};
 
 /// Runs events through pre-decode, decode and match against one rule set.
+///
+/// The staged pipeline gives each stage its own clone, so that no two
+/// threads use the same compiled patterns.
+#[derive(Clone)]
 pub struct Engine {
     set: RuleSet,
     alert_level: u8,
@@ -25,6 +29,11 @@ impl Engine {
 
     pub fn ruleset(&self) -> &RuleSet {
         &self.set
+    }
+
+    /// The minimum level at which a matched rule raises an alert.
+    pub fn alert_level(&self) -> u8 {
+        self.alert_level
     }
 
     /// Process one log line received from `location`.
@@ -46,21 +55,21 @@ impl Engine {
 pub fn outcome_json(o: &Outcome) -> serde_json::Value {
     use serde_json::{Map, Value, json};
     let mut pre = Map::new();
-    if let Some(h) = &o.event.hostname {
+    if let Some(h) = o.event.hostname() {
         pre.insert("hostname".into(), json!(h));
     }
-    if let Some(p) = &o.event.program_name {
+    if let Some(p) = o.event.program_name() {
         pre.insert("program_name".into(), json!(p));
     }
-    if let Some(t) = &o.event.timestamp {
+    if let Some(t) = o.event.timestamp() {
         pre.insert("timestamp".into(), json!(t));
     }
     let mut dec = Map::new();
     if let Some(d) = &o.decoded.decoder {
         if let Some(p) = &d.parent {
-            dec.insert("parent".into(), json!(p));
+            dec.insert("parent".into(), json!(&**p));
         }
-        dec.insert("name".into(), json!(d.name));
+        dec.insert("name".into(), json!(&*d.name));
     }
     let mut data = Map::new();
     for (k, v) in o.decoded.data() {
@@ -68,7 +77,7 @@ pub fn outcome_json(o: &Outcome) -> serde_json::Value {
     }
     let mut out = Map::new();
     out.insert("full_log".into(), json!(o.event.full_log));
-    out.insert("location".into(), json!(o.event.location));
+    out.insert("location".into(), json!(&*o.event.location));
     if !pre.is_empty() {
         out.insert("predecoder".into(), Value::Object(pre));
     }
@@ -83,7 +92,7 @@ pub fn outcome_json(o: &Outcome) -> serde_json::Value {
                 "id": r.id.to_string(),
                 "level": r.level,
                 "description": r.description,
-                "groups": r.groups,
+                "groups": &*r.groups,
             }),
         );
     }

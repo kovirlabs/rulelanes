@@ -108,9 +108,11 @@ share a name (multi-regex children) are supported.
 allows them), and the output-only `options`, `mitre`, `info`.
 
 **Pattern languages:** osmatch and osregex are re-implemented from their
-documented and observed semantics; pcre2 patterns are compiled with a
-backtracking engine that supports look-around and backreferences
-(`fancy-regex`, MIT), and features it lacks are rejected at load.
+documented and observed semantics; pcre2 patterns run on the PCRE2 C
+library itself (the `pcre2` crate, Unlicense OR MIT; PCRE2 10.46,
+BSD-3-Clause), compiled with no options as Wazuh 4.14.10 does (it carries
+PCRE2 10.42). Until 2026-11-24 they ran on `fancy-regex`, with the
+restrictions noted below.
 
 ## Evan's UniFi decoder and rules
 
@@ -151,10 +153,12 @@ pcre2), `description`, `decoded_as`. M1 runs `rulelanes check` on them
   unsupported instead of matching where Wazuh does not.
 - Escapes `\[` and others not in the osregex table are invalid (Wazuh's
   loader fails).
-- PCRE2 escapes `\h \H \v \V \R \N \X \C` are refused: `fancy-regex` reads
-  some of them differently. Branch reset `(?|...)`, callouts and
-  backtracking verbs other than `(*FAIL)` are refused because
-  `fancy-regex` lacks them; the stock auditd decoders use `(?|...)`.
+- (Until 2026-11-24, with `fancy-regex`.) PCRE2 escapes
+  `\h \H \v \V \R \N \X \C` were refused, since `fancy-regex` reads some
+  of them differently, and branch reset `(?|...)`, callouts and
+  backtracking verbs other than `(*FAIL)` failed to compile. With the
+  PCRE2 library all of these are accepted with PCRE2's meaning; the stock
+  auditd decoders use `(?|...)`.
 - An alert is generated only when the rule level is at least
   `<alerts><log_alert_level>` (3 in the oracle's `ossec.conf`, Wazuh's
   default); below it logtest reports the rule with `alert: false`.

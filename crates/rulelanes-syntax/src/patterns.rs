@@ -212,32 +212,14 @@ pub fn osregex(text: &str) -> Result<OsRegex, String> {
 }
 
 pub fn pcre2(text: &str) -> Result<Pcre2, String> {
-    // Escapes that PCRE2 and fancy-regex read differently (for example
-    // PCRE2 `\h` is horizontal space, fancy-regex `\h` is a hex digit), or
-    // that fancy-regex lacks. Refuse them rather than match differently.
-    let b = text.as_bytes();
-    let mut i = 0;
-    while i + 1 < b.len() {
-        if b[i] == b'\\' {
-            if matches!(
-                b[i + 1],
-                b'h' | b'H' | b'v' | b'V' | b'R' | b'N' | b'X' | b'C'
-            ) {
-                return Err(format!(
-                    "PCRE2 escape \\{} is not supported (its meaning differs in the engine used)",
-                    b[i + 1] as char
-                ));
-            }
-            i += 2;
-        } else {
-            i += 1;
-        }
-    }
-    let regex = fancy_regex::Regex::new(text).map_err(|e| e.to_string())?;
-    Ok(Pcre2 {
-        source: text.to_string(),
-        regex,
-    })
+    // Wazuh 4.14.10 calls `pcre2_compile` with no options (checked in its
+    // `src/shared/expression.c`); the builder's defaults are the same (no
+    // UTF, no UCP, case-sensitive). JIT changes speed, not results.
+    let regex = pcre2::bytes::RegexBuilder::new()
+        .jit_if_available(true)
+        .build(text)
+        .map_err(|e| e.to_string())?;
+    Ok(Pcre2::new(text.to_string(), regex))
 }
 
 /// Parse a `srcip` / `dstip` value: comma- or space-separated IPv4
@@ -328,5 +310,45 @@ mod tests {
         let l = ip_list("10.0.0.0/8, !192.168.1.1").unwrap();
         assert!(l.contains("10.1.2.3"));
         assert!(l.contains("172.16.0.1"));
+    }
+
+    fn pcre2_caps(p: &str, s: &str) -> Option<Vec<String>> {
+        let r = pcre2(p).unwrap();
+        r.exec(s).map(|m| {
+            m.captures
+                .iter()
+                .map(|&(a, b)| s[a..b].to_string())
+                .collect()
+        })
+    }
+
+    #[test]
+    fn pcre2_is_the_real_library() {
+        // Branch reset, which fancy-regex lacked.
+        assert_eq!(pcre2_caps(r"(?|(a)|(b))", "b"), Some(vec!["b".into()]));
+        // `\h` is horizontal space in PCRE2 (a hex digit in fancy-regex).
+        assert_eq!(pcre2_caps(r"x\h(y)", "x\ty"), Some(vec!["y".into()]));
+        // Look-ahead, as in the test ruleset's key=value decoders.
+        assert_eq!(
+            pcre2_caps(
+                r"\bmsg=(\S.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|\s*$)",
+                "msg=a b c=d"
+            ),
+            Some(vec!["a b".into()])
+        );
+        // No options: case-sensitive and ASCII `\w`.
+        assert!(pcre2("abc").unwrap().exec("ABC").is_none());
+        assert!(pcre2(r"^\w$").unwrap().exec("é").is_none());
+    }
+
+    #[test]
+    fn pcre2_groups_up_to_the_highest_that_took_part() {
+        // Group 2 does not take part: only group 1 is reported.
+        assert_eq!(pcre2_caps(r"(a)(b)?", "a"), Some(vec!["a".into()]));
+        // Group 1 does not take part but group 2 does: group 1 is empty.
+        assert_eq!(
+            pcre2_caps(r"(x)?(b)", "b"),
+            Some(vec![String::new(), "b".into()])
+        );
     }
 }

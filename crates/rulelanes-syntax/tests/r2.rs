@@ -25,7 +25,6 @@ const CASES: &[(&str, &str, &str)] = &[
         "decoder 'rlu-pf'",
         "<plugin_decoder>PF_Decoder",
     ),
-    ("d-pcre2.xml", "decoder 'rlu-pcre2'", "<regex>"),
     ("d-adjacent-groups.xml", "decoder 'rlu-adjacent'", "<regex>"),
     ("r-frequency.xml", "rule 881001", "rule@frequency"),
     ("r-if_matched_sid.xml", "rule 881002", "<if_matched_sid>"),

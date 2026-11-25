@@ -5,6 +5,8 @@ members = [
     "crates/rulelanes-syntax",
     "crates/rulelanes-engine",
     "crates/rulelanes-oracle",
+    "crates/rulelanes-pipe",
+    "crates/rulelanes-bench",
     "crates/rulelanes",
 ]
 
@@ -20,8 +22,17 @@ rulelanes-model = { path = "crates/rulelanes-model" }
 rulelanes-syntax = { path = "crates/rulelanes-syntax" }
 rulelanes-engine = { path = "crates/rulelanes-engine" }
 rulelanes-oracle = { path = "crates/rulelanes-oracle" }
-# MIT. PCRE2-style patterns need look-around and backreferences.
-fancy-regex = "0.20.2"
+rulelanes-pipe = { path = "crates/rulelanes-pipe" }
+# Apache-2.0. Sibling checkout `../stagelanes` (its `main`), read-only here.
+stagelanes-arch = { path = "../stagelanes/crates/stagelanes-arch" }
+stagelanes-mem = { path = "../stagelanes/crates/stagelanes-mem" }
+stagelanes-pipe = { path = "../stagelanes/crates/stagelanes-pipe" }
+# Unlicense OR MIT (pcre2, pcre2-sys); the PCRE2 C library it builds is
+# BSD-3-Clause. The same library Wazuh uses for `type="pcre2"`.
+pcre2 = "0.2.11"
+# MIT OR Apache-2.0. Already in the tree through serde_json; used directly
+# for the JSON plugin's streaming flatten (R8).
+serde = "1.0.229"
 # MIT OR Apache-2.0.
 serde_json = { version = "1.0.154", features = ["preserve_order"] }
 

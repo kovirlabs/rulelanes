@@ -1,5 +1,7 @@
 //! Compiled decoders and rules, and the trees they form.
 
+use std::sync::Arc;
+
 use crate::event::StaticField;
 use crate::pattern::Expr;
 
@@ -62,9 +64,9 @@ pub struct Decoder {
     /// The `name` attribute.
     pub own_name: String,
     /// The name reported in output: the parent's name unless
-    /// `use_own_name` is set.
-    pub name: String,
-    pub parent: Option<String>,
+    /// `use_own_name` is set. Shared, so reporting it copies nothing.
+    pub name: Arc<str>,
+    pub parent: Option<Arc<str>>,
     pub file: String,
     pub program_name: Option<Expr>,
     pub prematch: Option<Expr>,
@@ -117,6 +119,8 @@ pub struct Rule {
     /// The enclosing `<group name>` followed by the rule's `<group>` text,
     /// concatenated as Wazuh does.
     pub groups_raw: String,
+    /// `groups_raw` split as reported in output ([`Rule::split_groups`]).
+    pub groups: Arc<[String]>,
     pub category: Category,
     pub decoded_as: Option<String>,
     pub if_sid: Vec<u32>,
@@ -127,8 +131,9 @@ pub struct Rule {
 }
 
 impl Rule {
-    pub fn groups(&self) -> Vec<String> {
-        self.groups_raw
+    /// The groups of a `groups_raw` text, as reported in output.
+    pub fn split_groups(groups_raw: &str) -> Arc<[String]> {
+        groups_raw
             .split(',')
             .map(str::trim)
             .filter(|g| !g.is_empty())
