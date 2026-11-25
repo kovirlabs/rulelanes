@@ -37,7 +37,7 @@ the CPU has fast paths, and CPU SIMD regex is one.
 | R2 | Unsupported syntax is refused, not ignored | Loading a decoder or rule that uses an unsupported element or attribute fails and names the file, the rule and the element |
 | R3 | The pipeline equals the reference engine | The staged pipeline and the single-threaded reference engine produce the same alerts, in the same per-source order, for the corpus and for 10,000 generated cases |
 | R4 | No event is lost | Events in equals events out plus events rejected, with every reject counted by reason. A full link applies back-pressure to the input |
-| R5 | Latency holds at load | p99 from receipt to alert at 90% of measured capacity is at most 3× p99 at 50% (the `stagelanes` R2 rule) |
+| R5 | Latency holds at load | p99 from receipt to alert at 90% of measured capacity is at most 3× p99 at 50% (the `stagelanes` R2 rule), with evenly spaced arrivals (decided by Evan 2026-11-24). Poisson arrivals are still measured and published, not judged by this rule: random arrivals at 90% load queue for tens of service times even without stalls |
 | R6 | Throughput is measured against Wazuh | Events per second and p99 for the same ruleset and corpus, `rulelanes` and `analysisd` on the same machine, both in a run file. Whichever wins is published |
 | R7 | Stateful rules stay correct when sharded | Frequency and timeframe rules give the same alerts with 1 and with N match workers. Events are routed to workers by the rule's grouping key |
 | R8 | Stage cores follow the stage rules | After start-up: no lock and no system call on decode and match stages. Allocations per event are counted and reported; the target is zero, and M2 records what is reached |
