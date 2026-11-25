@@ -329,6 +329,7 @@ fn step(s: &Setup, o: &Opts, rate: Option<f64>, pattern: Pattern, seed: u64) -> 
         "rejected": rejects,
         "balanced": report.balanced(),
         "input_full_waits": report.input_full_waits,
+        "pool_waits": report.pool_waits,
         "measured": m.measured,
         "alerts_measured": m.alerts,
         "latency_us": {
