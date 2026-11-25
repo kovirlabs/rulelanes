@@ -48,8 +48,8 @@ impl Pattern {
     pub fn is_match(&self, s: &str) -> bool {
         match self {
             Pattern::OsMatch(m) => m.is_match(s),
-            Pattern::OsRegex(r) => r.exec(s).is_some(),
-            Pattern::Pcre2(p) => p.exec(s).is_some(),
+            Pattern::OsRegex(r) => r.is_match(s),
+            Pattern::Pcre2(p) => p.is_match(s),
             Pattern::Exact(e) => e == s,
             Pattern::IpList(l) => l.contains(s),
         }
@@ -66,6 +66,19 @@ impl Pattern {
                 end: s.len(),
                 captures: Vec::new(),
             }),
+        }
+    }
+
+    /// Like [`Pattern::exec`], but writes the captures into `caps`
+    /// (cleared first) and returns `(start, end)`. Once `caps` has grown to
+    /// the largest group count it is reused without allocating; `osregex`,
+    /// `osmatch`, exact and IP patterns then allocate nothing (R8).
+    pub fn exec_into(&self, s: &str, caps: &mut Vec<(usize, usize)>) -> Option<(usize, usize)> {
+        caps.clear();
+        match self {
+            Pattern::OsRegex(r) => r.exec_into(s, caps),
+            Pattern::Pcre2(p) => p.exec_into(s, caps),
+            other => other.is_match(s).then_some((0, s.len())),
         }
     }
 
@@ -110,15 +123,18 @@ pub struct OsMatch {
 }
 
 impl OsMatch {
+    /// Compares ASCII case-insensitively in place; allocates nothing.
     pub fn is_match(&self, s: &str) -> bool {
-        let hay: Vec<u8> = s.bytes().map(|b| b.to_ascii_lowercase()).collect();
+        let hay = s.as_bytes();
+        // `t` is already lower-cased.
+        let eq = |h: &[u8], t: &[u8]| h.iter().zip(t).all(|(a, b)| a.to_ascii_lowercase() == *b);
         let hit = self.alts.iter().any(|alt| {
             let t = &alt.text[..];
             match alt.anchor {
-                MatchAnchor::Whole => hay == t,
-                MatchAnchor::Prefix => hay.starts_with(t),
-                MatchAnchor::Suffix => hay.ends_with(t),
-                MatchAnchor::Anywhere => t.is_empty() || hay.windows(t.len()).any(|w| w == t),
+                MatchAnchor::Whole => hay.len() == t.len() && eq(hay, t),
+                MatchAnchor::Prefix => hay.len() >= t.len() && eq(&hay[..t.len()], t),
+                MatchAnchor::Suffix => hay.len() >= t.len() && eq(&hay[hay.len() - t.len()..], t),
+                MatchAnchor::Anywhere => t.is_empty() || hay.windows(t.len()).any(|w| eq(w, t)),
             }
         });
         hit != self.negated
@@ -202,22 +218,53 @@ pub struct OsRegex {
 impl OsRegex {
     /// First alternative that matches wins; within it, the leftmost start.
     pub fn exec(&self, s: &str) -> Option<MatchResult> {
+        let mut captures = Vec::new();
+        let (start, end) = self.exec_into(s, &mut captures)?;
+        Some(MatchResult {
+            start,
+            end,
+            captures,
+        })
+    }
+
+    /// [`OsRegex::exec`] with the captures written into `caps`; allocates
+    /// only while `caps` is smaller than the group count.
+    pub fn exec_into(&self, s: &str, caps: &mut Vec<(usize, usize)>) -> Option<(usize, usize)> {
         let b = s.as_bytes();
-        self.alts.iter().find_map(|alt| alt.exec(b))
+        self.alts.iter().find_map(|alt| alt.exec_into(b, caps))
+    }
+
+    /// True when some alternative matches. Allocates nothing: a match
+    /// without capture groups needs no capture buffer, and one with groups
+    /// uses a small buffer on the stack (Wazuh allows few groups); only a
+    /// pattern with more groups than that falls back to the heap.
+    pub fn is_match(&self, s: &str) -> bool {
+        const STACK: usize = 32;
+        let b = s.as_bytes();
+        self.alts.iter().any(|alt| {
+            if alt.groups <= STACK {
+                let mut caps = [(0usize, 0usize); STACK];
+                alt.find(b, &mut caps[..alt.groups]).is_some()
+            } else {
+                let mut caps = vec![(0usize, 0usize); alt.groups];
+                alt.find(b, &mut caps).is_some()
+            }
+        })
     }
 }
 
 impl RegexAlt {
-    fn exec(&self, s: &[u8]) -> Option<MatchResult> {
+    fn exec_into(&self, s: &[u8], caps: &mut Vec<(usize, usize)>) -> Option<(usize, usize)> {
+        caps.clear();
+        caps.resize(self.groups, (0, 0));
+        self.find(s, caps)
+    }
+
+    fn find(&self, s: &[u8], caps: &mut [(usize, usize)]) -> Option<(usize, usize)> {
         let last_start = if self.begin { 0 } else { s.len() };
-        let mut caps = vec![(0usize, 0usize); self.groups];
         for start in 0..=last_start {
-            if let Some(end) = self.step(s, 0, start, &mut caps) {
-                return Some(MatchResult {
-                    start,
-                    end,
-                    captures: caps,
-                });
+            if let Some(end) = self.step(s, 0, start, caps) {
+                return Some((start, end));
             }
         }
         None
@@ -290,21 +337,33 @@ pub struct Pcre2 {
 
 impl Pcre2 {
     pub fn exec(&self, s: &str) -> Option<MatchResult> {
-        let caps = self.regex.captures(s).ok().flatten()?;
-        let whole = caps.get(0)?;
-        // Wazuh returns groups up to the highest one that took part.
-        let highest = (1..caps.len())
-            .rev()
-            .find(|&i| caps.get(i).is_some())
-            .unwrap_or(0);
-        let captures = (1..=highest)
-            .map(|i| caps.get(i).map_or((0, 0), |m| (m.start(), m.end())))
-            .collect();
+        let mut captures = Vec::new();
+        let (start, end) = self.exec_into(s, &mut captures)?;
         Some(MatchResult {
-            start: whole.start(),
-            end: whole.end(),
+            start,
+            end,
             captures,
         })
+    }
+
+    /// [`Pcre2::exec`] with the captures written into `caps`. `fancy-regex`
+    /// builds a new capture set on every call, so this allocates (R8).
+    pub fn exec_into(&self, s: &str, caps: &mut Vec<(usize, usize)>) -> Option<(usize, usize)> {
+        let c = self.regex.captures(s).ok().flatten()?;
+        let whole = c.get(0)?;
+        // Wazuh returns groups up to the highest one that took part.
+        let highest = (1..c.len())
+            .rev()
+            .find(|&i| c.get(i).is_some())
+            .unwrap_or(0);
+        caps.clear();
+        caps.extend((1..=highest).map(|i| c.get(i).map_or((0, 0), |m| (m.start(), m.end()))));
+        Some((whole.start(), whole.end()))
+    }
+
+    /// True when the pattern matches anywhere in `s`.
+    pub fn is_match(&self, s: &str) -> bool {
+        self.regex.is_match(s).unwrap_or(false)
     }
 }
 
