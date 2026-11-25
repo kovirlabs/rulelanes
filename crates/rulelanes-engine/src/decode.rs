@@ -28,6 +28,8 @@ pub struct Scratch {
     text: String,
     /// JSON keys seen in the event, by path, to find duplicates.
     seen: Vec<String>,
+    /// The JSON text of an array value.
+    json_text: Vec<u8>,
 }
 
 pub fn decode(set: &RuleSet, ev: &Event) -> DecodedEvent {
@@ -199,10 +201,12 @@ fn assign(out: &mut DecodedEvent, d: &Decoder, subject: &str, caps: &[(usize, us
 /// a tree per event, so the plugin instead checks the text once
 /// ([`json::check`]: valid, an object, no duplicate key) and then streams
 /// it straight into `out` ([`json::write`]), which allocates nothing once
-/// the buffers have grown. Two cases still take the `Value` path or build
-/// a `Value`: an object with a duplicate key (a `preserve_order` map keeps
-/// the first position and the last value, which streaming cannot know in
-/// advance), and an array (its JSON text is printed from a `Value`).
+/// the buffers have grown. An array's text is printed while it is parsed,
+/// with serde_json's serializer for strings and keys, so it is the text a
+/// `Value` prints. One case still takes the `Value` path: a duplicate key
+/// in any object, including objects inside arrays (a `preserve_order` map
+/// keeps the first position and the last value, which streaming cannot
+/// know in advance).
 fn json_fields(out: &mut DecodedEvent, sc: &mut Scratch, text: &str) {
     let text = text.trim();
     match json::check(text, &mut sc.key, &mut sc.seen) {
@@ -214,7 +218,7 @@ fn json_fields(out: &mut DecodedEvent, sc: &mut Scratch, text: &str) {
             duplicate_key: false,
         } => {
             sc.key.clear();
-            json::write(text, out, &mut sc.key, &mut sc.text);
+            json::write(text, out, &mut sc.key, &mut sc.text, &mut sc.json_text);
         }
     }
 }
@@ -276,11 +280,10 @@ fn set_json_field(out: &mut DecodedEvent, key: &str, value: &str) {
 /// validity and number text are the same as through a `Value`.
 mod json {
     use std::fmt::{self, Write as _};
+    use std::io::Write as _;
 
-    use serde::Deserialize as _;
-    use serde::de::{
-        DeserializeSeed, Deserializer, Error as _, IgnoredAny, MapAccess, SeqAccess, Visitor,
-    };
+    use serde::Serializer as _;
+    use serde::de::{DeserializeSeed, Deserializer, IgnoredAny, MapAccess, SeqAccess, Visitor};
 
     use super::{DecodedEvent, set_json_field};
 
@@ -313,8 +316,19 @@ mod json {
     }
 
     /// Flattens `text`, which [`check`] has accepted, into `out`.
-    pub fn write(text: &str, out: &mut DecodedEvent, key: &mut String, buf: &mut String) {
-        let mut w = Write { out, key, buf };
+    pub fn write(
+        text: &str,
+        out: &mut DecodedEvent,
+        key: &mut String,
+        buf: &mut String,
+        array: &mut Vec<u8>,
+    ) {
+        let mut w = Write {
+            out,
+            key,
+            buf,
+            array,
+        };
         let mut de = serde_json::Deserializer::from_str(text);
         // `check` accepted the same text with the same parser.
         let _ = (&mut de).deserialize_map(WriteValue(&mut w));
@@ -322,7 +336,9 @@ mod json {
 
     struct Check<'a> {
         /// Keys from the top object down, each preceded by NUL, so that
-        /// the key `a.b` and the key `b` inside `a` differ.
+        /// the key `a.b` and the key `b` inside `a` differ; an array
+        /// element adds \u{1} and its index, so that objects in different
+        /// elements differ.
         path: &'a mut String,
         seen: &'a mut Vec<String>,
         used: usize,
@@ -355,6 +371,21 @@ mod json {
                 self.note();
                 map.next_value_seed(CheckValue(self))?;
                 self.path.truncate(len);
+            }
+        }
+
+        fn walk_seq<'de, A: SeqAccess<'de>>(&mut self, mut seq: A) -> Result<(), A::Error> {
+            let mut i = 0usize;
+            loop {
+                let len = self.path.len();
+                self.path.push('\u{1}');
+                let _ = write!(self.path, "{i}");
+                let more = seq.next_element_seed(CheckValue(self))?.is_some();
+                self.path.truncate(len);
+                if !more {
+                    return Ok(());
+                }
+                i += 1;
             }
         }
     }
@@ -419,11 +450,8 @@ mod json {
         fn visit_map<A: MapAccess<'de>>(self, map: A) -> Result<(), A::Error> {
             self.0.walk_map(map)
         }
-        fn visit_seq<A: SeqAccess<'de>>(self, mut seq: A) -> Result<(), A::Error> {
-            // Arrays are printed from a `Value`, which handles duplicate
-            // keys inside them itself.
-            while seq.next_element::<IgnoredAny>()?.is_some() {}
-            Ok(())
+        fn visit_seq<A: SeqAccess<'de>>(self, seq: A) -> Result<(), A::Error> {
+            self.0.walk_seq(seq)
         }
         fn visit_str<E>(self, _: &str) -> Result<(), E> {
             Ok(())
@@ -470,8 +498,10 @@ mod json {
         out: &'a mut DecodedEvent,
         /// The flattened key, `.`-joined.
         key: &'a mut String,
-        /// Text of the current number or array.
+        /// Text of the current number.
         buf: &'a mut String,
+        /// Text of the current array.
+        array: &'a mut Vec<u8>,
     }
 
     impl Write<'_> {
@@ -516,11 +546,13 @@ mod json {
             }
         }
         fn visit_seq<A: SeqAccess<'de>>(self, seq: A) -> Result<(), A::Error> {
-            // The array's JSON text, as `Value` prints it. Allocates.
-            let v =
-                serde_json::Value::deserialize(serde::de::value::SeqAccessDeserializer::new(seq))
-                    .map_err(A::Error::custom)?;
-            self.0.set_display(v);
+            // The array's compact JSON text, as a `Value` prints it.
+            let w = self.0;
+            w.array.clear();
+            Text(w.array).visit_seq(seq)?;
+            // Only whole UTF-8 strings and ASCII were written.
+            let text = std::str::from_utf8(w.array).unwrap_or_default();
+            set_json_field(w.out, w.key, text);
             Ok(())
         }
         fn visit_str<E>(self, v: &str) -> Result<(), E> {
@@ -549,6 +581,120 @@ mod json {
         }
         fn visit_unit<E>(self) -> Result<(), E> {
             self.0.set("null");
+            Ok(())
+        }
+    }
+
+    /// Writes a value's compact JSON text, as `serde_json` prints a
+    /// `Value`: strings and keys through its serializer (same escaping),
+    /// numbers through `serde_json::Number`, objects in document order
+    /// (`check` has ruled out duplicate keys).
+    struct Text<'a>(&'a mut Vec<u8>);
+
+    impl Text<'_> {
+        fn string(&mut self, v: &str) {
+            let _ = (&mut serde_json::Serializer::new(&mut *self.0)).serialize_str(v);
+        }
+    }
+
+    impl<'de> DeserializeSeed<'de> for Text<'_> {
+        type Value = ();
+        fn deserialize<D: Deserializer<'de>>(self, d: D) -> Result<(), D::Error> {
+            d.deserialize_any(self)
+        }
+    }
+
+    impl<'de> Visitor<'de> for Text<'_> {
+        type Value = ();
+        fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            f.write_str("a JSON value")
+        }
+        fn visit_seq<A: SeqAccess<'de>>(self, mut seq: A) -> Result<(), A::Error> {
+            let buf = self.0;
+            buf.push(b'[');
+            let mut first = true;
+            loop {
+                let mark = buf.len();
+                if !first {
+                    buf.push(b',');
+                }
+                if seq.next_element_seed(Text(buf))?.is_none() {
+                    buf.truncate(mark);
+                    break;
+                }
+                first = false;
+            }
+            buf.push(b']');
+            Ok(())
+        }
+        fn visit_map<A: MapAccess<'de>>(self, mut map: A) -> Result<(), A::Error> {
+            let buf = self.0;
+            buf.push(b'{');
+            let mut first = true;
+            loop {
+                let mark = buf.len();
+                if !first {
+                    buf.push(b',');
+                }
+                if map.next_key_seed(KeyText(buf))?.is_none() {
+                    buf.truncate(mark);
+                    break;
+                }
+                buf.push(b':');
+                map.next_value_seed(Text(buf))?;
+                first = false;
+            }
+            buf.push(b'}');
+            Ok(())
+        }
+        fn visit_str<E>(mut self, v: &str) -> Result<(), E> {
+            self.string(v);
+            Ok(())
+        }
+        fn visit_bool<E>(self, v: bool) -> Result<(), E> {
+            self.0.extend_from_slice(if v { b"true" } else { b"false" });
+            Ok(())
+        }
+        fn visit_i64<E>(self, v: i64) -> Result<(), E> {
+            let _ = write!(self.0, "{}", serde_json::Number::from(v));
+            Ok(())
+        }
+        fn visit_u64<E>(self, v: u64) -> Result<(), E> {
+            let _ = write!(self.0, "{}", serde_json::Number::from(v));
+            Ok(())
+        }
+        fn visit_f64<E>(self, v: f64) -> Result<(), E> {
+            match serde_json::Number::from_f64(v) {
+                Some(n) => {
+                    let _ = write!(self.0, "{n}");
+                }
+                None => self.0.extend_from_slice(b"null"),
+            }
+            Ok(())
+        }
+        fn visit_unit<E>(self) -> Result<(), E> {
+            self.0.extend_from_slice(b"null");
+            Ok(())
+        }
+    }
+
+    /// Writes an object key as an escaped JSON string.
+    struct KeyText<'a>(&'a mut Vec<u8>);
+
+    impl<'de> DeserializeSeed<'de> for KeyText<'_> {
+        type Value = ();
+        fn deserialize<D: Deserializer<'de>>(self, d: D) -> Result<(), D::Error> {
+            d.deserialize_str(self)
+        }
+    }
+
+    impl<'de> Visitor<'de> for KeyText<'_> {
+        type Value = ();
+        fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            f.write_str("a string key")
+        }
+        fn visit_str<E>(self, v: &str) -> Result<(), E> {
+            Text(self.0).string(v);
             Ok(())
         }
     }
@@ -586,6 +732,13 @@ mod tests {
             r#"{"a":1} trailing"#,
             r#""#,
             r#"{"deep":{"a":{"b":{"c":{"d":"e"}}}}}"#,
+            r#"{"arr":[],"o":[{}],"n":[[],[[]]]}"#,
+            r#"{"arr":["tab\there","ctl\u0001\u001f","q\"b\\s\/","é ü 😀","\u00e9"]}"#,
+            r#"{"arr":[1.0,-0.0,1e2,12345678901234567890,-5,true,false,null]}"#,
+            r#"{"arr":[{"k\"ey":"v","a":[1,{"b":2}]}],"x":1}"#,
+            r#"{"arr":[{"a":1,"a":2}]}"#,
+            r#"{"arr":[{"a":1},{"a":2}]}"#,
+            r#"{"arr" : [ 1 , 2 ] , "b" : { "c" : [ "d" ] } }"#,
         ];
         for text in cases {
             let (s, r) = both(text);
@@ -593,7 +746,7 @@ mod tests {
         }
     }
 
-    /// Random objects from a fixed seed: keys from a small set (so
+    /// 20,000 random objects from a fixed seed: keys from a small set (so
     /// duplicates and `a.b` collisions occur), every value kind, escapes.
     #[test]
     fn json_streaming_equals_value_path_generated() {
@@ -612,9 +765,25 @@ mod tests {
                 2 => out.push_str(["1.25", "-0.5", "1e2", "3E-2", "0.1"][next(5) as usize]),
                 3 => out.push_str(["true", "false"][next(2) as usize]),
                 4 => out.push_str("null"),
-                5 => out.push_str("[1,\"x\",null]"),
+                5 => array(next, depth + 1, out),
                 _ => object(next, depth + 1, out),
             }
+        }
+        fn array(next: &mut dyn FnMut(u64) -> u64, depth: u32, out: &mut String) {
+            out.push('[');
+            for i in 0..next(4) {
+                if i > 0 {
+                    out.push_str(if next(2) == 0 { "," } else { " , " });
+                }
+                match next(4) {
+                    0 => out.push_str(
+                        [r#""\t\u0001""#, r#""\/""#, r#""ü😀""#, r#""\ud83d\ude00""#]
+                            [next(4) as usize],
+                    ),
+                    _ => value(next, depth, out),
+                }
+            }
+            out.push(']');
         }
         fn object(next: &mut dyn FnMut(u64) -> u64, depth: u32, out: &mut String) {
             out.push('{');
@@ -631,11 +800,28 @@ mod tests {
             }
             out.push('}');
         }
-        for _ in 0..5000 {
+        let (mut streamed, mut with_array) = (0, 0);
+        let (mut path, mut seen) = (String::new(), Vec::new());
+        for _ in 0..20_000 {
             let mut text = String::new();
             object(&mut next, 0, &mut text);
             let (s, r) = both(&text);
             assert_eq!(s, r, "{text}");
+            if let json::Shape::Object {
+                duplicate_key: false,
+            } = json::check(&text, &mut path, &mut seen)
+            {
+                streamed += 1;
+                if text.contains('[') {
+                    with_array += 1;
+                }
+            }
         }
+        eprintln!("{streamed} of 20,000 streamed, {with_array} of them with an array");
+        // The comparison means something only for cases that stream.
+        assert!(
+            streamed > 2000 && with_array > 500,
+            "{streamed} {with_array}"
+        );
     }
 }
