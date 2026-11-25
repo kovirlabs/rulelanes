@@ -21,23 +21,27 @@ pub fn match_rules(
     alert_level: u8,
 ) -> (Option<RuleHit>, bool) {
     let mut hit = None;
-    let alert = match_into(set, ev, de, alert_level, &mut hit, &mut String::new());
+    let alert = match_into(set, ev, de, alert_level, &mut hit, &mut Vec::new());
     (hit, alert)
 }
 
-/// [`match_rules`] into `out`, returning the alert flag. The description
-/// buffer moves between `out` and `spare`, so a thread that keeps both
-/// allocates nothing once the buffer fits the longest description (R8).
+/// [`match_rules`] into `out`, returning the alert flag.
+///
+/// Description buffers circulate: the one in `out` goes to `spares`, and
+/// a hit takes one from there, so no buffer is dropped. A thread that
+/// keeps `spares` (with capacity for as many buffers as results it keeps
+/// alive) allocates nothing once the buffers fit the longest description
+/// (R8).
 pub fn match_into(
     set: &RuleSet,
     ev: &Event,
     de: &DecodedEvent,
     alert_level: u8,
     out: &mut Option<RuleHit>,
-    spare: &mut String,
+    spares: &mut Vec<String>,
 ) -> bool {
     if let Some(old) = out.take() {
-        *spare = old.description;
+        spares.push(old.description);
     }
     for &root in &set.roots {
         let rule = &set.rules[set.nodes[root].rule];
@@ -46,12 +50,13 @@ pub fn match_into(
         }
         if let Some(r) = check(set, root, ev, de) {
             let rule = &set.rules[r];
-            spare.clear();
-            describe(spare, &rule.description, ev, de);
+            let mut description = spares.pop().unwrap_or_default();
+            description.clear();
+            describe(&mut description, &rule.description, ev, de);
             *out = Some(RuleHit {
                 id: rule.id,
                 level: rule.level,
-                description: std::mem::take(spare),
+                description,
                 groups: rule.groups.clone(),
             });
             return rule.level > 0 && rule.level >= alert_level;

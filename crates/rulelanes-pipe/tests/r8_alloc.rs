@@ -1,8 +1,12 @@
 //! R8: allocations made by the decode and match steps, per event, after a
-//! warm-up pass over the same inputs.
+//! warm-up pass over the same inputs, with one output and one set of
+//! buffers reused for every event as a stage does.
 //!
-//! `breakdown` prints the count per decoder (run with `--nocapture`); it
-//! asserts nothing and is a diagnostic.
+//! - Match allocates nothing.
+//! - Decode allocates only where a decoder regex is PCRE2 (fancy-regex
+//!   builds a capture set per call) or a JSON event holds an array (its
+//!   text is printed from a `serde_json::Value`).
+//! - `breakdown` prints the counts per decoder (`--nocapture`).
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -36,8 +40,14 @@ fn corpus() -> Vec<String> {
         .collect()
 }
 
-#[test]
-fn breakdown() {
+struct Counted {
+    line: String,
+    decoder: String,
+    decode: u64,
+    matched: u64,
+}
+
+fn count() -> Vec<Counted> {
     let e = engine();
     let set = e.ruleset();
     let lines = corpus();
@@ -45,34 +55,88 @@ fn breakdown() {
         .iter()
         .map(|l| predecode::predecode(l, "source-0"))
         .collect();
-    // One output and one set of buffers, reused for every event, as a
-    // stage does.
     let mut d = rulelanes_model::DecodedEvent::default();
     let mut sc = decode::Scratch::default();
     let mut hit = None;
-    let mut spare = String::new();
+    let mut spares = Vec::new();
     // Warm-up.
     for ev in &events {
         decode::decode_into(set, ev, &mut d, &mut sc);
-        matcher::match_into(set, ev, &d, e.alert_level(), &mut hit, &mut spare);
+        matcher::match_into(set, ev, &d, e.alert_level(), &mut hit, &mut spares);
     }
-    // name -> (events, decode allocations, match allocations)
-    let mut per: BTreeMap<String, (u64, u64, u64)> = BTreeMap::new();
-    for ev in &events {
+    let mut out = Vec::new();
+    for (ev, line) in events.iter().zip(lines) {
         arm_current_thread();
         decode::decode_into(set, ev, &mut d, &mut sc);
-        let da = disarm_current_thread();
+        let decode = disarm_current_thread();
         arm_current_thread();
-        matcher::match_into(set, ev, &d, e.alert_level(), &mut hit, &mut spare);
-        let ma = disarm_current_thread();
-        let name = d
+        matcher::match_into(set, ev, &d, e.alert_level(), &mut hit, &mut spares);
+        let matched = disarm_current_thread();
+        let decoder = d
             .decoder
             .as_ref()
             .map_or("(none)".to_string(), |d| d.name.to_string());
-        let row = per.entry(name).or_default();
+        out.push(Counted {
+            line,
+            decoder,
+            decode,
+            matched,
+        });
+    }
+    out
+}
+
+#[test]
+fn match_allocates_nothing() {
+    let rows = count();
+    let total: u64 = rows.iter().map(|r| r.matched).sum();
+    assert_eq!(total, 0, "match allocations over {} events", rows.len());
+}
+
+#[test]
+fn decode_allocates_only_for_pcre2_regex_and_json_arrays() {
+    let e = engine();
+    let set = e.ruleset();
+    let names = |keep: &dyn Fn(&rulelanes_model::Decoder) -> bool| -> Vec<String> {
+        set.decoders
+            .iter()
+            .filter(|d| keep(d))
+            .map(|d| d.name.to_string())
+            .collect()
+    };
+    let pcre2 = names(&|d| {
+        d.regex
+            .as_ref()
+            .is_some_and(|r| matches!(r.pattern, rulelanes_model::Pattern::Pcre2(_)))
+    });
+    let json = names(&|d| d.plugin.is_some());
+    let rows = count();
+    let mut zero = 0;
+    for r in &rows {
+        if r.decode == 0 {
+            zero += 1;
+            continue;
+        }
+        let allowed =
+            pcre2.contains(&r.decoder) || (json.contains(&r.decoder) && r.line.contains('['));
+        assert!(
+            allowed,
+            "{} allocations decoding with {}: {}",
+            r.decode, r.decoder, r.line
+        );
+    }
+    eprintln!("{zero} of {} events decoded with no allocation", rows.len());
+}
+
+#[test]
+fn breakdown() {
+    // name -> (events, decode allocations, match allocations)
+    let mut per: BTreeMap<String, (u64, u64, u64)> = BTreeMap::new();
+    for r in count() {
+        let row = per.entry(r.decoder).or_default();
         row.0 += 1;
-        row.1 += da;
-        row.2 += ma;
+        row.1 += r.decode;
+        row.2 += r.matched;
     }
     let (mut n, mut da, mut ma) = (0, 0, 0);
     eprintln!("decoder | events | decode allocs/event | match allocs/event");
