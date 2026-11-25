@@ -344,16 +344,46 @@ impl RegexAlt {
 
 // ---------------------------------------------------------------- pcre2
 
-/// A PCRE2-style pattern, run by `fancy-regex` (backtracking, supports
-/// look-around and backreferences). Case-sensitive unless the pattern says
-/// otherwise, as in PCRE2.
-#[derive(Debug, Clone)]
+/// A PCRE2 pattern, run by the PCRE2 C library (the `pcre2` crate), the
+/// library Wazuh itself uses. Built the way Wazuh 4.14.10 builds it:
+/// `pcre2_compile` with no options, so matching is byte-wise and `\w`,
+/// `\d` are ASCII (`rulelanes-syntax` turns JIT on, which PCRE2 documents
+/// as giving the same results).
+///
+/// Each value keeps its own capture buffer, made on first use and reused
+/// after, so `exec_into` allocates nothing after warm-up (R8). Cloning
+/// gives the clone fresh buffers (and `pcre2` a fresh match-data pool), so
+/// each stage's clone of the engine has its own; a value is `Send` but
+/// not `Sync`.
 pub struct Pcre2 {
     pub source: String,
-    pub regex: fancy_regex::Regex,
+    pub regex: pcre2::bytes::Regex,
+    locs: std::cell::RefCell<Option<pcre2::bytes::CaptureLocations>>,
+}
+
+impl Clone for Pcre2 {
+    fn clone(&self) -> Pcre2 {
+        Pcre2::new(self.source.clone(), self.regex.clone())
+    }
+}
+
+impl std::fmt::Debug for Pcre2 {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Pcre2")
+            .field("source", &self.source)
+            .finish()
+    }
 }
 
 impl Pcre2 {
+    pub fn new(source: String, regex: pcre2::bytes::Regex) -> Pcre2 {
+        Pcre2 {
+            source,
+            regex,
+            locs: std::cell::RefCell::new(None),
+        }
+    }
+
     pub fn exec(&self, s: &str) -> Option<MatchResult> {
         let mut captures = Vec::new();
         let (start, end) = self.exec_into(s, &mut captures)?;
@@ -364,29 +394,41 @@ impl Pcre2 {
         })
     }
 
-    /// [`Pcre2::exec`] with the captures written into `caps`. `fancy-regex`
-    /// builds a new capture set on every call, so this allocates (R8).
+    /// [`Pcre2::exec`] with the captures written into `caps`. A match
+    /// error (for example PCRE2's match limit) counts as no match, as in
+    /// Wazuh, which tests `pcre2_match`'s result for > 0.
     pub fn exec_into(&self, s: &str, caps: &mut Vec<(usize, usize)>) -> Option<(usize, usize)> {
-        let c = self.regex.captures(s).ok().flatten()?;
-        let whole = c.get(0)?;
-        // Wazuh returns groups up to the highest one that took part.
-        let highest = (1..c.len())
+        let mut slot = self.locs.borrow_mut();
+        let locs = slot.get_or_insert_with(|| self.regex.capture_locations());
+        let whole = self
+            .regex
+            .captures_read(locs, s.as_bytes())
+            .ok()
+            .flatten()?;
+        // Wazuh returns groups 1 to rc - 1, where rc is one more than the
+        // highest group that took part; a group that did not take part is
+        // an empty string.
+        let highest = (1..locs.len())
             .rev()
-            .find(|&i| c.get(i).is_some())
+            .find(|&i| locs.get(i).is_some())
             .unwrap_or(0);
         caps.clear();
-        caps.extend((1..=highest).map(|i| c.get(i).map_or((0, 0), |m| (m.start(), m.end()))));
+        caps.extend((1..=highest).map(|i| locs.get(i).unwrap_or((0, 0))));
         Some((whole.start(), whole.end()))
     }
 
     /// True when the pattern matches anywhere in `s`.
     pub fn is_match(&self, s: &str) -> bool {
-        self.regex.is_match(s).unwrap_or(false)
+        self.regex.is_match(s.as_bytes()).unwrap_or(false)
     }
 
-    /// Where the first match ends, without building captures.
+    /// Where the first match ends, without captures.
     pub fn find_end(&self, s: &str) -> Option<usize> {
-        self.regex.find(s).ok().flatten().map(|m| m.end())
+        self.regex
+            .find(s.as_bytes())
+            .ok()
+            .flatten()
+            .map(|m| m.end())
     }
 }
 

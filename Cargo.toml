@@ -27,8 +27,9 @@ rulelanes-pipe = { path = "crates/rulelanes-pipe" }
 stagelanes-arch = { path = "../stagelanes/crates/stagelanes-arch" }
 stagelanes-mem = { path = "../stagelanes/crates/stagelanes-mem" }
 stagelanes-pipe = { path = "../stagelanes/crates/stagelanes-pipe" }
-# MIT. PCRE2-style patterns need look-around and backreferences.
-fancy-regex = "0.20.2"
+# Unlicense OR MIT (pcre2, pcre2-sys); the PCRE2 C library it builds is
+# BSD-3-Clause. The same library Wazuh uses for `type="pcre2"`.
+pcre2 = "0.2.11"
 # MIT OR Apache-2.0. Already in the tree through serde_json; used directly
 # for the JSON plugin's streaming flatten (R8).
 serde = "1.0.229"
