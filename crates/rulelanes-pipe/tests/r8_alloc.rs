@@ -3,9 +3,8 @@
 //! buffers reused for every event as a stage does.
 //!
 //! - Match allocates nothing.
-//! - Decode allocates only where a decoder regex is PCRE2 (fancy-regex
-//!   builds a capture set per call) or a JSON event holds an array (its
-//!   text is printed from a `serde_json::Value`).
+//! - Decode allocates only where a JSON event holds an array (its text is
+//!   printed from a `serde_json::Value`).
 //! - `breakdown` prints the counts per decoder (`--nocapture`).
 
 use std::collections::BTreeMap;
@@ -94,7 +93,7 @@ fn match_allocates_nothing() {
 }
 
 #[test]
-fn decode_allocates_only_for_pcre2_regex_and_json_arrays() {
+fn decode_allocates_only_for_json_arrays() {
     let e = engine();
     let set = e.ruleset();
     let names = |keep: &dyn Fn(&rulelanes_model::Decoder) -> bool| -> Vec<String> {
@@ -104,11 +103,6 @@ fn decode_allocates_only_for_pcre2_regex_and_json_arrays() {
             .map(|d| d.name.to_string())
             .collect()
     };
-    let pcre2 = names(&|d| {
-        d.regex
-            .as_ref()
-            .is_some_and(|r| matches!(r.pattern, rulelanes_model::Pattern::Pcre2(_)))
-    });
     let json = names(&|d| d.plugin.is_some());
     let rows = count();
     let mut zero = 0;
@@ -117,8 +111,7 @@ fn decode_allocates_only_for_pcre2_regex_and_json_arrays() {
             zero += 1;
             continue;
         }
-        let allowed =
-            pcre2.contains(&r.decoder) || (json.contains(&r.decoder) && r.line.contains('['));
+        let allowed = json.contains(&r.decoder) && r.line.contains('[');
         assert!(
             allowed,
             "{} allocations decoding with {}: {}",
