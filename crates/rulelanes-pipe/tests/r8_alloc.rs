@@ -2,9 +2,9 @@
 //! warm-up pass over the same inputs, with one output and one set of
 //! buffers reused for every event as a stage does.
 //!
-//! - Match allocates nothing.
-//! - Decode allocates only where a JSON event holds an array (its text is
-//!   printed from a `serde_json::Value`).
+//! - Decode and match allocate nothing. (A JSON object with a duplicate
+//!   key still goes through a `serde_json::Value` and allocates; the
+//!   corpus has none.)
 //! - `breakdown` prints the counts per decoder (`--nocapture`).
 
 use std::collections::BTreeMap;
@@ -93,32 +93,15 @@ fn match_allocates_nothing() {
 }
 
 #[test]
-fn decode_allocates_only_for_json_arrays() {
-    let e = engine();
-    let set = e.ruleset();
-    let names = |keep: &dyn Fn(&rulelanes_model::Decoder) -> bool| -> Vec<String> {
-        set.decoders
-            .iter()
-            .filter(|d| keep(d))
-            .map(|d| d.name.to_string())
-            .collect()
-    };
-    let json = names(&|d| d.plugin.is_some());
+fn decode_allocates_nothing() {
     let rows = count();
-    let mut zero = 0;
     for r in &rows {
-        if r.decode == 0 {
-            zero += 1;
-            continue;
-        }
-        let allowed = json.contains(&r.decoder) && r.line.contains('[');
-        assert!(
-            allowed,
+        assert_eq!(
+            r.decode, 0,
             "{} allocations decoding with {}: {}",
             r.decode, r.decoder, r.line
         );
     }
-    eprintln!("{zero} of {} events decoded with no allocation", rows.len());
 }
 
 #[test]
