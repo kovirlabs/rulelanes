@@ -29,6 +29,9 @@ stagelanes-mem = { path = "../stagelanes/crates/stagelanes-mem" }
 stagelanes-pipe = { path = "../stagelanes/crates/stagelanes-pipe" }
 # MIT. PCRE2-style patterns need look-around and backreferences.
 fancy-regex = "0.20.2"
+# MIT OR Apache-2.0. Already in the tree through serde_json; used directly
+# for the JSON plugin's streaming flatten (R8).
+serde = "1.0.229"
 # MIT OR Apache-2.0.
 serde_json = { version = "1.0.154", features = ["preserve_order"] }
 

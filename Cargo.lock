@@ -257,6 +257,7 @@ version = "0.1.0"
 dependencies = [
  "rulelanes-model",
  "rulelanes-syntax",
+ "serde",
  "serde_json",
 ]
 
