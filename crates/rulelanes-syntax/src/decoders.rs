@@ -365,8 +365,8 @@ fn load_one(
 
     let decoder = Decoder {
         own_name: name.clone(),
-        name: name.clone(),
-        parent: parent.clone(),
+        name: name.as_str().into(),
+        parent: parent.as_deref().map(Into::into),
         file: file.to_string(),
         program_name,
         prematch,
@@ -443,7 +443,7 @@ fn load_one(
             }
             let mut decoder = decoder;
             if !decoder.use_own_name {
-                decoder.name = pname.clone();
+                decoder.name = pname.as_str().into();
             }
             let id = push(set, decoder);
             for p in parents {

@@ -20,6 +20,25 @@ pub fn match_rules(
     de: &DecodedEvent,
     alert_level: u8,
 ) -> (Option<RuleHit>, bool) {
+    let mut hit = None;
+    let alert = match_into(set, ev, de, alert_level, &mut hit, &mut String::new());
+    (hit, alert)
+}
+
+/// [`match_rules`] into `out`, returning the alert flag. The description
+/// buffer moves between `out` and `spare`, so a thread that keeps both
+/// allocates nothing once the buffer fits the longest description (R8).
+pub fn match_into(
+    set: &RuleSet,
+    ev: &Event,
+    de: &DecodedEvent,
+    alert_level: u8,
+    out: &mut Option<RuleHit>,
+    spare: &mut String,
+) -> bool {
+    if let Some(old) = out.take() {
+        *spare = old.description;
+    }
     for &root in &set.roots {
         let rule = &set.rules[set.nodes[root].rule];
         if rule.category != de.category {
@@ -27,17 +46,18 @@ pub fn match_rules(
         }
         if let Some(r) = check(set, root, ev, de) {
             let rule = &set.rules[r];
-            let hit = RuleHit {
+            spare.clear();
+            describe(spare, &rule.description, ev, de);
+            *out = Some(RuleHit {
                 id: rule.id,
                 level: rule.level,
-                description: describe(&rule.description, ev, de),
-                groups: rule.groups(),
-            };
-            let alert = rule.level > 0 && rule.level >= alert_level;
-            return (Some(hit), alert);
+                description: std::mem::take(spare),
+                groups: rule.groups.clone(),
+            });
+            return rule.level > 0 && rule.level >= alert_level;
         }
     }
-    (None, false)
+    false
 }
 
 fn check(set: &RuleSet, node: usize, ev: &Event, de: &DecodedEvent) -> Option<usize> {
@@ -71,13 +91,13 @@ fn conditions(set: &RuleSet, rule: &Rule, ev: &Event, de: &DecodedEvent) -> bool
         let Some(idx) = de.decoder_index else {
             return false;
         };
-        if &set.decoders[idx].name != name {
+        if *set.decoders[idx].name != **name {
             return false;
         }
     }
     let c = &rule.conds;
     let log = ev.log();
-    opt_passes(&c.program_name, ev.program_name.as_deref())
+    opt_passes(&c.program_name, ev.program_name())
         && opt_passes(&c.id, de.get_static(StaticField::Id))
         && opt_passes(&c.match_, Some(log))
         && opt_passes(&c.regex, Some(log))
@@ -97,16 +117,12 @@ fn conditions(set: &RuleSet, rule: &Rule, ev: &Event, de: &DecodedEvent) -> bool
                 .or(de.get_static(StaticField::SrcUser)),
         )
         && opt_passes(&c.extra_data, de.get_static(StaticField::ExtraData))
-        && opt_passes(&c.hostname, ev.hostname.as_deref())
+        && opt_passes(&c.hostname, ev.hostname())
         && opt_passes(&c.status, de.get_static(StaticField::Status))
 }
 
-/// Replace `$(field)` in a description with the field's value.
-fn describe(desc: &str, ev: &Event, de: &DecodedEvent) -> String {
-    if !desc.contains("$(") {
-        return desc.to_string();
-    }
-    let mut out = String::new();
+/// Append `desc` to `out` with `$(field)` replaced by the field's value.
+fn describe(out: &mut String, desc: &str, ev: &Event, de: &DecodedEvent) {
     let mut rest = desc;
     while let Some(p) = rest.find("$(") {
         out.push_str(&rest[..p]);
@@ -115,11 +131,11 @@ fn describe(desc: &str, ev: &Event, de: &DecodedEvent) -> String {
             Some(close) => {
                 let name = &after[..close];
                 let v = match name {
-                    "hostname" => ev.hostname.clone(),
-                    "program_name" => ev.program_name.clone(),
-                    _ => de.find_field(name).map(str::to_string),
+                    "hostname" => ev.hostname(),
+                    "program_name" => ev.program_name(),
+                    _ => de.find_field(name),
                 };
-                out.push_str(&v.unwrap_or_default());
+                out.push_str(v.unwrap_or_default());
                 rest = &after[close + 1..];
             }
             None => {
@@ -129,5 +145,4 @@ fn describe(desc: &str, ev: &Event, de: &DecodedEvent) -> String {
         }
     }
     out.push_str(rest);
-    out
 }
